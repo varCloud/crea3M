@@ -1,0 +1,141 @@
+﻿<!doctype html>
+<html lang="es">
+
+<!-- Mirrored from protable.laborasyon.com/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 18 Oct 2019 17:42:21 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Foodever - Administrador</title>
+    <link rel="stylesheet" href="~/vendors/bundle.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/app.min.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/css/custom.css">
+    @*<link rel="shortcut icon" href="https://foodever.com.mx/onlineshop/assets/media/favicon.png" type="image/x-icon">*@
+</head>
+
+<body class="rtl shadow-layout sticky-navigation sticky-footer light-header">
+
+    <!-- begin::preloader-->
+    <div class="preloader">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="50px" height="50px" viewBox="0 0 128 128" xml:space="preserve">
+        <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF" />
+        <g>
+        <path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#000000" fill-opacity="1" />
+
+        <animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="500ms" repeatCount="indefinite">
+                </animateTransform>
+            </g>
+        </svg>
+    </div>
+    <div class="navigation" style="height: 100vh;">
+
+        <div id="logo" style="margin: 10px 0 10px 0;">
+            <a href="main.php" style="text-align: center;">
+                <img class="logo" src="assets/media/image/logo_color_rosa.png" alt="logo" style="width: 60%;">
+                <img class="logo-sm" src="assets/media/image/logo_color_rosa.png" alt="small logo" style="width: 60%;">
+            </a>
+        </div>
+        <header class="navigation-header">
+            <div>
+                <h5 id="username">USERNAME</h5>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="#" id="logout" class="btn nav-link primary-bg" title="Logout" data-toggle="tooltip">
+                            <i data-feather="log-out"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <div class="navigation-menu-body">
+            <ul>
+                <li>
+                    <a href="main.php">
+                        <i class="fa fa-home nav-link-icon" aria-hidden="true"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="navigation-divider">Platillos</li>
+                <li class="open">
+                    <a href="index.html">
+                        <i class="fa fa-cutlery nav-link-icon" aria-hidden="true"></i>
+                        <span>Menu</span>
+                    </a>
+                    <ul>
+                        <li><a> Platillos</a></li>
+                        <li><a> Ingredientes</a></li>
+                        <li><a> Guarniciones</a></li>
+                    </ul>
+                </li>
+                <li class="navigation-divider">Información</li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-line-chart nav-link-icon" aria-hidden="true"></i>
+                        <span>Estadísticas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-user nav-link-icon" aria-hidden="true"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- end::navigation menu -->
+
+    </div>
+    <!-- end::navigation -->
+    <!-- begin::main -->
+    <div id="main">
+
+        <!-- begin::header -->
+        <div class="header border-left">
+
+            <!-- begin::header left -->
+            <ul class="navbar-nav">
+
+                <!-- begin::navigation-toggler -->
+                <li class="nav-item navigation-toggler">
+                    <a href="#" class="nav-link">
+                        <i data-feather="menu"></i>
+                    </a>
+                </li>
+                <!-- end::navigation-toggler -->
+                <!-- begin::header-logo -->
+                <li class="nav-item font-size-20">
+                    <?php echo $page;?>
+                </li>
+                <!-- end::header-logo -->
+            </ul>
+            <!-- end::header left -->
+
+        </div>
+        <!-- end::header -->
+        <!-- begin::main-content -->
+        <div class="main-content">
+
+            <!-- begin::container -->
+            <div class="container">
+
+                @RenderBody()
+
+            </div>
+            <!-- end::container -->
+
+        </div>
+        <!-- end::main-content -->
+        <!-- begin::footer -->
+        <footer>
+            <div class="container">
+                <div>FOOTER</div>
+            </div>
+        </footer>
+        <!-- end::footer -->
+
+    </div>
+    <script src="~/vendors/bundle.js"></script>
+    <script src="~/assets/js/app.min.js"></script>
+</body>
+</html>

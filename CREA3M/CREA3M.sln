@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CREA3M", "CREA3M.csproj", "{D0333F47-D7B7-47CC-A272-911945536B77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0333F47-D7B7-47CC-A272-911945536B77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0333F47-D7B7-47CC-A272-911945536B77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0333F47-D7B7-47CC-A272-911945536B77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0333F47-D7B7-47CC-A272-911945536B77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E7F24F8-B976-4306-B096-69F8DA05A8A2}
+	EndGlobalSection
+EndGlobal

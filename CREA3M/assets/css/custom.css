@@ -1,0 +1,107 @@
+input{
+    margin-bottom: 0 !important;
+}
+
+.dataTables_wrapper .row:nth-child(3){
+    margin-top: 10px;
+}
+
+.table-bordered td {
+    padding: 7px;
+}
+
+.navigation .navigation-menu-body>ul li a.active{
+    color: #FB604C;
+}
+
+.navigation .navigation-menu-body>ul li a.active:before{
+    background-color: #FB604C;
+}
+
+body.small-navigation:not(.hidden-navigation) .navigation .navigation-menu-body ul li.open>a{
+    border-color: #FB604C;   
+}
+
+.header ul.navbar-nav li.nav-item a.nav-link:focus , .header ul.navbar-nav li.nav-item a.nav-link:hover{
+    color: #FB604C;
+}
+
+.navigation .navigation-menu-body>ul li a:hover{
+    background: #E1CAC86a !important;
+}
+
+.pagination .page-item.active .page-link{
+    color: white !important;
+    background: #FB604C;
+}
+
+.page-link{
+    color: #FC863F;
+}
+
+.primary-bg{
+    background-color: #FC863F;
+}
+
+/* .bg-primary, .btn-info{
+    background: white !important;
+    border-color: #E1CAC8 !important;
+    color: #FB604C !important;
+}
+
+.btn-info:hover{
+    color: #FC863Faf !important;
+} */
+
+.btn.btn-primary:not(:disabled):not(.disabled):hover{
+    background: rgb(85, 102, 99) !important;
+    border-color: rgb(85, 102, 99) !important;
+}
+
+.btn.btn-danger:not(:disabled):not(.disabled):hover{
+    background: #c23320 !important;
+    border-color: #c23320 !important;
+}
+
+.bg-secondary, .btn-danger{
+    background: #FB604C !important;
+    border-color: #FB604C !important;
+}
+
+.bg-fiveth , .btn-primary{
+    background: #677D79 !important;
+    border-color: #677D79 !important;
+}
+
+.bg-fourth{
+    background: #677D79 !important;
+    border-color: #677D79 !important;
+}
+
+.tf{
+    background-color: #F9A11F !important;
+}
+
+.ti{
+    background-color: #99B235 !important;
+}
+
+.ex{
+    background-color: #C95C41 !important;
+}
+
+.meal {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+  
+.meal:after {
+content: "";
+display: block;
+padding-bottom: 100%;
+}
