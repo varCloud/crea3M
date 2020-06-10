@@ -1,30 +1,46 @@
-window.addEventListener('load', function () {
+function LoginSuccess(data) {
+    if (data.status == 'success') {
+        window.location = 'Home/index'
+    } else {
+        toastr.warning('Estas credeciales no existen en el servidor seleccionado!');
+    }
 
-    Array.prototype.filter.call(document.getElementsByClassName('needs-validation'), function (form) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
+}
+function LoginFailure(data) {
+    
+}
 
-            if (form.checkValidity() === true) {
+//grecaptcha.ready(function () {
+//    grecaptcha.execute('6LcvquQUAAAAABYNncZkaz54wYGlkdZDucb4f1oS', { action: 'homepage' }).then(function (token) {
+//        $.ajax({
+//            type: "POST",
+//            url: "DAO/captcha.php",
+//            data: {
+//                token
+//            },
+//            dataType: "JSON",
+//            success: function (response) {
+//                if (response.success != true) window.open('forbidden.html', "_self")
+//            }
+//        });
+//    });
+//});
 
-                let data = new FormData(form)
+setTimeout(function () {
 
-                $.ajax({
-                    type: "POST",
-                    url: "/",
-                    data: data,
-                    dataType: "json",
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        console.log('lo que sea')
-                        if (response.status == 'valido')
-                            window.location.href = '/Home/Index'
-                    }
-                });
-            }
-            form.classList.add('was-validated');
-        }, false);
+    let data = new FormData()
+    data.append('captcha', 'string')
+    data.append('status', 'string_two')
+
+    $.ajax({
+        type: "POST",
+        url: "/login/captcha",
+        data: data,
+        dataType: "JSON",
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            console.log(response)
+        }
     });
-
-}, false);
+}, 1000)

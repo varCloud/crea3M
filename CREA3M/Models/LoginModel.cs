@@ -7,7 +7,9 @@ namespace CREA3M.Models
 {
     public class LoginModel
     {
-        public String username { get; set; }
-        public String password { get; set; }
+        public String Usuario { get; set; }
+        public String Password { get; set; }
+        public String NombreCompleto { get; set; }
+        public String TargetServer { get; set; }
     }
 }
