@@ -8,7 +8,43 @@
     const initDate = `${yyyy}-${mm}-01}`
 
 
-    $('input[name="daterangepicker"]').daterangepicker({ endDate: `${mm}-${dd}-${yyyy}`, startDate: `${mm}-01-${yyyy}` }, function (start, end) {
+    $('input[name="daterangepicker"]').daterangepicker({
+        "locale": {
+            "format": "DD/MM/YYYY",
+            "separator": " al ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "fromLabel": "Desde",
+            "toLabel": "Hasta",
+            "customRangeLabel": "Custom",
+            "weekLabel": "W",
+            "daysOfWeek": [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Deciembre"
+            ]
+        },
+        endDate: `${dd}-${mm}-${yyyy}`,
+        startDate: `01-${mm}-${yyyy}`
+    }, function (start, end) {
         $('#table_container').html("Cargando...")
         $.ajax({
             type: "GET",
