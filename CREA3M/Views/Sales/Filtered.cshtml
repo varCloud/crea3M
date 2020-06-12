@@ -1,0 +1,25 @@
+﻿@model CREA3M.Models.ResponseList<CREA3M.Models.SaleModel>
+
+<table id="myTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Subtotal</th>
+            <th>Total</th>
+            <th>Detalle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var elem in Model.model)
+        {
+            <tr>
+                <td>@elem.Nombre</td>
+                <td>@elem.Fecha</td>
+                <td>@elem.SubTotalConDescuento</td>
+                <td>@elem.Total</td>
+                <td>@elem.idFactura</td>
+            </tr>
+        }
+    </tbody>
+</table>

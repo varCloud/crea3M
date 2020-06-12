@@ -10,21 +10,6 @@ function LoginFailure(data) {
     
 }
 
-//grecaptcha.ready(function () {
-//    grecaptcha.execute('6LcvquQUAAAAABYNncZkaz54wYGlkdZDucb4f1oS', { action: 'homepage' }).then(function (token) {
-//        $.ajax({
-//            type: "POST",
-//            url: "DAO/captcha.php",
-//            data: {
-//                token
-//            },
-//            dataType: "JSON",
-//            success: function (response) {
-//                if (response.success != true) window.open('forbidden.html', "_self")
-//            }
-//        });
-//    });
-//});
 
 setTimeout(function () {
 
@@ -39,6 +24,7 @@ setTimeout(function () {
         dataType: "JSON",
         contentType: false,
         processData: false,
+        timeout: 10000,
         success: function (response) {
             console.log(response)
         }

@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Ventas";
+}
+<link rel="stylesheet" href="~/vendors/datepicker/daterangepicker.css" type="text/css">
+
+
+<div class="container">
+    @ViewBag.date_init
+    @ViewBag.date_end
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header font-size-16">
+                    Lista de Ventas
+                </div>
+                <div class="card-body">
+                    <div class="row m-b-10">
+                        <div class="col-sm-12 col-md-9">
+                            <label>Selecciona el rango  de fechas</label>
+                            <input type="text" name="daterangepicker" class="form-control" id="date_picker">
+                        </div>                                             
+                        <div class="col-sm-12 col-md-3 d-flex flex-column mt-auto">
+                            <button class="btn btn-block btn-warning" id="clear">Este mes</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="table_container">
+                            @{Html.RenderAction("Filtered");}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/vendors/datepicker/daterangepicker.js"></script>
+@Scripts.Render("~/assets/js/ventasOverview.js")
