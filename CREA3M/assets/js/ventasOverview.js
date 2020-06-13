@@ -7,6 +7,19 @@
     const endDate = `${yyyy}-${mm}-${dd}`
     const initDate = `${yyyy}-${mm}-01}`
 
+    $.ajax({
+        type: "GET",
+        url: "/Sales/Filtered",
+        dataType: "HTML",
+        data: {
+            initDate,
+            endDate
+        },
+        success: function (response) {
+            $('#table_container').html(response)
+            initTable()
+        }
+    });
 
     $('input[name="daterangepicker"]').daterangepicker({
         "locale": {
@@ -45,7 +58,12 @@
         endDate: `${dd}-${mm}-${yyyy}`,
         startDate: `01-${mm}-${yyyy}`
     }, function (start, end) {
-        $('#table_container').html("Cargando...")
+            $('#table_container').html(`<div class="col-12" id="table_container">
+                            <div class="d-flex align-items-center">
+                                <strong>Cargando...</strong>
+                                <div class="spinner-border ml-auto black-color" role="status" aria-hidden="true"></div>
+                            </div>
+                        </div>`)
         $.ajax({
             type: "GET",
             url: "/Sales/Filtered",
@@ -62,9 +80,14 @@
     });
 
     $('#clear').click(() => {
-        $('#date_picker').data('daterangepicker').setStartDate(`${mm}-01-${yyyy}`);
-        $('#date_picker').data('daterangepicker').setEndDate(`${mm}-${dd}-${yyyy}`);
-        $('#table_container').html("Cargando...")
+        $('#date_picker').data('daterangepicker').setStartDate(`$01-${mm}-${yyyy}`);
+        $('#date_picker').data('daterangepicker').setEndDate(`${dd}-${mm}-${yyyy}`);
+        $('#table_container').html(`<div class="col-12" id="table_container">
+                            <div class="d-flex align-items-center">
+                                <strong>Cargando...</strong>
+                                <div class="spinner-border ml-auto black-color" role="status" aria-hidden="true"></div>
+                            </div>
+                        </div>`)
         $.ajax({
             type: "GET",
             url: "/Sales/Filtered",

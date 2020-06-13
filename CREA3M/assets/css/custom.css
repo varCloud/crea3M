@@ -10,12 +10,12 @@ input{
     padding: 7px;
 }
 
-.navigation .navigation-menu-body>ul li a.active{
-    color: #FB604C;
+.navigation .navigation-menu-body > ul li a.active {
+    color: #f52121;
 }
 
-.navigation .navigation-menu-body>ul li a.active:before{
-    background-color: #FB604C;
+.navigation .navigation-menu-body > ul li a.active:before {
+    background-color: #f52121;
 }
 
 body.small-navigation:not(.hidden-navigation) .navigation .navigation-menu-body ul li.open>a{
@@ -23,24 +23,25 @@ body.small-navigation:not(.hidden-navigation) .navigation .navigation-menu-body 
 }
 
 .header ul.navbar-nav li.nav-item a.nav-link:focus , .header ul.navbar-nav li.nav-item a.nav-link:hover{
-    color: #FB604C;
+    color: #FB604C0f;
 }
 
-.navigation .navigation-menu-body>ul li a:hover{
-    background: #E1CAC86a !important;
+.navigation .navigation-menu-body > ul li a:hover {
+    background: #f521210f !important;
 }
 
-.pagination .page-item.active .page-link{
+.pagination .page-item.active .page-link {
     color: white !important;
-    background: #FB604C;
+    background: #f52121;
 }
 
-.page-link{
-    color: #FC863F;
+.page-link {
+    color: #f52121;
 }
 
-.primary-bg{
-    background-color: #FC863F;
+.primary-bg {
+    color: white;
+    background-color: #f52121;
 }
 
 /* .bg-primary, .btn-info{
@@ -73,3 +74,14 @@ body.small-navigation:not(.hidden-navigation) .navigation .navigation-menu-body 
     border-color: #141414 !important;
 }
 
+.btn:hover{
+    color: white;
+}
+
+.red-color {
+    color: #f52121;
+}
+
+.black-color {
+    color: #141414;
+}

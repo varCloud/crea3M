@@ -25,7 +25,10 @@
                     </div>
                     <div class="row">
                         <div class="col-12" id="table_container">
-                            @{Html.RenderAction("Filtered");}
+                            <div class="d-flex align-items-center">
+                                <strong>Cargando...</strong>
+                                <div class="spinner-border ml-auto black-color" role="status" aria-hidden="true"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
