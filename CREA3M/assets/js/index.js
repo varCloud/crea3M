@@ -1,32 +1,35 @@
 function LoginSuccess(data) {
     if (data.status == 'success') {
-        window.location = 'Home/index'
+        window.location = '/Home/index'
+    } else if (data.status == 'captcha') {
+        window.location = '/Login/Forbidden'
     } else {
         toastr.warning('Estas credeciales no existen en el servidor seleccionado!');
     }
 
 }
-function LoginFailure(data) {
-    
-}
 
-
-setTimeout(function () {
-
-    let data = new FormData()
-    data.append('captcha', 'string')
-    data.append('status', 'string_two')
-
-    $.ajax({
-        type: "POST",
-        url: "/login/captcha",
-        data: data,
-        dataType: "JSON",
-        contentType: false,
-        processData: false,
-        timeout: 10000,
-        success: function (response) {
-            console.log(response)
-        }
+grecaptcha.ready(function () {
+    grecaptcha.execute('6Lf3xqsZAAAAAJzlBCq4aCK0EfPZeXX7f3jvV1vt', { action: 'homepage' }).then(function (token) {
+        $('#token').val(token)
     });
-}, 1000)
+});
+
+$(document).ready(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    toastr.options = {
+        timeOut: 3000,
+        progressBar: true,
+        showMethod: "slideDown",
+        hideMethod: "slideUp",
+        showDuration: 200,
+        hideDuration: 200
+    };
+
+    if (urlParams.get('loggedout') == 1) toastr.success('Has cerrado tu sesión!');
+    if (urlParams.get('nosession') == 1) toastr.warning('Debes iniciar sesión primero!');
+
+    window.history.replaceState({}, document.title, "/Login/Index");
+
+})

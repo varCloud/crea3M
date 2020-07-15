@@ -5,7 +5,10 @@
     var mm = today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1;
     var yyyy = today.getFullYear();
     const endDate = `${yyyy}-${mm}-${dd}`
-    const initDate = `${yyyy}-${mm}-01}`
+    const initDate = `${yyyy}-${mm}-01`
+
+    var start = initDate
+    var end = endDate
 
     $.ajax({
         type: "GET",
@@ -57,8 +60,13 @@
         },
         endDate: `${dd}-${mm}-${yyyy}`,
         startDate: `01-${mm}-${yyyy}`
-    }, function (start, end) {
-            $('#table_container').html(`<div class="col-12" id="table_container">
+    }, function (_start, _end) {
+            start = _start.format('YYYY-MM-DD')
+            end = _end.format('YYYY-MM-DD')
+    });
+
+    $('#filter').click(() => {
+        $('#table_container').html(`<div class="col-12 m-t-10" id="table_container">
                             <div class="d-flex align-items-center">
                                 <strong>Cargando...</strong>
                                 <div class="spinner-border ml-auto black-color" role="status" aria-hidden="true"></div>
@@ -69,15 +77,16 @@
             url: "/Sales/Filtered",
             dataType: "HTML",
             data: {
-                initDate: start.format('YYYY-MM-DD'),
-                endDate: end.format('YYYY-MM-DD')
+                initDate: start,
+                endDate: end,
+                selectedDB: $("#selectedDB").val()
             },
             success: function (response) {
                 $('#table_container').html(response)
                 initTable()
             }
         });
-    });
+    })
 
     $('#clear').click(() => {
         $('#date_picker').data('daterangepicker').setStartDate(`$01-${mm}-${yyyy}`);
@@ -109,7 +118,17 @@
         $('#myTable').DataTable({
             "scrollY": "550px",
             "scrollCollapse": true,
-            responsive: true,
+            scrollX: true,
+            columnDefs: [
+                {
+                    targets: [2, 4, 5, 6, 7, 8, 16],
+                    className : 'text-right'
+                },
+                {
+                    targets: [15],
+                    className: 'text-center'
+                }
+            ],
             language: {
                 search: "Buscar",
                 lengthMenu: "Tamaño de la lista _MENU_ ",

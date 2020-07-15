@@ -55,6 +55,9 @@
       <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RestSharp, Version=106.11.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.106.11.4\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -132,16 +135,20 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="DAO\LoginDAO.cs" />
     <Compile Include="DAO\SalesDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\sucursales.cs" />
+    <Compile Include="Helpers\validation.cs" />
     <Compile Include="Models\CaptchaModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ResponseList.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\SaleModel.cs" />
+    <Compile Include="Models\SimpleResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -511,6 +518,7 @@
     <Content Include="assets\icons\weather\fonts\pe-icon-set-weathere60d.svg" />
     <Content Include="assets\js\app.min.js" />
     <Content Include="assets\js\index.js" />
+    <Content Include="assets\js\global.js" />
     <Content Include="assets\js\ventasOverview.js" />
     <Content Include="assets\media\logo.png" />
     <Content Include="assets\media\logo_grande.png" />
@@ -600,6 +608,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Layout\" />
+    <Folder Include="Views\Session\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -626,6 +635,8 @@
     <None Include="packages.config" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\Filtered.cshtml" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
+    <Content Include="Views\Login\Forbidden.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

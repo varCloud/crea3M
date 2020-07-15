@@ -11,5 +11,7 @@ namespace CREA3M.Models
         public String Password { get; set; }
         public String NombreCompleto { get; set; }
         public String TargetServer { get; set; }
+        public String defaultDB { get; set; }
+        public String Token { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CREA3M.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,15 @@ namespace CREA3M.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if(new validation().validateSession(Session))
+            {
+                ViewBag.username = Session["username"];
+                return View();
+            }
+            else
+            {
+                return Redirect("/Login/Index?nosession=1");
+            }
         }
     }
 }

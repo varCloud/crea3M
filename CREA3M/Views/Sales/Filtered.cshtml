@@ -1,25 +1,70 @@
 ﻿@model CREA3M.Models.ResponseList<CREA3M.Models.SaleModel>
-
+<div class="m-t-10">
 <table id="myTable" class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>Cliente</th>
+            <th>TipoDocumento</th>
+            <th>Serie</th>
+            <th>Folio</th>
             <th>Fecha</th>
-            <th>Subtotal</th>
+            <th>SubTotalAntesDescuento</th>
+            <th>Descuento</th>
+            <th>IVA</th>
+            <th>SubTotal</th>
             <th>Total</th>
-            <th>Detalle</th>
+            <th>ClienteNombre</th>
+            <th>RFC</th>
+            <th>MetodoPago</th>
+            <th>FormaPago</th>
+            <th>CondicionesPago</th>
+            <th>Usuario</th>
+            <th>Facturado</th>
+            <th>Serie/Folio</th>
+            <th>Vendedor</th>
+            <th>GiroComercial</th>
+            <th>NumeroPedido</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var elem in Model.model)
         {
-            <tr>
-                <td>@elem.Nombre</td>
-                <td>@elem.Fecha</td>
-                <td>@elem.SubTotalConDescuento</td>
-                <td>@elem.Total</td>
-                <td>@elem.idFactura</td>
-            </tr>
+        <tr>
+            <td>@elem.TipoDocumento</td>
+            <td>@elem.Serie</td>
+            <td>@elem.Folio</td>
+            <td>@elem.Fecha</td>
+            <td>@string.Format("${0:n}", elem.SubTotalAntesDescuento)</td>
+            <td>@string.Format("${0:n}", elem.ImporteDescuento)</td>
+            <td>@string.Format("${0:n}", elem.ImporteIVA)</td>
+            <td>@string.Format("${0:n}", elem.SubTotal)</td>
+            <td>@string.Format("${0:n}", elem.Total)</td>
+            <td>@elem.ClienteNombre</td>
+            <td>@elem.RFC</td>
+            <td>@elem.MetodoPago</td>
+            <td>@elem.FormaPago</td>
+            <td>@elem.CondicionesPago</td>
+            <td>@elem.Usuario</td>
+            @if (elem.Facturado != 0)
+            {
+                <td><span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"></i></span></td>
+            }
+            else
+            {
+                <td><span class="badge badge-secondary"><i class="fa fa-close" aria-hidden="true"></i></span></td>
+            }
+            @if (elem.FolioFacturaNotaVentaFacturada > 0)
+            {
+                <td>@elem.FolioFacturaNotaVentaFacturada</td>
+            }
+            else
+            {
+                <td></td>
+            }
+            <td>@elem.Vendedor</td>
+            <td>@elem.GiroComercial</td>
+            <td>@elem.NumeroPedido</td>
+        </tr>
         }
     </tbody>
 </table>
+</div>

@@ -7,6 +7,9 @@ namespace CREA3M.Models
 {
     public class CaptchaModel
     {
-        public String captcha { get; set; }
+        public Boolean success { get; set; }
+        public String challenge_ts { get; set; }
+        public String hostname { get; set; }
+        public Double score { get; set; }
     }
 }

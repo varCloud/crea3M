@@ -15,17 +15,26 @@
                 </div>
                 <div class="card-body">
                     <div class="row m-b-10">
-                        <div class="col-sm-12 col-md-9">
+                        <div class="col-sm-12 col-md-6">
                             <label>Selecciona el rango  de fechas</label>
                             <input type="text" name="daterangepicker" class="form-control" id="date_picker">
+                        </div>                           
+                        <div class="col-sm-12 col-md-6">
+                            <label>Selecciona una sucursal</label>
+                            @Html.DropDownList("selectedDB", (List<SelectListItem>)ViewBag.sucursales, null, new { @class = "form-control", @id = "selectedDB", required = "required" })
                         </div>                                             
-                        <div class="col-sm-12 col-md-3 d-flex flex-column mt-auto">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 d-flex flex-column mt-auto">
                             <button class="btn btn-block btn-warning" id="clear">Este mes</button>
+                        </div>
+                        <div class="col-sm-12 col-md-6 d-flex flex-column mt-auto">
+                            <button class="btn btn-block btn-primary" id="filter">Filtrar</button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12" id="table_container">
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center m-t-10">
                                 <strong>Cargando...</strong>
                                 <div class="spinner-border ml-auto black-color" role="status" aria-hidden="true"></div>
                             </div>

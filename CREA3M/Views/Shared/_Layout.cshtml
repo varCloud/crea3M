@@ -60,7 +60,7 @@
         </div>
         <header class="navigation-header">
             <div>
-                <h5 id="username">USERNAME</h5>
+                <h5 id="username">@ViewBag.username</h5>
                 <ul class="nav">
                     <li class="nav-item">
                         <a href="#" id="logout" class="btn nav-link primary-bg" title="Cerrar Sesión" data-toggle="tooltip" data-placement="bottom">
@@ -155,6 +155,8 @@
                 <script src="~/vendors/dataTable/jquery.dataTables.min.js"></script>
                 <script src="~/vendors/dataTable/dataTables.bootstrap4.min.js"></script>
                 <script src="~/vendors/dataTable/dataTables.responsive.min.js"></script>
+                <script src="~/assets/js/global.js"></script>
+
                 @RenderBody()
 
             </div>

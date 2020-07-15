@@ -17,7 +17,7 @@ namespace CREA3M.DAO
         {
             Response<LoginModel> response = new Response<LoginModel>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings["conexionString"].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings["sucursal"+Credentials.defaultDB].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -29,8 +29,10 @@ namespace CREA3M.DAO
                     response.msg = "success";
                     response.status = "success";
                     response.alertType = "success";
+                    response.model = result;
+                    response.model.Token = Credentials.Token;
                 }
-                catch(Exception ex)
+                catch (Exception)
                 {
                     response.msg = "Credenciales incorrectas";
                     response.status = "failure";
