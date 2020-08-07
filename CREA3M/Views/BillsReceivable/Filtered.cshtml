@@ -1,0 +1,51 @@
+﻿@model CREA3M.Models.ResponseList<CREA3M.Models.BillsReceivableModel>
+<div class="m-t-10">
+    <table id="myTable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Documento</th>
+                <th>Serie</th>
+                <th>Folio</th>
+                <th>Cobrado</th>
+                <th>Saldo</th>
+                <th>Total</th>
+                <th>Método</th>
+                <th>Forma</th>
+                <th>Condiciones</th>
+                <th>Días</th>
+                <th>Vencimiento</th>
+                <th>Usuario</th>
+                <th>Vendedor</th>
+                <th>UUID</th>
+                <th>Moneda</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var elem in Model.model)
+            {
+            <tr>
+                <td>@elem.Fecha</td>
+                <td>@elem.Nombre</td>
+                <td>@elem.TipoDocumento</td>
+                <td>@elem.Serie</td>
+                <td>@elem.Folio</td>
+                <td>@string.Format("${0:n}", elem.Cobrado)</td>
+                <td>@string.Format("${0:n}", elem.Saldo)</td>
+                <td>@string.Format("${0:n}", elem.Total)</td>
+                <td>@elem.MetodoPago</td>
+                <td>@elem.FormaPago</td>
+                <td>@elem.CondicionesPago</td>
+                <td>@elem.Dias</td>
+                <td>@elem.Vencimiento</td>
+                <td>@elem.Usuario</td>
+                <td>@elem.Vendedor</td>
+                <td>@elem.UUID</td>
+                <td>@elem.Abreviatura</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

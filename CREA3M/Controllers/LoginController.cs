@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using CREA3M.DAO;
 using CREA3M.Models;
-using System.Web.Script.Serialization;
 using System.Net.Http;
 using CREA3M.Helpers;
 using RestSharp;

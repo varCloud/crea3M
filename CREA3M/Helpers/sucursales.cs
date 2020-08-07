@@ -12,8 +12,9 @@ namespace CREA3M.Helpers
         {
             return new List<SelectListItem>()
             {
-                new SelectListItem{ Text = "Morelia", Value = "Morelia", Selected = selectedDB == "Morelia"},
-                new SelectListItem{ Text = "Guadalajara" , Value = "Guadalajara", Selected = selectedDB == "Guadalajara"}
+                new SelectListItem{ Text = "Morelia", Value = "MOR", Selected = selectedDB == "MOR"},
+                new SelectListItem{ Text = "Guadalajara" , Value = "GDL", Selected = selectedDB == "GDL"},
+                new SelectListItem{ Text = "Queretaro" , Value = "QRO", Selected = selectedDB == "QRO"}
             };
         }
 
@@ -21,8 +22,9 @@ namespace CREA3M.Helpers
         {
             return new List<SelectListItem>()
             {
-                new SelectListItem{ Text = "Morelia", Value = "Morelia"},
-                new SelectListItem{ Text = "Guadalajara" , Value = "Guadalajara"}
+                new SelectListItem{ Text = "Morelia", Value = "MOR"},
+                new SelectListItem{ Text = "Guadalajara" , Value = "GDL"},
+                new SelectListItem{ Text = "Queretaro" , Value = "QRO"}
             };
         }
     }

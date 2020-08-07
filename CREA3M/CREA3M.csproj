@@ -132,10 +132,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BillsReceivableController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
+    <Compile Include="DAO\BillsReceivableDAO.cs" />
     <Compile Include="DAO\LoginDAO.cs" />
     <Compile Include="DAO\SalesDAO.cs" />
     <Compile Include="Global.asax.cs">
@@ -143,6 +145,7 @@
     </Compile>
     <Compile Include="Helpers\sucursales.cs" />
     <Compile Include="Helpers\validation.cs" />
+    <Compile Include="Models\BillsReceivableModel.cs" />
     <Compile Include="Models\CaptchaModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ResponseList.cs" />
@@ -519,6 +522,7 @@
     <Content Include="assets\js\app.min.js" />
     <Content Include="assets\js\index.js" />
     <Content Include="assets\js\global.js" />
+    <Content Include="assets\js\porCobrarOverview.js" />
     <Content Include="assets\js\ventasOverview.js" />
     <Content Include="assets\media\logo.png" />
     <Content Include="assets\media\logo_grande.png" />
@@ -635,8 +639,11 @@
     <None Include="packages.config" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\Filtered.cshtml" />
+    <None Include="Properties\PublishProfiles\CREA3M.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <Content Include="Views\Login\Forbidden.cshtml" />
+    <Content Include="Views\BillsReceivable\Index.cshtml" />
+    <Content Include="Views\BillsReceivable\Filtered.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
