@@ -11,6 +11,7 @@ namespace CREA3M.Controllers
         // GET: Products
         public ActionResult Index()
         {
+            ViewBag.username = Session["username"];
             return View();
         }
     }
