@@ -1,12 +1,11 @@
 function LoginSuccess(data) {
     if (data.status == 'success') {
-        window.location = '/Home/index'
+        window.location = '/Sales/Index'
     } else if (data.status == 'captcha') {
         window.location = '/Login/Forbidden'
     } else {
         toastr.warning('Estas credeciales no existen en el servidor seleccionado!');
     }
-
 }
 
 grecaptcha.ready(function () {

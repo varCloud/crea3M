@@ -135,6 +135,8 @@
     <Compile Include="Controllers\BillsReceivableController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="DAO\BillsReceivableDAO.cs" />
@@ -644,6 +646,8 @@
     <Content Include="Views\Login\Forbidden.cshtml" />
     <Content Include="Views\BillsReceivable\Index.cshtml" />
     <Content Include="Views\BillsReceivable\Filtered.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

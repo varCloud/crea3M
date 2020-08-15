@@ -72,20 +72,20 @@
         </header>
         <div class="navigation-menu-body">
             <ul>
-                <li>
-                    <a class="@(ViewBag.title == "Inicio" ? "active" : "")" onclick="window.location = '/Home/index'">
-                        <i class="fa fa-home nav-link-icon" aria-hidden="true"></i>
-                        <span>Inicio</span>
-                    </a>
-                </li>
+                @*<li>
+            <a class="@(ViewBag.title == "Inicio" ? "active" : "")" onclick="window.location = '/Home/index'">
+                <i class="fa fa-home nav-link-icon" aria-hidden="true"></i>
+                <span>Inicio</span>
+            </a>
+        </li>*@
 
                 <li>
                     <a class="@(ViewBag.title == "Ventas" ? "active" : "")" onclick="window.location = '/Sales/index'">
                         <i class="fa fa-money nav-link-icon" aria-hidden="true"></i>
                         <span>Resumen Ventas</span>
                     </a>
-                </li>                
-                
+                </li>
+
                 <li>
                     <a class="@(ViewBag.title == "Cuentas Por Cobrar" ? "active" : "")" onclick="window.location = '/BillsReceivable/index'">
                         <i class="fa fa-credit-card nav-link-icon" aria-hidden="true"></i>
@@ -93,31 +93,48 @@
                     </a>
                 </li>
 
-                <li class="navigation-divider">Categoria</li>
-                <li class="open">
-                    <a href="index.html">
-                        <i class="fa fa-angle-right nav-link-icon" aria-hidden="true"></i>
-                        <span>Menu</span>
-                    </a>
-                    <ul>
-                        <li><a> Entrada</a></li>
-                        <li><a> Entrada</a></li>
-                        <li><a> Entrada</a></li>
-                    </ul>
-                </li>
-                <li class="navigation-divider">Información</li>
+                <li class="navigation-divider">Administrar</li>
+
                 <li>
-                    <a href="#">
-                        <i class="fa fa-bar-chart nav-link-icon" aria-hidden="true"></i>
-                        <span>Estadísticas</span>
+                    <a class="@(ViewBag.title == "Productos" ? "active" : "")" onclick="window.location = '/Orders/index'">
+                        <i class="fa fa-truck nav-link-icon" aria-hidden="true"></i>
+                        <span>Pedidos</span>
                     </a>
                 </li>
+
                 <li>
-                    <a href="#">
-                        <i class="fa fa-user nav-link-icon" aria-hidden="true"></i>
-                        <span>Usuarios</span>
+                    <a class="@(ViewBag.title == "Pedidos" ? "active" : "")" onclick="window.location = '/Products/index'">
+                        <i class="fa fa-archive nav-link-icon" aria-hidden="true"></i>
+                        <span>Productos</span>
                     </a>
                 </li>
+
+
+                @*<li class="navigation-divider">Categoria</li>
+        <li class="open">
+            <a href="index.html">
+                <i class="fa fa-angle-right nav-link-icon" aria-hidden="true"></i>
+                <span>Menu</span>
+            </a>
+            <ul>
+                <li><a> Entrada</a></li>
+                <li><a> Entrada</a></li>
+                <li><a> Entrada</a></li>
+            </ul>
+        </li>
+        <li class="navigation-divider">Información</li>
+        <li>
+            <a href="#">
+                <i class="fa fa-bar-chart nav-link-icon" aria-hidden="true"></i>
+                <span>Estadísticas</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fa fa-user nav-link-icon" aria-hidden="true"></i>
+                <span>Usuarios</span>
+            </a>
+        </li>*@
             </ul>
         </div>
         <!-- end::navigation menu -->
@@ -154,7 +171,6 @@
         <div class="main-content">
 
             <!-- begin::container -->
-            <div class="container">
 
                 <script src="~/vendors/bundle.js"></script>
                 <script src="~/assets/js/app.min.js"></script>
@@ -166,7 +182,6 @@
 
                 @RenderBody()
 
-            </div>
             <!-- end::container -->
 
         </div>
