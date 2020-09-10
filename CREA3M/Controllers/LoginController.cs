@@ -13,7 +13,7 @@ namespace CREA3M.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            ViewBag.sucursales = new sucursales().buildList();
+            ViewBag.sucursales = sucursales.buildList();
             return View();
         }        
 

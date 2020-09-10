@@ -55,6 +55,7 @@
       <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="RestSharp, Version=106.11.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>packages\RestSharp.106.11.4\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -140,6 +141,7 @@
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="DAO\BillsReceivableDAO.cs" />
+    <Compile Include="DAO\ClientsSAO.cs" />
     <Compile Include="DAO\LoginDAO.cs" />
     <Compile Include="DAO\SalesDAO.cs" />
     <Compile Include="Global.asax.cs">
@@ -149,6 +151,7 @@
     <Compile Include="Helpers\validation.cs" />
     <Compile Include="Models\BillsReceivableModel.cs" />
     <Compile Include="Models\CaptchaModel.cs" />
+    <Compile Include="Models\Client.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ResponseList.cs" />
     <Compile Include="Models\Response.cs" />
