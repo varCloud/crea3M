@@ -17,7 +17,7 @@ namespace CREA3M.Controllers
             if (new validation().validateSession(Session))
             {
                 ViewBag.username = Session["username"];
-                ViewBag.sucursales = new sucursales().buildList(Session["defaultDB"].ToString());
+                ViewBag.sucursales = sucursales.buildList(Session["defaultDB"].ToString());
                 return View();
             }
 

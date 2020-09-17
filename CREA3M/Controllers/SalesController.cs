@@ -1,7 +1,10 @@
 ﻿using CREA3M.DAO;
 using CREA3M.Helpers;
 using CREA3M.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace CREA3M.Controllers
@@ -14,7 +17,7 @@ namespace CREA3M.Controllers
             if (new validation().validateSession(Session))
             {
                 ViewBag.username = Session["username"];
-                ViewBag.sucursales = new sucursales().buildList(Session["defaultDB"].ToString());
+                ViewBag.sucursales = sucursales.buildList(Session["defaultDB"].ToString());
                 return View();
             }
 
@@ -36,5 +39,6 @@ namespace CREA3M.Controllers
             ResponseList<SaleModel> response = new SalesDAO().getVentas(initDate, endDate, selectedDB);
             return PartialView("Filtered", response);
         }
+
     }
 }
