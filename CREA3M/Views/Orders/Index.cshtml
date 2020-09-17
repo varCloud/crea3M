@@ -1,7 +1,38 @@
 ﻿@using CREA3M.Models
 
 @{ //Si se modifica este titulo, se debe modificar el _Layout.cshtml
-    ViewBag.Title = "Pedidos"; }
+    ViewBag.Title = "Ordenes"; }
+
+
+<!-- modal -->
+<div class="modal fade" id="mdEditGuia" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <input id="idOrden" name="prodId" type="hidden" value="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="ti-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Numero de Guia</label>
+                        <input type="text" class="form-control" id="m_guia"
+                               aria-describedby="emailHelp" placeholder="Numero de Guia">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Cerrar
+                </button>
+                <button type="button" class="btn btn-primary" id="editGuia">Editar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- modal -->
 <div class="modal fade" id="mdEditStatus" tabindex="-1" role="dialog" aria-hidden="true">
@@ -19,10 +50,10 @@
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Selecciona estatus</label>
                         <select class="form-control" id="status">
-                            <option value="1">Pendiente</option>
-                            <option value="2">Enviado</option>
-                            <option value="3">Entregado</option>
-                            <option value="4">Cancelado</option>
+                            @foreach (var cat in (ViewBag.catStatusOrden as List<CatStatusOrden>))
+                            {
+                               <option value = "@cat.idStatusOrdenCompra" > @cat.statusOrdenCompra </option>
+                            }
                         </select>
                     </div>
                 </form>
@@ -56,6 +87,7 @@
                                 <th>Fecha Orden</th>
                                 <th>Guia</th>
                                 <th>Status</th>
+                                <th>Editar Guia</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,18 +102,18 @@
                                     <td>@order.guia</td>
                                     <td>
                                         <span class="badge badge-danger"></span>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditStatus" value="@order.idUsuarioEcommerce">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditStatus" data-idorden="@order.idOrdenCompra">
                                             @order.statusOrdenCompra
                                         </button>
                                     </td>
-                                     <td>
+                                    <td>
                                         <span class="badge badge-danger"></span>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditOrden" value="@order.idUsuarioEcommerce">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditGuia" data-guia="@order.guia"  data-orden="@order.idOrdenCompra">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
                                     </td>
                                 </tr>
-                             }
+                              }
 
                         </tbody>
                     </table>

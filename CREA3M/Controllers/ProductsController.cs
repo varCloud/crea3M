@@ -68,9 +68,9 @@ namespace CREA3M.Controllers
                     
                     if (file != null && file.ContentLength > 0)
                     {
-                        var originalDirectory = new DirectoryInfo(string.Format("{0}ImgProductos", Server.MapPath(@"\")));
+                        var originalDirectory = new DirectoryInfo(string.Format("{0}ImgProductos/", Server.MapPath(@"\")));
 
-                        string pathString = System.IO.Path.Combine(originalDirectory.ToString(), "1");
+                        string pathString = System.IO.Path.Combine(originalDirectory.ToString(), idProduct);
 
                         var fileName1 = Path.GetFileName(file.FileName);
 

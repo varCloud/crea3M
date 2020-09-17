@@ -8,9 +8,46 @@
 
 $('#mdEditStatus').on('show.bs.modal', function (event) {
     
-    var id = $(event.relatedTarget).val();
-    $('#idUsuario').val(id);
+    var button = $(event.relatedTarget);
     
+    var orden = button.data('idorden');
+   
+    $('#idUsuario').val(orden);
+    
+});
+
+$('#mdEditGuia').on('show.bs.modal', function (event) {
+
+    var button = $(event.relatedTarget);
+
+    var guia = button.data('guia');
+    $('#m_guia').val(guia);
+
+    var orden = button.data('orden');
+    $('#idOrden').val(orden);
+    
+});
+
+
+$('#editGuia').click(function () {
+
+    var guia = $('#m_guia').val();
+    var orden = $('#idOrden').val();
+    $.ajax({
+        type: "POST",
+        url: rootUrl("/Orders/EditarGuia"),
+        data: { guia: guia, orden: orden},
+        dataType: "Json",
+        async: true,
+        success: function () {
+            window.location = rootUrl('/Orders/Index')
+        },
+        error: function () {
+            alert("Error al editar el numero de Guia")
+            ControlErrores(xhr, status, error);
+        }
+    });
+
 });
 
 
@@ -20,22 +57,21 @@ $('#editStatus').click(function () {
     var idUsuario = parseInt($('#idUsuario').val());
 
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: rootUrl("/Orders/EditarStatus"),
-        dataType: "HTML",
         data: {
             idUsuarioOrdenCompra: idUsuario,
             idStatusOrdenCompra: idStatus
         },
-        success: function (response) {
+        dataType: "Json",
+        async: true,
+        success: function () {
             window.location = rootUrl('/Orders/Index')
-            
         },
-        error: function (xhr, status, error) {
-            alert("Error al editar el Status de la Orden")
+        error: function () {
+            alert("Error al editar el numero de Guia")
             ControlErrores(xhr, status, error);
         }
     });
-
-
 });
+

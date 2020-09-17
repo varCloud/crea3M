@@ -168,6 +168,8 @@
     <Content Include="assets\css\app.min.css" />
     <Content Include="assets\css\custom.css" />
     <Content Include="assets\css\custom_global.css" />
+    <Content Include="assets\css\dropzone.css" />
+    <Content Include="assets\css\validacion.css" />
     <Content Include="assets\icons\font-awesome\fonts\fontawesome-webfont3e6e.svg" />
     <Content Include="assets\icons\themify\demo-files\demo.css" />
     <Content Include="assets\icons\themify\fonts\themify.svg" />
@@ -530,9 +532,12 @@
     <Content Include="assets\icons\themify\themify-icons.css" />
     <Content Include="assets\icons\weather\fonts\pe-icon-set-weathere60d.svg" />
     <Content Include="assets\js\app.min.js" />
+    <Content Include="assets\js\dropzone.js" />
     <Content Include="assets\js\index.js" />
     <Content Include="assets\js\global.js" />
+    <Content Include="assets\js\order.js" />
     <Content Include="assets\js\porCobrarOverview.js" />
+    <Content Include="assets\js\product.js" />
     <Content Include="assets\js\ventasOverview.js" />
     <Content Include="assets\media\logo.png" />
     <Content Include="assets\media\logo_grande.png" />
@@ -544,8 +549,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="ImgProductos\1\logo.png" />
-    <Content Include="ImgProductos\1\logo_grande.png" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="vendors\bundle.css" />
@@ -623,6 +626,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ImgProductos\" />
     <Folder Include="Views\Layout\" />
     <Folder Include="Views\Session\" />
   </ItemGroup>
@@ -648,6 +652,7 @@
     <Content Include="assets\icons\weather\fonts\pe-icon-set-weathere60d.eot" />
     <Content Include="assets\icons\weather\fonts\pe-icon-set-weathere60d.ttf" />
     <Content Include="assets\icons\weather\fonts\pe-icon-set-weathere60d.woff" />
+    <Content Include="assets\productos.xlsx" />
     <None Include="packages.config" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\Filtered.cshtml" />

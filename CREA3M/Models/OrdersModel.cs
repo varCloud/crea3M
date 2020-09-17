@@ -29,4 +29,11 @@ namespace CREA3M.Models
 
     }
 
+    public class CatStatusOrden
+    {
+        public int idStatusOrdenCompra { get; set; }
+        public String statusOrdenCompra { get; set; }
+
+    }
+
 }
