@@ -1,18 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using CREA3M.DAO;
+using CREA3M.Helpers;
+using CREA3M.Models;
+using System;
 using System.Web.Mvc;
 
 namespace CREA3M.Controllers
 {
     public class OrdersController : Controller
     {
+        OrdersDAO ordersDAO;
+        
         // GET: Orders
+
         public ActionResult Index()
         {
+           
             ViewBag.username = Session["username"];
+            string selectedDB = "sucursal" + Session["defaultDB"];
+            ResponseList<Order> response = new OrdersDAO().getOrders(selectedDB);
+            ViewBag.orders = response.model;
             return View();
+        }
+
+        public ActionResult EditarStatus(int idUsuarioOrdenCompra, int idStatusOrdenCompra)
+        {
+            try
+            {
+                ordersDAO = new OrdersDAO();
+                string selectedDB = "sucursal" + Session["defaultDB"];
+                return Json(ordersDAO.updateStatusOrders(selectedDB, idUsuarioOrdenCompra, idStatusOrdenCompra), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

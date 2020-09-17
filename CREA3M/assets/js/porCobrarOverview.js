@@ -84,7 +84,7 @@
             success: function (response) {
                 $('#table_container').html(response)
                 initTable()
-            }
+            },
         });
     })
 
