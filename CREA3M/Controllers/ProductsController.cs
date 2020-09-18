@@ -42,11 +42,23 @@ namespace CREA3M.Controllers
         {
             productDAO = new ProductDAO();
             string selectedDB = "sucursal" + Session["defaultDB"];
-            return Json(productDAO.deleteImgProduct(idProduct, pathImg, selectedDB));
+            ResponseList<Responce> response = productDAO.deleteImgProduct(idProduct, pathImg, selectedDB);
+            if (response.status == "200")
+                deleteImageServer(pathImg);
+            return Json(response);
 
         }
 
-
+        private void deleteImageServer(string path)
+        {
+            try
+            {
+                string pathImage = Server.MapPath("~" + path);
+                System.IO.File.Delete(pathImage);
+            }
+            catch (Exception ex)
+            {}
+        }
 
         [HttpPost]
         public ActionResult SaveUploadedFile()
@@ -54,6 +66,7 @@ namespace CREA3M.Controllers
             bool isSavedSuccessfully = true;
             string fName = "";
             string path = "";
+            string urlImagen = "";
             string idProduct = "";
             productDAO = new ProductDAO();
 
@@ -81,10 +94,11 @@ namespace CREA3M.Controllers
 
                         path = string.Format("{0}\\{1}", pathString, file.FileName);
                         file.SaveAs(path);
+                        urlImagen = "/ImgProductos/"+ idProduct+"/"+ fName;
                     }
                 }
                 string selectedDB = "sucursal" + Session["defaultDB"];
-                return Json(productDAO.insertImg(path, selectedDB, idProduct));
+                return Json(productDAO.insertImg(urlImagen, selectedDB, idProduct));
             }
             catch(Exception ex)
 		    {

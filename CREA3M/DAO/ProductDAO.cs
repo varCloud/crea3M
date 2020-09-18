@@ -68,7 +68,8 @@ namespace CREA3M.DAO
                 }
                 else
                 {
-                    response.status = r1.status;
+                    int estatus = r1.status;
+                    response.status = estatus.ToString();
                     response.msg = r1.error_message;
                 }
             }
@@ -100,7 +101,8 @@ namespace CREA3M.DAO
                     }
                     else
                     {
-                        response.status = r1.status;
+                        int estatus = r1.status;
+                        response.status = estatus.ToString();
                         response.msg = r1.error_message;
                     }
                 }
@@ -137,7 +139,8 @@ namespace CREA3M.DAO
                     }
                     else
                     {
-                        response.status = r1.status;
+                        int estatus = r1.status;
+                        response.status = estatus.ToString();
                         response.msg = r1.error_message;
                     }
                 }
@@ -175,7 +178,8 @@ namespace CREA3M.DAO
                     }
                     else
                     {
-                        response.status = r1.status;
+                        int estatus = r1.status;
+                        response.status = estatus.ToString();
                         response.msg = r1.error_message;
                     }
                 }
@@ -209,7 +213,8 @@ namespace CREA3M.DAO
                     }
                     else
                     {
-                        response.status = r1.status;
+                        int estatus = r1.status;
+                        response.status = estatus.ToString();
                         response.msg = r1.error_message;
                     }
 
@@ -246,7 +251,8 @@ namespace CREA3M.DAO
                     }
                     else
                     {
-                        response.status = r1.status;
+                        int estatus = r1.status;
+                        response.status = estatus.ToString();
                         response.msg = r1.error_message;
                     }
                     

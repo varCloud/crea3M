@@ -207,7 +207,7 @@ $('#mGaleria').on('show.bs.modal', function (event) {
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                         <div class="card app-file-list">
                             <div class="app-file-icon">
-                                <img src="" style="width: 100%; height: 100%;" alt="Alternate Text" />
+                                <img src="`+ element.productoImagen +`" style="width: 100%; height: 100%;" alt="Alternate Text" />
                                 <div class="dropdown position-absolute top-0 right-0 mr-3">
                                     <a href="#" class="font-size-14" data-toggle="dropdown">
                                         <i class="fa fa-ellipsis-v"></i>
