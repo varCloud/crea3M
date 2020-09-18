@@ -1,8 +1,277 @@
 ﻿
-@{
-    //Si se modifica este titulo, se debe modificar el _Layout.cshtml
-    ViewBag.Title = "Productos";
+@using CREA3M.Models
+
+@{ //Si se modifica este titulo, se debe modificar el _Layout.cshtml
+    ViewBag.Title = "Productos"; }
+
+
+<!-- modal Galeria -->
+<div class="modal fade" id="mGaleria" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="card app-content-body">
+                
+                <div class="card-body">
+
+                    <div class="row" id="contentImg">
+                        
+               
+                    </div>
+             
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal Galeria FIN -->
+
+<!-- modal Carga de Imagenes -->
+<div class="modal fade" id="mCargarImg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Carga de Imagenes </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="ti-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("SaveUploadedFile","Products")" method="post"
+                      class="dropzone"
+                      id="my-awesome-dropzone">
+                    <input id="idProducto" class="dropzone" name="idProducto" value="" hidden>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN modal Carga de Imagenes -->
+
+<!-- modal Editar de Productos -->
+<div class="modal fade" id="mdEditProduct" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <input id="idUsuario" name="prodId" type="hidden" value="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edicion de Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="ti-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <input type="text" class="form-control" id="m_np"
+                           aria-describedby="emailHelp" placeholder="NP" hidden>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">NP</label>
+                        <input type="number" class="form-control" id="m_identidicador"
+                               aria-describedby="emailHelp" placeholder="NP" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Producto</label>
+                        <input type="number" class="form-control" id="m_producto"
+                               aria-describedby="emailHelp" placeholder="Producto">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Descripcion</label>
+                        <input type="text" class="form-control" id="m_descripcion"
+                               aria-describedby="emailHelp" placeholder="Descripcion">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Unidad de Venta</label>
+                        <input type="text" class="form-control" id="m_unidad_venta"
+                               aria-describedby="emailHelp" placeholder="Unidad de Venta">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Precio de Venta</label>
+                        <input type="number" class="form-control" id="m_precio_venta"
+                               aria-describedby="emailHelp" placeholder="Precio de Venta">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Cerrar
+                </button>
+                <button type="button" class="btn btn-primary" id="editProduct">Editar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN modal Editar de Productos -->
+
+<!-- modal Carga de Productos -->
+<div class="modal fade" id="mCargarProduct" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <input id="idUsuario" name="prodId" type="hidden" value="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edicion de Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="ti-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Selecciona MARCA Destino</label>
+                    <select class="form-control" id="m_marca">
+                        <option value="0">Selecciona Marca</option>
+                        @foreach (var marca in (ViewBag.marcas as List<Marca>))
+                        {
+            <option value="@marca.idMarcaEcommerce">@marca.marcaEcommerce</option>}
+                    </select>
+                    <div id="m-mensaje-marca" class="errores">Selecciona la MARCA </div>
+                </div>
+
+                <form class="d-none" id="file-upload">
+                    <input type="file" id="excelfile">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Cerrar
+                </button>
+                <button class="btn btn-outline-secondary btn-uppercase btn-block file-upload-btn" data-toggle="modal" data-target="#compose">
+                    <i class="ti-plus mr-2"></i>Subir archivo
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN modal Carga de Productos -->
+
+<div class="container">
+  
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header font-size-16">
+                    <li class="list-inline-item mb-0">
+                        <a href="#" class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown">
+                            Estas viendo Productos de la marca @ViewBag.vistaMarca.marcaEcommerce
+                        </a>
+                        <div class="dropdown-menu">
+                            @foreach (var marca in (ViewBag.marcas as List<Marca>))
+                            {
+                <a class="dropdown-item" href="@Url.Action("index", "Products", new { idMarca = @marca.idMarcaEcommerce })">@marca.marcaEcommerce</a>}
+
+                        </div>
+                    </li>
+                </div>
+                <div class="container" style="padding-bottom: 10px; padding-top: 10px">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mCargarProduct">
+                            <i class="ti-plus mr-2"></i>Subir archivo
+                        </button>
+
+                        <button class="btn btn-primary btn-rounded">
+                            <i class="fa fa-download"></i>
+                            <a href="~/assets/productos.xlsx"> -Descarga Formato</a>
+                        </button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header font-size-16">
+                    Lista de Productos
+                </div>
+                <div class="container" style="padding-bottom: 10px; padding-top: 10px">
+
+                    <table id="myTable" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>NP</th>
+                                <th>Producto</th>
+                                <th>Descripcion</th>
+                                <th>Unidad Venta</th>
+                                <th>Precio Venta</th>
+                                <th>Status</th>
+                                <th>Editar</th>
+                                <th>Imgen</th>
+                                <th>Galeria</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var producto in (ViewBag.productos as List<Product>))
+                            {
+                                <tr>
+                                    <td>@producto.NP</td>
+                                    <td>@producto.Producto</td>
+                                    <td>@producto.Descripcion</td>
+                                    <td>@producto.UnidadDeVenta</td>
+                                    <td>@producto.PrecioDeVenta</td>
+
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-switch custom-checkbox-dark">
+
+                                                <input type="checkbox" class="custom-control-input productActivo"
+                                                        id="@producto.idProductoEcommerce"
+                                                        @(producto.activo ? "checked" : "unchecked")
+                                                        onclick="ActualizarEstatus(event,@producto.idProductoEcommerce)">
+                                                <label class="custom-control-label" for="@producto.idProductoEcommerce"></label>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="badge badge-danger"></span>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditProduct" value="@producto.idProductoEcommerce">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-danger"></span>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mCargarImg" value="@producto.idProductoEcommerce">
+                                            <i class="fa fa-upload" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                        <td>
+                                        <span class="badge badge-danger"></span>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mGaleria" value="@producto.idProductoEcommerce">
+                                            <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <link rel="stylesheet" href="~/assets/css/validacion.css" />
+    <link rel="stylesheet" href="~/assets/css/dropzone.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
 }
 
-<h2>Vista de Productos</h2>
-
+@Scripts.Render("~/assets/js/product.js")

@@ -29,7 +29,6 @@ namespace CREA3M.Controllers
             }
 
             return Redirect("/Login/Index?nosession=1");
-
         }
 
         public ActionResult Filtered(String initDate, String endDate, String selectedDB, String User, String Client)
