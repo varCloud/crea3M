@@ -11,7 +11,7 @@ namespace CREA3M.Controllers
     {
         public ActionResult Index()
         {
-            if(new validation().validateSession(Session))
+            if(validation.validateSession(Session))
             {
                 ViewBag.username = Session["username"];
                 return View();

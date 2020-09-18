@@ -18,11 +18,14 @@
                         <div class="col-sm-12 col-md-6">
                             <label>Selecciona el rango  de fechas</label>
                             <input type="text" name="daterangepicker" class="form-control" id="date_picker">
-                        </div>                           
+                        </div>        
                         <div class="col-sm-12 col-md-6">
                             <label>Selecciona una sucursal</label>
-                            @Html.DropDownList("selectedDB", (List<SelectListItem>)ViewBag.sucursales, null, new { @class = "form-control", @id = "selectedDB", required = "required" })
-                        </div>                                             
+                            @Html.DropDownList("selectedDB", (List<SelectListItem>)ViewBag.sucursales, null, new { @class = "form-control", @id = "selectedDB", required = "required", })
+                        </div>                       
+                    </div>
+                    <div class="row m-b-10" id="filters">
+
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 d-flex flex-column mt-auto">

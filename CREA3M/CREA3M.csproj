@@ -141,9 +141,10 @@
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="DAO\BillsReceivableDAO.cs" />
-    <Compile Include="DAO\ClientsSAO.cs" />
+    <Compile Include="DAO\ClientsDAO.cs" />
     <Compile Include="DAO\LoginDAO.cs" />
     <Compile Include="DAO\SalesDAO.cs" />
+    <Compile Include="DAO\UsersDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -151,12 +152,15 @@
     <Compile Include="Helpers\validation.cs" />
     <Compile Include="Models\BillsReceivableModel.cs" />
     <Compile Include="Models\CaptchaModel.cs" />
+    <Compile Include="Models\City.cs" />
+    <Compile Include="Models\ClientShort.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ResponseList.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\SimpleResponse.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -651,6 +655,7 @@
     <Content Include="Views\BillsReceivable\Filtered.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Sales\BranchOfficeChange.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CREA3M.DAO
+namespace CREA3M.Models
 {
-    public class ClientsSAO
+    public class City
     {
-
+        public string Localidad { get; set; }
     }
 }

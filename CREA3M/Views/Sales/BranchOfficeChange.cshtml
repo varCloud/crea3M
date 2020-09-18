@@ -1,0 +1,12 @@
+﻿<div class="col-sm-12 col-md-4">
+    <label>Localidad</label>
+    @Html.DropDownList("selectedDB", (List<SelectListItem>)ViewBag.localidades, null, new { @class = "form-control", @id = "selectedCity", required = "required", onchange = "reload()" })
+</div>
+<div class="col-sm-12 col-md-4">
+    <label>Usuario</label>
+    @Html.DropDownList("selectedDB", (List<SelectListItem>)ViewBag.usuarios, null, new { @class = "form-control", @id = "selectedUser", required = "required" })
+</div>
+<div class="col-sm-12 col-md-4">
+    <label>Cliente</label>
+    @Html.DropDownList("selectedDB", (List<SelectListItem>)ViewBag.clientes, null, new { @class = "form-control", @id = "selectedClient", required = "required" })
+</div>              

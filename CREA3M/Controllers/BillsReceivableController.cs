@@ -14,7 +14,7 @@ namespace CREA3M.Controllers
         // GET: BillsReceivable
         public ActionResult Index()
         {
-            if (new validation().validateSession(Session))
+            if (validation.validateSession(Session))
             {
                 ViewBag.username = Session["username"];
                 ViewBag.sucursales = sucursales.buildList(Session["defaultDB"].ToString());
@@ -26,7 +26,7 @@ namespace CREA3M.Controllers
 
         public ActionResult Filtered(String initDate, String endDate, String selectedDB)
         {
-            if (!new validation().validateSession(Session))
+            if (!validation.validateSession(Session))
             {
                 return Redirect("/Login/Index?nosession=1");
             }

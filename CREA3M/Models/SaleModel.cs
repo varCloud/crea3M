@@ -27,5 +27,6 @@ namespace CREA3M.Models
         public String Vendedor { get; set; }
         public String GiroComercial { get; set; }
         public String NumeroPedido { get; set; }
+        public int idUsuario { get; set; }
     }
 }

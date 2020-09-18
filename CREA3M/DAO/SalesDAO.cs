@@ -14,7 +14,7 @@ namespace CREA3M.DAO
 {
     public class SalesDAO
     {
-        public ResponseList<SaleModel> getVentas(String initDate, String endDate, String database)
+        public ResponseList<SaleModel> getVentas(String initDate, String endDate, String database, String User, String Client)
         {
             ResponseList<SaleModel> response = new ResponseList<SaleModel>();
 
@@ -33,7 +33,7 @@ namespace CREA3M.DAO
                 Queries.Add(
                     Task.Factory.StartNew(() =>
                     {
-                        ResultSets.Add(makeQuery(initDate, endDate, db));
+                        ResultSets.Add(makeQuery(initDate, endDate, db, User, Client));
                     })
                 );
             }
@@ -64,7 +64,7 @@ namespace CREA3M.DAO
             return response;
         }
 
-        public List<SaleModel> makeQuery(string initDate, string endDate, string database)
+        public List<SaleModel> makeQuery(string initDate, string endDate, string database, string User, string Client)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
             {
@@ -83,9 +83,24 @@ namespace CREA3M.DAO
                 parameter.Add("@idGiroComercial", 0);
                 parameter.Add("@idUsuario", 0);
 
+
+                Func<SaleModel, bool> filter = null;
+
+                User = User == null ? "-1" : User;
+                Client = Client == null ? "-1" : Client;
+
+                if (!User.Equals("-1") && !Client.Equals("-1"))
+                    filter = elem => elem.ClienteNombre.Equals(Client) && elem.idUsuario.Equals(User);
+                else if (!User.Equals("-1"))
+                    filter = elem => elem.idUsuario == Int32.Parse(User);
+                else if (!Client.Equals("-1"))
+                    filter = elem => elem.ClienteNombre.Equals(Client);
+                else
+                    filter = elem => true;
+
                 try
                 {
-                    return (List<SaleModel>)db.Query<SaleModel>("SPVentasNoCFDiPorFecha", parameter, commandType: CommandType.StoredProcedure);
+                    return db.Query<SaleModel>("SPVentasNoCFDiPorFecha", parameter, commandType: CommandType.StoredProcedure).Where(filter).ToList();
                 }
                 catch (Exception ex)
                 {

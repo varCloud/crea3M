@@ -25,7 +25,7 @@ namespace CREA3M.Controllers
         public JsonResult Validate()
         {
             SimpleResponse response = new SimpleResponse() { status = "invalid" };
-            if (new validation().validateSession(Session))
+            if (validation.validateSession(Session))
             {
                 response.status = "valid";
             }

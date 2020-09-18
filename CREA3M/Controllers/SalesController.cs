@@ -11,13 +11,20 @@ namespace CREA3M.Controllers
 {
     public class SalesController : Controller
     {
+
+
         // GET: Ventas
         public ActionResult Index()
         {
-            if (new validation().validateSession(Session))
+            if (validation.validateSession(Session))
             {
+
                 ViewBag.username = Session["username"];
                 ViewBag.sucursales = sucursales.buildList(Session["defaultDB"].ToString());
+                ViewBag.localidades = new ClientsDAO().getCitiesSelect("sucursal" + Session["defaultDB"].ToString());
+                ViewBag.usuarios = new UsersDAO().getUsersSelect("sucursal" + Session["defaultDB"].ToString());
+                ViewBag.clientes = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una localidad primero", Value = "-1" } };
+
                 return View();
             }
 
@@ -25,9 +32,9 @@ namespace CREA3M.Controllers
 
         }
 
-        public ActionResult Filtered(String initDate, String endDate, String selectedDB)
+        public ActionResult Filtered(String initDate, String endDate, String selectedDB, String User, String Client)
         {
-            if (!new validation().validateSession(Session))
+            if (!validation.validateSession(Session))
             {
                 return Redirect("/Login/Index?nosession=1");
             }
@@ -37,9 +44,44 @@ namespace CREA3M.Controllers
             endDate = endDate == null ? date.ToString("yyyy-MM") + "-01" : endDate;
             selectedDB = selectedDB == null ? "sucursal" + Session["defaultDB"] : "sucursal" + selectedDB;
 
-            ResponseList<SaleModel> response = new SalesDAO().getVentas(initDate, endDate, selectedDB);
+            ResponseList<SaleModel> response = new SalesDAO().getVentas(initDate, endDate, selectedDB, User, Client);
             return PartialView("Filtered", response);
         }
 
+        public ActionResult BranchOfficeChange(String Database, String City, String User)
+        {
+            if (!validation.validateSession(Session))
+            {
+                return Redirect("/Login/Index?nosession=1");
+            }
+
+            Database = Database == null ? "sucursal" + Session["defaultDB"] : "sucursal" + Database;
+
+            if (Database.Equals("sucursalALL"))
+            {
+                ViewBag.localidades = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una sucursal primero", Value = "-1" } };
+                ViewBag.usuarios = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una sucursal primero", Value = "-1" } };
+                ViewBag.clientes = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una sucursal primero", Value = "-1" } };
+            }
+            else
+            {
+
+                ViewBag.localidades = new ClientsDAO().getCitiesSelect(Database, City);
+                ViewBag.usuarios = new UsersDAO().getUsersSelect(Database, User);
+
+                if (City == null)
+                {
+                    ViewBag.clientes = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una localidad", Value = "-1" } };
+                }
+                else
+                {
+                    ViewBag.clientes = new ClientsDAO().getClientsSelect(Database, City);
+
+                }
+
+            }
+
+            return PartialView("BranchOfficeChange");
+        }
     }
 }

@@ -10,6 +10,7 @@
     var start = initDate
     var end = endDate
 
+    //Carga tabla por defecto
     $.ajax({
         type: "GET",
         url: "/Sales/Filtered",
@@ -21,6 +22,47 @@
         success: function (response) {
             $('#table_container').html(response)
             initTable()
+        }
+    });
+
+    //Establece filtros por defecto
+    $.ajax({
+        type: "GET",
+        url: "/Sales/BranchOfficeChange",
+        dataType: "HTML",
+        success: function (response) {
+            $('#filters').html(response)
+
+            $('#selectedCity').change(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "/Sales/BranchOfficeChange",
+                    dataType: "HTML",
+                    data: {
+                        Database: $("#selectedDB").val(),
+                        City: $("#selectedCity").val()
+                    },
+                    success: function (response) {
+                        $('#filters').html(response)
+
+                        $('#selectedCity').change(() => {
+                            $.ajax({
+                                type: "GET",
+                                url: "/Sales/BranchOfficeChange",
+                                dataType: "HTML",
+                                data: {
+                                    Database: $("#selectedDB").val(),
+                                    City: $("#selectedCity").val()
+                                },
+                                success: function (response) {
+                                    $('#filters').html(response)
+                                }
+                            });
+                        })
+
+                    }
+                });
+            })
         }
     });
 
@@ -79,11 +121,28 @@
             data: {
                 initDate: start,
                 endDate: end,
-                selectedDB: $("#selectedDB").val()
+                selectedDB: $("#selectedDB").val(),
+                User: $("#selectedUser").val(),
+                Client: $("#selectedClient").val()
             },
             success: function (response) {
                 $('#table_container').html(response)
                 initTable()
+            }
+        });
+    })
+
+    $('#selectedDB').change(() => {
+        $.ajax({
+            type: "GET",
+            url: "/Sales/BranchOfficeChange",
+            dataType: "HTML",
+            data: {
+                Database: $("#selectedDB").val(),
+                City: $("#selectedCity").val()
+            },
+            success: function (response) {
+                $('#filters').html(response)
             }
         });
     })
@@ -147,3 +206,19 @@
         });
     }
 });
+
+function reload() {
+    $.ajax({
+        type: "GET",
+        url: "/Sales/BranchOfficeChange",
+        dataType: "HTML",
+        data: {
+            Database: $("#selectedDB").val(),
+            City: $("#selectedCity").val(),
+            User: $("#selectedUser").val()
+        },
+        success: function (response) {
+            $('#filters').html(response)
+        }
+    });
+}
