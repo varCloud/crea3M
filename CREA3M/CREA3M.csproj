@@ -543,6 +543,7 @@
     <Content Include="assets\js\porCobrarOverview.js" />
     <Content Include="assets\js\product.js" />
     <Content Include="assets\js\ventasOverview.js" />
+    <Content Include="assets\media\favIcon.png" />
     <Content Include="assets\media\logo.png" />
     <Content Include="assets\media\logo_grande.png" />
     <Content Include="Content\bootstrap-theme.css" />
