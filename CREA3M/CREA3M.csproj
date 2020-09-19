@@ -662,6 +662,7 @@
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\Filtered.cshtml" />
     <None Include="Properties\PublishProfiles\CREA3M.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <Content Include="Views\Login\Forbidden.cshtml" />
     <Content Include="Views\BillsReceivable\Index.cshtml" />
