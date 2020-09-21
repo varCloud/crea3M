@@ -12,7 +12,7 @@ namespace CREA3M.DAO
 {
     public class ProductDAO
     {
-        public ResponseList<Product> getProductos(String database, int idMarca)
+        public ResponseList<Product> getProductos(String database, int idMarca, int idCategoria)
         {
             ResponseList<Product> response = new ResponseList<Product>();
 
@@ -22,24 +22,54 @@ namespace CREA3M.DAO
 
 
                 parameter.Add("@IdMarca", idMarca);
+                parameter.Add("@Categoria", idCategoria);
 
-                try
+                var result = db.QueryMultiple("BC_SP_CREA_OBTENER_PRODUCTOS_MARCA_ADMIN", parameter, commandType: CommandType.StoredProcedure);
+                var r1 = result.ReadFirst();
+                if (r1.status == 200)
                 {
-                    List<Product> result = (List<Product>)db.Query<Product>("BC_SP_CREA_OBTENER_PRODUCTOS_MARCA_ADMIN", parameter, commandType: CommandType.StoredProcedure);
-                  
-                    response.model = result == null ? new List<Product>() : result;
-
-                    response.msg = "success";
-                    response.status = "success";
-                    response.alertType = "success";
+                    int estatus = r1.status;
+                    response.status = estatus.ToString();
+                    response.msg = r1.error_message;
+                    response.model = result.Read<Product>().ToList();
                 }
-                catch (Exception ex)
+                else
                 {
-                    response.msg = "Error durante la ejecucion";
-                    response.status = "failure";
-                    response.alertType = "error";
-                    Console.WriteLine(ex.ToString());
-                    response.model = new List<Product>();
+                    int estatus = r1.status;
+                    response.status = estatus.ToString();
+                    response.msg = r1.error_message;
+                }
+            
+            }
+
+            return response;
+        }
+
+        public ResponseList<Categoria> getCatEcommerce(String database, int idMarca)
+        {
+            ResponseList<Categoria> response = new ResponseList<Categoria>();
+
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+
+
+                parameter.Add("@IdMarca", idMarca);
+
+                var result = db.QueryMultiple("BC_SP_CREA_OBTENER_CAT_ECOMMERCE", parameter, commandType: CommandType.StoredProcedure);
+                var r1 = result.ReadFirst();
+                if (r1.status == 200)
+                {
+                    int estatus = r1.status;
+                    response.status = estatus.ToString();
+                    response.msg = r1.error_message;
+                    response.model = result.Read<Categoria>().ToList();
+                }
+                else
+                {
+                    int estatus = r1.status;
+                    response.status = estatus.ToString();
+                    response.msg = r1.error_message;
                 }
             }
 
@@ -292,7 +322,6 @@ namespace CREA3M.DAO
             return response;
         }
 
-
         public Responce updateProduct(String database, detalleProducto producto)
         {
             Responce respuesta = new Responce();
@@ -306,6 +335,7 @@ namespace CREA3M.DAO
                 parameter.Add("@descripcion", producto.descripcion);
                 parameter.Add("@unidadVenta", producto.unidadVenta);
                 parameter.Add("@precioVenta", producto.precioVenta);
+                parameter.Add("@idCategoriaEcommerce", producto.idCategoriaEcommerce);
                 //parameter.Add("@identificador", producto.identificador);
 
 

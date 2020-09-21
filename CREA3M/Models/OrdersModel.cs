@@ -5,7 +5,16 @@ using System.Web;
 
 namespace CREA3M.Models
 {
-  
+
+
+    public class Busqueda
+    {
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
+        public String tipoBusqueda { get; set; }
+      
+    }
+
     public class Order
     {
         public int idUsuarioEcommerce { get; set; }

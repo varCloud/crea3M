@@ -14,18 +14,26 @@ namespace CREA3M.Controllers
     {
         ProductDAO productDAO;
         // GET: Products
-        public ActionResult Index(int idMarca = 1)
+        public ActionResult Index()
         {
             
             ViewBag.username = Session["username"];
             string selectedDB = "sucursal" + Session["defaultDB"];
             ResponseList<Marca> marcas = new ProductDAO().getMarcas(selectedDB);
             ViewBag.marcas = marcas.model;
-            ResponseList<Product> response = new ProductDAO().getProductos(selectedDB, idMarca);
-            ViewBag.productos = response.model;
-            ViewBag.vistaMarca = marcas.model.Find(x => x.idMarcaEcommerce == idMarca);
+
             return View();
         }
+
+        [HttpPost]
+        public ActionResult _products(int idMarca, int idCategoria)
+        {
+            string selectedDB = "sucursal" + Session["defaultDB"];
+            ResponseList<Product> response = new ProductDAO().getProductos(selectedDB, idMarca, idCategoria);
+            ViewBag.productos = response.model;
+            return PartialView();
+        }
+
 
         [HttpPost]
         public ActionResult registrarProductos(List<Product> productos, int idMarca)
@@ -116,6 +124,23 @@ namespace CREA3M.Controllers
                 productDAO = new ProductDAO();
                 string selectedDB = "sucursal" + Session["defaultDB"];
                 return Json(productDAO.getProduct(idProductoEcommerce, selectedDB), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult getCatEcommerce(int idMarca)
+        {
+
+            try
+            {
+                productDAO = new ProductDAO();
+                string selectedDB = "sucursal" + Session["defaultDB"];
+                return Json(productDAO.getCatEcommerce(selectedDB, idMarca), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

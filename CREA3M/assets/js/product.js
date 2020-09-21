@@ -25,12 +25,74 @@ $(document).on('click', '.file-upload-btn', function () {
 });
 
 $(document).ready(function () {
-    $('#myTable').DataTable({
-        "scrollY": "400px",
-        "scrollCollapse": true
-    });
+    $('#marca').trigger("change");
+    
 
 });
+
+$('#marca').change(function () {
+    var marca = $('#marca').val();
+
+    $.ajax({
+        type: "post",
+        url: rootUrl("/Products/getCatEcommerce"),
+        dataType: "json",
+        data: {
+            idMarca: marca,
+        },
+        success: function (response) {
+
+            $('#categoria').empty()
+            $('#m_categoria').empty()
+
+            $.each(response.model, function (index, value) {
+                $('#categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
+            });
+            
+            $.each(response.model, function (index, value) {
+                $('#m_categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
+            });
+           
+            
+            $('#categoria').trigger("change");
+        },
+        error: function (xhr, status, error) {
+            alert("Error al obtener las Categorias ")
+            ControlErrores(xhr, status, error);
+        }
+    });
+})
+
+$('#categoria').change(function () {
+
+    var marca = parseInt($('#marca').val());
+    var categoria = parseInt($('#categoria').val());
+    
+    if (!(categoria > 0)) {
+        categoria = 0;
+    }
+    
+    $.ajax({
+        type: "post",
+        url: rootUrl("/Products/_products"),
+        dataType: "html",
+        data: {
+            idMarca: marca, idCategoria: categoria
+        },
+        success: function (response) {
+            
+            $("#table-products").html(response);
+            $('#myTable').DataTable({
+                "scrollY": "400px",
+                "scrollCollapse": true
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error en la carga de categoria")
+            ControlErrores(xhr, status, error);
+        }
+    });
+})
 
 document.getElementById('file-upload').addEventListener('change', ExportToTable, false);
 
@@ -189,6 +251,8 @@ function deleteImg(idProduct, pathImg) {
     });
 }
 
+
+
 $('#mGaleria').on('show.bs.modal', function (event) {
     var id = $(event.relatedTarget).val();
 
@@ -245,6 +309,7 @@ $('#mdEditProduct').on('show.bs.modal', function (event) {
             idProductoEcommerce: id,
         },
         success: function (resultado) {
+
             $('#m_producto').val(resultado.model[0].producto);
             $('#m_descripcion').val(resultado.model[0].descripcion);
             $('#m_np').val(resultado.model[0].idProductoEcommerce);
@@ -252,7 +317,7 @@ $('#mdEditProduct').on('show.bs.modal', function (event) {
             $('#m_precio_venta').val(resultado.model[0].precioVenta);
             $('#m_unidad_venta').val(resultado.model[0].unidadVenta);
             $('#m_status').val(resultado.model[0].activo);
-            
+            $('#m_categoria option[value=' + resultado.model[0].idCategoriaEcommerce + ']').attr('selected', 'selected');
         },
         error: function (xhr, status, error) {
             alert("Error al obtener el detalle del producto")
@@ -279,6 +344,7 @@ $('#editProduct').click(function () {
     producto.descripcion = $('#m_descripcion').val();
     producto.unidadVenta = $('#m_unidad_venta').val();
     producto.precioVenta = parseFloat($('#m_precio_venta').val());
+    producto.idCategoriaEcommerce = $('#m_categoria').val();
     
     $.ajax({
         type: "post",

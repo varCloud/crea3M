@@ -12,12 +12,12 @@ namespace CREA3M.Controllers
         
         // GET: Orders
 
-        public ActionResult Index()
+        public ActionResult Index(Busqueda busqueda)
         {
            
             ViewBag.username = Session["username"];
             string selectedDB = "sucursal" + Session["defaultDB"];
-            ResponseList<Order> response = new OrdersDAO().getOrders(selectedDB);
+            ResponseList<Order> response = new OrdersDAO().getOrders(selectedDB, busqueda);
             ViewBag.orders = response.model;
             ResponseList<CatStatusOrden> responseCat = new OrdersDAO().getCatStatusOrden(selectedDB);
             ViewBag.catStatusOrden = responseCat.model;

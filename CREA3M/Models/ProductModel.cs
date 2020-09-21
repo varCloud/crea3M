@@ -12,7 +12,8 @@ namespace CREA3M.Models
        public string idProductoEcommerce { get; set; }
        public string Producto { get; set; }
        public string Descripcion { get; set; }
-       public string IdCategoria { get; set; }
+       public string DescripcionCat { get; set; }
+       public int IdCategoria { get; set; }
        public string IdMarca { get; set; }
        public string UnidadDeVenta { get; set; }
        public string PrecioDeVenta { get; set; }
@@ -33,6 +34,7 @@ namespace CREA3M.Models
         public string CategoriaEcommerce { get; set; }
         public string descripcion { get; set; }
         public bool activo { get; set; }
+        
     }
 
     public class respons
@@ -49,6 +51,14 @@ namespace CREA3M.Models
 
     }
 
+    public class Categoria
+    {
+        public int idCategoriaEcommerce { get; set; }
+        public int idMarcaEcommerce { get; set; }
+        public int idLineaCategoriaEcommerce { get; set; }
+        public string descripcion { get; set; }
+    }
+
     public class PathImgProduct
     {
         public int idProductoImagen { get; set; }
@@ -57,6 +67,9 @@ namespace CREA3M.Models
         public int idProductoEcommerce { get; set; }
 
     }
+
+
+
 
 
 }

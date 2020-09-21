@@ -52,7 +52,7 @@
                         <select class="form-control" id="status">
                             @foreach (var cat in (ViewBag.catStatusOrden as List<CatStatusOrden>))
                             {
-                               <option value = "@cat.idStatusOrdenCompra" > @cat.statusOrdenCompra </option>
+                                <option value="@cat.idStatusOrdenCompra"> @cat.statusOrdenCompra </option>
                             }
                         </select>
                     </div>
@@ -68,7 +68,69 @@
     </div>
 </div>
 
+
 <div class="container">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="row">
+                    <div class="card-body ">
+                        <div class="container">
+                            @using (Html.BeginForm("Index", "Orders", FormMethod.Post, new { @id = "consultaOrders" }))
+                            {
+                                <div class="row">
+                                    
+                                    <div class="col-md-3">
+                                        <div class="form-control-wrapper">
+                                            <label for="exampleInputEmail1">Fecha Inicio</label>
+                                            <input type="text" name="startDate" class="form-control" id="startDate">
+                                        </div>
+                                        <div id="mensaje-startDate" class="errores">Error fecha Inicio  </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-control-wrapper">
+                                            <label for="exampleInputEmail1">Fecha Fin</label>
+                                            <input type="text" name="endDate" class="form-control" id="endDate">
+                                        </div>
+                                        <div id="mensaje-salida" class="errores">Error en fecha salida </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="exampleInputEmail1">Filtrar por Estatus</label>
+                                        <select class="form-control" id="tipoBusqueda" name="tipoBusqueda">
+                                            <option value="-1" selected="selected">BUSQUEDA POR ESTATUS</option>
+                                            @foreach (var cat in (ViewBag.catStatusOrden as List<CatStatusOrden>))
+                                            {
+                                                <option value="@cat.idStatusOrdenCompra"> @cat.statusOrdenCompra </option>
+                                            }
+                                            <option value="0">TODOS</option>
+                                        </select>
+                                        <div id="mensaje-estatus" class="errores">Seleccione un Estatus </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <label for="exampleInputEmail1">BUSCAR</label>
+                                        <button style="width: 100% !important; font-size: 15px;" type="submit" onclick="return validateFormOrderList();" class="btn btn-circle btn-outline blue m-b-10">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
@@ -108,12 +170,12 @@
                                     </td>
                                     <td>
                                         <span class="badge badge-danger"></span>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditGuia" data-guia="@order.guia"  data-orden="@order.idOrdenCompra">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditGuia" data-guia="@order.guia" data-orden="@order.idOrdenCompra">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
                                     </td>
                                 </tr>
-                              }
+                            }
 
                         </tbody>
                     </table>
@@ -125,6 +187,14 @@
     </div>
 </div>
 
+
+@section scripts{
+    <!-- Css -->
+    <link rel="stylesheet" href="~/assets/css/validacion.css" />
+    <link rel="stylesheet" href="~/vendors/datepicker/daterangepicker.css" type="text/css">
+    <!-- Javascript -->
+    <script src="~/vendors/datepicker/daterangepicker.js"></script>
+}
 
 @Scripts.Render("~/assets/js/order.js")
 

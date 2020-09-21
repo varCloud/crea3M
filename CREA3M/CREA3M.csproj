@@ -173,6 +173,7 @@
     <Content Include="assets\css\custom.css" />
     <Content Include="assets\css\custom_global.css" />
     <Content Include="assets\css\dropzone.css" />
+    <Content Include="assets\css\orders.css" />
     <Content Include="assets\css\validacion.css" />
     <Content Include="assets\icons\font-awesome\fonts\fontawesome-webfont3e6e.svg" />
     <Content Include="assets\icons\themify\demo-files\demo.css" />
@@ -668,6 +669,7 @@
     <Content Include="Views\BillsReceivable\Filtered.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Products\_products.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
