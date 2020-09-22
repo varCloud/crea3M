@@ -19,6 +19,7 @@ namespace CREA3M.Models
     {
         public int idUsuarioEcommerce { get; set; }
         public int idOrdenCompra { get; set; }
+        public int idStatusOrdenCompra { get; set; }
         public String cliente { get; set; }
         public String telefono { get; set; }
         public decimal monto { get; set; }

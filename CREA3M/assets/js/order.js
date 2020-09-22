@@ -95,7 +95,9 @@ $('#mdEditStatus').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     
     var orden = button.data('idorden');
-   
+    var idStatus = button.data('idstatus');
+
+    $('#status').val(idStatus);
     $('#idUsuario').val(orden);
     
 });
@@ -140,6 +142,9 @@ $('#editStatus').click(function () {
     var idStatus = parseInt($('#status').val());
     var idUsuario = parseInt($('#idUsuario').val());
 
+    var combo = document.getElementById("status");
+    var selected = combo.options[combo.selectedIndex].text;
+   
     $.ajax({
         type: "POST",
         url: rootUrl("/Orders/EditarStatus"),
@@ -150,7 +155,8 @@ $('#editStatus').click(function () {
         dataType: "Json",
         async: true,
         success: function () {
-            window.location = rootUrl('/Orders/Index')
+            $('#mdEditStatus').modal('hide');
+            $('#' + idUsuario).text(selected);
         },
         error: function () {
             alert("Error al editar el numero de Guia")
