@@ -99,7 +99,7 @@
                                     <div class="col-md-3">
                                         <label for="exampleInputEmail1">Filtrar por Estatus</label>
                                         <select class="form-control" id="tipoBusqueda" name="tipoBusqueda">
-                                            <option value="-1" selected="selected">BUSQUEDA POR ESTATUS</option>
+
                                             @foreach (var cat in (ViewBag.catStatusOrden as List<CatStatusOrden>))
                                             {
                                                 <option value="@cat.idStatusOrdenCompra"> @cat.statusOrdenCompra </option>
