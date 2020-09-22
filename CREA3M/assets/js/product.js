@@ -1,8 +1,6 @@
 ﻿
 $(document).ready(function () {
     $('#marca').trigger("change");
-   
-
 });
 
 
@@ -249,7 +247,9 @@ function registarProductos(productos_) {
         dataType: "Json",
         async: true,
         success: function () {
-            window.location = rootUrl('/Products/Index')
+            $('.alert').alert();
+            consultaProductos();
+            
         },
         error: function () {
 
@@ -267,8 +267,8 @@ function deleteImg(idProduct, pathImg) {
             idProduct: idProduct, pathImg: pathImg
         },
         success: function (response) {
-            window.location = rootUrl('/Products/Index')
-
+            $('#mGaleria').modal('hide');
+            consultaProductos();
         },
         error: function (xhr, status, error) {
             alert("Error al editar el Status de la Orden")
