@@ -21,46 +21,42 @@ $(document).on('click', '.file-upload-btn', function () {
     } else {
         $("#m-mensaje-marca").fadeOut();
         $('form#file-upload input[type="file"]').trigger('click');
-    }
+    } 
+  
 });
+
+
 
 $(document).ready(function () {
     $('#marca').trigger("change");
-
-    function initTable() {
-        $('#myTable').DataTable({
-            "scrollY": "550px",
-            "scrollCollapse": true,
-            scrollX: true,
-            columnDefs: [
-                {
-                    targets: [2, 4, 5, 6, 7, 8, 16],
-                    className: 'text-right'
-                },
-                {
-                    targets: [15],
-                    className: 'text-center'
-                }
-            ],
-            language: {
-                search: "Buscar",
-                lengthMenu: "Tamaño de la lista _MENU_ ",
-                info: "Mostrando _END_ de _TOTAL_ registraos",
-                infoEmpty: "No hay información.",
-                infoFiltered: "(Filtrado de _MAX_ registros en total)",
-                zeroRecords: "No se encontraron coincidencias",
-                emptyTable: "No hay Registros!",
-                paginate: {
-                    first: "Primera",
-                    previous: "Anterior",
-                    next: "Siguiente",
-                    last: "Ultima"
-                }
-            }
-        });
-    }
+   
 
 });
+
+function initTable() {
+    console.log("init table");
+    $('#tblProductos').DataTable({
+        "scrollY": "550px",
+        "scrollCollapse": true,
+        
+       
+        language: {
+            search: "Buscar",
+            lengthMenu: "Tamaño de la lista _MENU_ ",
+            info: "Mostrando _END_ de _TOTAL_ registraos",
+            infoEmpty: "No hay información.",
+            infoFiltered: "(Filtrado de _MAX_ registros en total)",
+            zeroRecords: "No se encontraron coincidencias",
+            emptyTable: "No hay Registros!",
+            paginate: {
+                first: "Primera",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Ultima"
+            }
+        }
+    });
+}
 
 $('#marca').change(function () {
     var marca = $('#marca').val();
@@ -114,10 +110,7 @@ function consultaProductos () {
         success: function (response) {
             
             $("#table-products").html(response);
-            $('#myTable').DataTable({
-                "scrollY": "400px",
-                "scrollCollapse": true
-            });
+            initTable();
             
         },
         error: function (xhr, status, error) {
