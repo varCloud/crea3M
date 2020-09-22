@@ -1,4 +1,12 @@
-﻿function detalleProduct() {
+﻿
+$(document).ready(function () {
+    $('#marca').trigger("change");
+   
+
+});
+
+
+function detalleProduct() {
     this.idProductoEcommerce,
     this.identificador,
     this.producto,
@@ -23,14 +31,6 @@ $(document).on('click', '.file-upload-btn', function () {
         $('form#file-upload input[type="file"]').trigger('click');
     } 
   
-});
-
-
-
-$(document).ready(function () {
-    $('#marca').trigger("change");
-   
-
 });
 
 function initTable() {
@@ -81,8 +81,8 @@ $('#marca').change(function () {
                 $('#m_categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
             });
            
+            consultaProductos();
             
-            $('#categoria').trigger("change");
         },
         error: function (xhr, status, error) {
             alert("Error al obtener las Categorias ")
@@ -91,8 +91,8 @@ $('#marca').change(function () {
     });
 })
 
-function consultaProductos () {
-
+function consultaProductos() {
+  
     var marca = parseInt($('#marca').val());
     var categoria = parseInt($('#categoria').val());
     
@@ -380,7 +380,8 @@ $('#editProduct').click(function () {
             producto: producto,
         },
         success: function (response) {
-            window.location = rootUrl('/Products/Index')
+            $('#mdEditProduct').modal('hide');
+            consultaProductos();
 
         },
         error: function (xhr, status, error) {
@@ -391,6 +392,7 @@ $('#editProduct').click(function () {
 
 
 });
+
 
 
 
