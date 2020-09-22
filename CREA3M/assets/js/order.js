@@ -1,4 +1,10 @@
-﻿$(document).ready(function () {
+﻿function Busqueda() {
+    this.startDate,
+    this.endDate,
+    this.tipoBusqueda
+}
+
+$(document).ready(function () {
     
 
     $('input[name="daterangepicker"]').daterangepicker(
@@ -36,11 +42,43 @@
             lang: 'es'
         }
     });
+
+   
+
+    function initTable() {
+        $('#myTable').DataTable({
+            "scrollY": "550px",
+            "scrollCollapse": true,
+            scrollX: true,
+            columnDefs: [
+                {
+                    targets: [2, 4, 5, 6, 7, 8, 16],
+                    className: 'text-right'
+                },
+                {
+                    targets: [15],
+                    className: 'text-center'
+                }
+            ],
+            language: {
+                search: "Buscar",
+                lengthMenu: "Tamaño de la lista _MENU_ ",
+                info: "Mostrando _END_ de _TOTAL_ registraos",
+                infoEmpty: "No hay información.",
+                infoFiltered: "(Filtrado de _MAX_ registros en total)",
+                zeroRecords: "No se encontraron coincidencias",
+                emptyTable: "No hay Registros!",
+                paginate: {
+                    first: "Primera",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Ultima"
+                }
+            }
+        });
+    }
   
-    $('#myTable').DataTable({
-        "scrollY": "400px",
-        "scrollCollapse": true
-    });
+ 
 
 
 });
@@ -63,21 +101,23 @@ function fechaCorrecta(fecha1, fecha2) {
     }
 }
 
-function validateFormOrderList() {
+function consultarOrderList() {
 
-    var tipoBusqueda = $('#tipoBusqueda').val();
+    busqueda = new Busqueda();
 
-    var startDate = $('#startDate').val();
+    busqueda.tipoBusqueda = $('#tipoBusqueda').val();
 
-    var endDate = $('#endDate').val();
+    busqueda.startDate = $('#startDate').val();
 
-    if (tipoBusqueda == "-1") {
+    busqueda.endDate = $('#endDate').val();
+
+    if (busqueda.tipoBusqueda == "-1") {
         $("#mensaje-estatus").fadeIn();
         return false;
     }
     else {
         $("#mensaje-estatus").fadeOut();
-        if (!fechaCorrecta(startDate, endDate)) {
+        if (!fechaCorrecta(busqueda.startDate, busqueda.endDate)) {
             $("#mensaje-startDate").fadeIn();
             return false;
         } else{
@@ -85,10 +125,32 @@ function validateFormOrderList() {
         }
     }
 
-    consultaOrders.submit();
+    $.ajax({
+        type: "post",
+        url: rootUrl("/Orders/_orders"),
+        dataType: "html",
+        data: {
+            busqueda: busqueda
+        },
+        success: function (response) {
+
+            $("#table-orders").html(response);
+            
+            $('#myTable').DataTable({
+                "scrollY": "400px",
+                "scrollCollapse": true
+
+            });
+
+        },
+        error: function (xhr, status, error) {
+            alert("Error en la carga de categoria")
+            ControlErrores(xhr, status, error);
+        }
+    });
+    
 
 }
-
 
 $('#mdEditStatus').on('show.bs.modal', function (event) {
     
