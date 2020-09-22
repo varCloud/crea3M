@@ -47,6 +47,31 @@ $(document).ready(function () {
     consultarOrderList();
 });
 
+function initTable() {
+    console.log("init table tblOrders");
+    $('#tblOrders').DataTable({
+        "scrollY": "550px",
+        "scrollCollapse": true,
+
+
+        language: {
+            search: "Buscar",
+            lengthMenu: "Tamaño de la lista _MENU_ ",
+            info: "Mostrando _END_ de _TOTAL_ registraos",
+            infoEmpty: "No hay información.",
+            infoFiltered: "(Filtrado de _MAX_ registros en total)",
+            zeroRecords: "No se encontraron coincidencias",
+            emptyTable: "No hay Registros!",
+            paginate: {
+                first: "Primera",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Ultima"
+            }
+        }
+    });
+}
+
 function fechaCorrecta(fecha1, fecha2) {
 
     //Split de las fechas recibidas para separarlas
@@ -99,12 +124,7 @@ function consultarOrderList() {
         success: function (response) {
 
             $("#table-orders").html(response);
-            
-            $('#myTable').DataTable({
-                "scrollY": "400px",
-                "scrollCollapse": true
-
-            });
+            initTable();
 
         },
         error: function (xhr, status, error) {
