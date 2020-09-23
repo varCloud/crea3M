@@ -42,7 +42,6 @@ namespace CREA3M.Controllers
             String xml = Utils.ToXML(productos);
             string selectedDB = "sucursal" + Session["defaultDB"];
             return Json(productDAO.insertProduct(xml, selectedDB, idMarca));
-
         }
 
         [HttpPost]
