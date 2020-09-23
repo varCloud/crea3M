@@ -52,7 +52,24 @@ function initTable() {
     $('#tblOrders').DataTable({
         "scrollY": "550px",
         "scrollCollapse": true,
-
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fa fa-file-pdf-o" style="font-size:20px;"></i>',
+                className: 'btn btn-outline-primary',
+                titleAttr: 'Exportar a PDF',
+                title: "Ordenes de Compras:",
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
+            },
+            {
+                extend: 'csv',
+                text: '<i class="fa fa-file-excel-o" style="font-size:20px;"></i>',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-outline-info',
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
+            },
+        ],
 
         language: {
             search: "Buscar",
