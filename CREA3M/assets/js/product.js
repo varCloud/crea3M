@@ -87,6 +87,8 @@ $('#marca').change(function () {
 
             $('#categoria').empty()
             $('#m_categoria').empty()
+            $('#cotendtIdCategorias').empty();
+
 
             $.each(response.model, function (index, value) {
                 $('#categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
@@ -95,8 +97,16 @@ $('#marca').change(function () {
             $.each(response.model, function (index, value) {
                 $('#m_categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
             });
-           
+
+
+            $.each(response.model, function (index, value) {
+                $('#cotendtIdCategorias').append('<p><i class="fa fa-circle text-success" data-icon="car"></i> ' + value.descripcion +' <b> id Excel: </b> <span class="badge badge-primary badge-pill ml-auto">'+value.idCategoriaEcommerce+'</span></p>');
+            });
+
             consultaProductos();
+            if (response.status == 100) {
+                toastr.info(response.msg);
+            }
             
         },
         error: function (xhr, status, error) {
@@ -263,8 +273,16 @@ function registarProductos(productos_) {
         data: { productos: productos_, idMarca: idMarca },
         dataType: "Json",
         async: true,
-        success: function () {
-            $('.alert').alert();
+        success: function (data) {
+
+            console.log("result registrar productos",data)
+            if (data.status == 1) {
+                toastr.success(data.error_message);
+                
+            } else {
+                toastr.warning(data.error_message);
+            }
+            $('#mCargarProduct').modal('hide');
             consultaProductos();
             
         },

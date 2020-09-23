@@ -310,7 +310,8 @@ namespace CREA3M.DAO
 
                 try
                 {
-                    respons result = db.QueryFirst<respons>("BC_SP_REGISTRAR_PRODUCTOS_ADMIN", parameter, commandType: CommandType.StoredProcedure);
+
+                    response = db.QueryFirst<Responce>("BC_SP_REGISTRAR_PRODUCTOS_ADMIN", parameter, commandType: CommandType.StoredProcedure);
                 }
                 catch (Exception ex)
                 {

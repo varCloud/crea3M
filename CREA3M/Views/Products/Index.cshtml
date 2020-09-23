@@ -162,6 +162,35 @@
     </div>
 </div>
 <!-- FIN modal Carga de Productos -->
+<!-- modal mVerCategorias -->
+<div class="modal fade" id="mVerCategorias" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <input id="idUsuario" name="prodId" type="hidden" value="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Categorias</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="ti-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group" id="cotendtIdCategorias">
+                </div>
+
+                <form class="d-none" id="file-upload">
+                    <input type="file" id="excelfile">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN modal mVerCategorias -->
 
 <div class="container">
 
@@ -197,6 +226,7 @@
                             </button>
                         </div>
 
+
                     </div>
 
 
@@ -208,9 +238,13 @@
                             <i class="ti-plus mr-2"></i>Subir archivo
                         </button>
 
-                        <button class="btn btn-primary btn-rounded">
+                        <button class="btn btn-primary ">
                             <i class="fa fa-download"></i>
                             <a href="~/assets/productos.xlsx"> -Descarga Formato</a>
+                        </button>
+
+                        <button style=" font-size: 15px; outline:none;" id="btnVerCategorias" type="button" data-toggle="modal" data-target="#mVerCategorias" class="btn  btn-info ">
+                            <i class="fa fa-eye"></i> Ver Categorias
                         </button>
                     </div>
                 </div>
@@ -239,8 +273,6 @@
     <link rel="stylesheet" href="~/assets/css/validacion.css" />
     <link rel="stylesheet" href="~/assets/css/dropzone.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
 
@@ -251,6 +283,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.print.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+
 }
 
 @Scripts.Render("~/assets/js/product.js")
