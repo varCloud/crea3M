@@ -36,7 +36,7 @@ namespace CREA3M.Models
         public String error_line { get; set; }
         public String error_severity { get; set; }
         public String error_procedure { get; set; }
-
+    
     }
 
     public class CatStatusOrden
@@ -44,6 +44,14 @@ namespace CREA3M.Models
         public int idStatusOrdenCompra { get; set; }
         public String statusOrdenCompra { get; set; }
 
+    }
+
+
+    public class Result
+    {
+        public bool status { get; set; }
+        public string mensaje { get; set; }
+   
     }
 
 }

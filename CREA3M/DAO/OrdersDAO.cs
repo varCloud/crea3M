@@ -73,7 +73,7 @@ namespace CREA3M.DAO
             return response;
         }
 
-        public ResponseList<Responce> updateStatusOrders(String database, int idUsuarioOrdenCompra, int idStatusOrdenCompra)
+        public ResponseList<Responce> updateStatusOrders(String database, int idUsuarioOrdenCompra, int idStatusOrdenCompra, string guia)
         {
             ResponseList<Responce> response = new ResponseList<Responce>();
 
@@ -89,8 +89,14 @@ namespace CREA3M.DAO
                 if (r1.status == 200)
                 {
                     int estatus = r1.status;
+                    
                     response.status = estatus.ToString();
                     response.msg = r1.error_message;
+
+                    if (idStatusOrdenCompra == 4)
+                    {
+                        Utils.NotificacionPedidoEnviado(r1.nombre, r1.email, guia);
+                    }
                 }
                 else
                 {

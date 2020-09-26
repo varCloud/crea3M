@@ -31,13 +31,13 @@ namespace CREA3M.Controllers
             return PartialView();
         }
 
-        public ActionResult EditarStatus(int idUsuarioOrdenCompra, int idStatusOrdenCompra)
+        public ActionResult EditarStatus(int idUsuarioOrdenCompra, int idStatusOrdenCompra, string guia)
         {
             try
             {
                 ordersDAO = new OrdersDAO();
                 string selectedDB = "sucursal" + Session["defaultDB"];
-                return Json(ordersDAO.updateStatusOrders(selectedDB, idUsuarioOrdenCompra, idStatusOrdenCompra), JsonRequestBehavior.AllowGet);
+                return Json(ordersDAO.updateStatusOrders(selectedDB, idUsuarioOrdenCompra, idStatusOrdenCompra, guia), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

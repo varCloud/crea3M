@@ -159,9 +159,11 @@ $('#mdEditStatus').on('show.bs.modal', function (event) {
     
     var orden = button.data('idorden');
     var idStatus = button.data('idstatus');
+    var guiaenvio = button.data('guiaenvio');
 
     $('#status').val(idStatus);
     $('#idUsuario').val(orden);
+    $('#guia_envio').val(guiaenvio);
     
 });
 
@@ -182,14 +184,19 @@ $('#editGuia').click(function () {
 
     var guia = $('#m_guia').val();
     var orden = $('#idOrden').val();
+    
     $.ajax({
         type: "POST",
         url: rootUrl("/Orders/EditarGuia"),
         data: { guia: guia, orden: orden},
         dataType: "Json",
         async: true,
+        beforeSend: function () {
+            $('#mdEditGuia').modal('hide');
+        },
         success: function () {
-            window.location = rootUrl('/Orders/Index')
+           
+            consultarOrderList();
         },
         error: function () {
             alert("Error al editar el numero de Guia")
@@ -204,6 +211,7 @@ $('#editStatus').click(function () {
 
     var idStatus = parseInt($('#status').val());
     var idUsuario = parseInt($('#idUsuario').val());
+    var guia = $('#guia_envio').val();
 
     var combo = document.getElementById("status");
     var selected = combo.options[combo.selectedIndex].text;
@@ -213,13 +221,17 @@ $('#editStatus').click(function () {
         url: rootUrl("/Orders/EditarStatus"),
         data: {
             idUsuarioOrdenCompra: idUsuario,
-            idStatusOrdenCompra: idStatus
+            idStatusOrdenCompra: idStatus,
+            guia: guia
         },
         dataType: "Json",
         async: true,
-        success: function () {
+        beforeSend: function () {
             $('#mdEditStatus').modal('hide');
+        },
+        success: function () {
             $('#' + idUsuario).text(selected);
+            consultarOrderList();
         },
         error: function () {
             alert("Error al editar el numero de Guia")
