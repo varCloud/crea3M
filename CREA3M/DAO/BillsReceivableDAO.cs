@@ -1,4 +1,5 @@
-﻿using CREA3M.Models;
+﻿using CREA3M.Helpers;
+using CREA3M.Models;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -6,16 +7,65 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace CREA3M.DAO
 {
     public class BillsReceivableDAO
     {
-        public ResponseList<BillsReceivableModel> getBills(String initDate, String endDate, String database)
+        public ResponseList<BillsReceivableModel> getBills(String initDate, String endDate, String database, String User, String Client)
         {
             ResponseList<BillsReceivableModel> response = new ResponseList<BillsReceivableModel>();
 
+            List<List<BillsReceivableModel>> ResultSets = new List<List<BillsReceivableModel>>();
+            List<string> Databases = new List<string>();
+
+            if (database.Equals("sucursalALL"))
+                Databases = sucursales._SUCURSALES;
+            else
+                Databases.Add(database);
+
+            List<Task> Queries = new List<Task>();
+
+            foreach (string db in Databases)
+            {
+                Queries.Add(
+                    Task.Factory.StartNew(() =>
+                    {
+                        ResultSets.Add(makeQuery(initDate, endDate, db, User, Client));
+                    })
+                );
+            }
+
+            Task.WaitAll(Queries.ToArray());
+
+            response.msg = "success";
+            response.status = "success";
+            response.alertType = "success";
+            response.model = new List<BillsReceivableModel>();
+
+            foreach (List<BillsReceivableModel> list in ResultSets)
+            {
+                if (list != null)
+                {
+                    response.model.AddRange(list);
+                }
+                else
+                {
+                    response.model = null;
+                    response.msg = "Error durante la ejecucion";
+                    response.status = "failure";
+                    response.alertType = "error";
+                    break;
+                }
+            }
+
+            return response;
+        }
+
+        public List<BillsReceivableModel> makeQuery(string initDate, string endDate, string database, string User, string Client)
+        {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
@@ -33,27 +83,65 @@ namespace CREA3M.DAO
                 parameter.Add("@idUsuario", 0);
                 parameter.Add("@Localidad", "%%");
 
+                Func<BillsReceivableModel, bool> filter = null;
+
+                User = User == null ? "-1" : User;
+                Client = Client == null ? "-1" : Client;
+
+                if (!User.Equals("-1") && !Client.Equals("-1"))
+                    filter = elem => elem.Nombre.Equals(Client) && elem.idUsuario.Equals(User);
+                else if (!User.Equals("-1"))
+                    filter = elem => elem.idUsuario == Int32.Parse(User);
+                else if (!Client.Equals("-1"))
+                    filter = elem => elem.idCliente == Int32.Parse(Client);
+                else
+                    filter = elem => true;
+
                 try
                 {
-                    List<BillsReceivableModel> result = (List<BillsReceivableModel>)db.Query<BillsReceivableModel>("SPFacturasPorCobrarGeneral", parameter, commandType: CommandType.StoredProcedure);
+                    List<BillsReceivableModel> Bills = db.Query<BillsReceivableModel>("SPFacturasPorCobrarGeneral", parameter, commandType: CommandType.StoredProcedure).Where(filter).ToList();
 
-                    response.msg = "success";
-                    response.status = "success";
-                    response.alertType = "success";
-                    response.model = result == null ? new List<BillsReceivableModel>() : result;
+                    Bills.ForEach(item => {
+                        try
+                        {
+                            BillDateModel days = db.QuerySingle<BillDateModel>($"select MAX(datediff(day, F.Fecha, C.Fecha)) Days, datediff(day, MAX(F.Fecha), getdate()) DaysSincePurchase, count(C.idFactura) count from Cobros C join Facturas F ON C.idFactura = F.idFactura AND F.idFactura = {item.idFactura}");
 
+                            if (days.count == 0) throw new Exception();
+                            if (days.Days <= 60 && item.Saldo == 0) {
+                                item.Liquidacion = $"Pagada en {days.Days} Día(s)";
+                                item.TipoDistintivo = "bg-success text-white";
+                            }
+                            else if(item.Saldo == 0 && days.Days > 60)
+                            {
+                                item.Liquidacion = $"Liquidada con mora en: <br>{days.Days} Día(s).";
+                                item.TipoDistintivo = "bg-info text-white";
+                            }
+                            else if(item.Saldo > 0 && days.DaysSincePurchase <=60)
+                            {
+                                item.Liquidacion = $"Sin Liquidar dentro de tiempo. {60-days.DaysSincePurchase} Día(s) restantes.";
+                                item.TipoDistintivo = "bg-warning text-dark";
+                            }
+                            else if (item.Saldo > 0 && days.DaysSincePurchase > 60)
+                            {
+                                item.Liquidacion = $"Sin Liquidar con mora. {days.DaysSincePurchase-60} Día(s) de mora.";
+                                item.TipoDistintivo = "bg-danger text-white";
+                            }
+
+                        }
+                        catch (Exception EX)
+                        {
+                            item.Liquidacion = "Sin pagos registrados.";
+                            item.TipoDistintivo = "bg-dark text-white";
+                        }
+                    });
+
+                    return Bills;
                 }
                 catch (Exception ex)
                 {
-                    response.msg = "Error durante la ejecucion";
-                    response.status = "failure";
-                    response.alertType = "error";
-                    Console.WriteLine(ex.ToString());
-                    response.model = new List<BillsReceivableModel>();
+                    return null;
                 }
             }
-
-            return response;
         }
     }
 }

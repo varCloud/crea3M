@@ -11,7 +11,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header font-size-16">
-                    Lista de Ventas
+                    Lista de Cuentas
                 </div>
                 <div class="card-body">
                     <div class="row m-b-10">
@@ -23,6 +23,9 @@
                             <label>Selecciona una sucursal</label>
                             @Html.DropDownList("selectedDB", (List<SelectListItem>)ViewBag.sucursales, null, new { @class = "form-control", @id = "selectedDB", required = "required" })
                         </div>
+                    </div>
+                    <div class="row m-b-10" id="filters">
+
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 d-flex flex-column mt-auto">

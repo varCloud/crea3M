@@ -65,6 +65,33 @@
             end = _end.format('YYYY-MM-DD')
     });
 
+    $.ajax({
+        type: "GET",
+        url: "/Sales/BranchOfficeChange",
+        dataType: "HTML",
+        data: {
+            idClient: 0   
+        },
+        success: function (response) {
+            $('#filters').html(response)
+        }
+    });
+
+    $('#selectedDB').change(() => {
+        $.ajax({
+            type: "GET",
+            url: "/Sales/BranchOfficeChange",
+            dataType: "HTML",
+            data: {
+                Database: $("#selectedDB").val(),
+                City: $("#selectedCity").val()
+            },
+            success: function (response) {
+                $('#filters').html(response)
+            }
+        });
+    })
+
     $('#filter').click(() => {
         $('#table_container').html(`<div class="col-12 m-t-10" id="table_container">
                             <div class="d-flex align-items-center">
@@ -79,7 +106,9 @@
             data: {
                 initDate: start,
                 endDate: end,
-                selectedDB: $("#selectedDB").val()
+                selectedDB: $("#selectedDB").val(),
+                User: $("#selectedUser").val(),
+                Client: $("#selectedClient").val()
             },
             success: function (response) {
                 $('#table_container').html(response)
@@ -143,3 +172,20 @@
         });
     }
 });
+
+function reload() {
+    $.ajax({
+        type: "GET",
+        url: "/Sales/BranchOfficeChange",
+        dataType: "HTML",
+        data: {
+            Database: $("#selectedDB").val(),
+            City: $("#selectedCity").val(),
+            User: $("#selectedUser").val(),
+            idClient: 1
+        },
+        success: function (response) {
+            $('#filters').html(response)
+        }
+    });
+}

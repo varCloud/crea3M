@@ -12,6 +12,7 @@
                 <th>IVA</th>
                 <th>SubTotal</th>
                 <th>Total</th>
+                <th>Utilidad</th>
                 <th>ClienteNombre</th>
                 <th>RFC</th>
                 <th>MetodoPago</th>
@@ -38,6 +39,14 @@
                     <td>@string.Format("${0:n}", elem.ImporteIVA)</td>
                     <td>@string.Format("${0:n}", elem.SubTotal)</td>
                     <td>@string.Format("${0:n}", elem.Total)</td>
+                    @if (elem.Total == elem.Utilidad)
+                    {
+                        <td>Sin Datos</td>
+                    }
+                    else
+                    {
+                        <td>@string.Format("${0:n}", elem.Utilidad)</td>
+                    }
                     <td>@elem.ClienteNombre</td>
                     <td>@elem.RFC</td>
                     <td>@elem.MetodoPago</td>

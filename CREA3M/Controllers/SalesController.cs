@@ -1,7 +1,6 @@
 ﻿using CREA3M.DAO;
 using CREA3M.Helpers;
 using CREA3M.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -47,7 +46,7 @@ namespace CREA3M.Controllers
             return PartialView("Filtered", response);
         }
 
-        public ActionResult BranchOfficeChange(String Database, String City, String User)
+        public ActionResult BranchOfficeChange(String Database, String City, String User, String idClient)
         {
             if (!validation.validateSession(Session))
             {
@@ -74,7 +73,7 @@ namespace CREA3M.Controllers
                 }
                 else
                 {
-                    ViewBag.clientes = new ClientsDAO().getClientsSelect(Database, City);
+                    ViewBag.clientes = new ClientsDAO().getClientsSelect(Database, City, idClient);
 
                 }
 

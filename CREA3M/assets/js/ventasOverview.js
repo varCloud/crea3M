@@ -33,36 +33,36 @@
         success: function (response) {
             $('#filters').html(response)
 
-            $('#selectedCity').change(() => {
-                $.ajax({
-                    type: "GET",
-                    url: "/Sales/BranchOfficeChange",
-                    dataType: "HTML",
-                    data: {
-                        Database: $("#selectedDB").val(),
-                        City: $("#selectedCity").val()
-                    },
-                    success: function (response) {
-                        $('#filters').html(response)
+            //$('#selectedCity').change(() => {
+            //    $.ajax({
+            //        type: "GET",
+            //        url: "/Sales/BranchOfficeChange",
+            //        dataType: "HTML",
+            //        data: {
+            //            Database: $("#selectedDB").val(),
+            //            City: $("#selectedCity").val()
+            //        },
+            //        success: function (response) {
+            //            $('#filters').html(response)
 
-                        $('#selectedCity').change(() => {
-                            $.ajax({
-                                type: "GET",
-                                url: "/Sales/BranchOfficeChange",
-                                dataType: "HTML",
-                                data: {
-                                    Database: $("#selectedDB").val(),
-                                    City: $("#selectedCity").val()
-                                },
-                                success: function (response) {
-                                    $('#filters').html(response)
-                                }
-                            });
-                        })
+            //            $('#selectedCity').change(() => {
+            //                $.ajax({
+            //                    type: "GET",
+            //                    url: "/Sales/BranchOfficeChange",
+            //                    dataType: "HTML",
+            //                    data: {
+            //                        Database: $("#selectedDB").val(),
+            //                        City: $("#selectedCity").val()
+            //                    },
+            //                    success: function (response) {
+            //                        $('#filters').html(response)
+            //                    }
+            //                });
+            //            })
 
-                    }
-                });
-            })
+            //        }
+            //    });
+            //})
         }
     });
 

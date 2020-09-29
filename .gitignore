@@ -349,3 +349,4 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
+CREA3M/CREA3M.csproj

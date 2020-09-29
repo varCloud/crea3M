@@ -35,5 +35,7 @@ namespace CREA3M.Models
         public int idCliente { get; set; }
         public string RFCEmisor { get; set; }
         public string Abreviatura { get; set; }
+        public string Liquidacion { get; set; }
+        public string TipoDistintivo { get; set; }
     }
 }

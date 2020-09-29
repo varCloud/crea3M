@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CREA3M.DAO
@@ -32,7 +30,7 @@ namespace CREA3M.DAO
             }
         }
 
-        public List<SelectListItem> getClientsSelect(string database, string filter)
+        public List<SelectListItem> getClientsSelect(string database, string filter, string idClient)
         {
 
             List<ClientShort> Clients = getClients(database, filter);
@@ -40,7 +38,7 @@ namespace CREA3M.DAO
 
             ClientsSelect.Add(new SelectListItem { Text = "Seleccione una localidad o vendedor primero", Value = "-1", Selected = true });
 
-            Clients.ForEach(Client => ClientsSelect.Add(new SelectListItem { Text = Client.Nombre, Value = Client.Nombre, Selected = false }));
+            Clients.ForEach(Client => ClientsSelect.Add(new SelectListItem { Text = Client.Nombre, Value = idClient == null ? Client.Nombre: Client.idCliente.ToString(), Selected = false }));
             return ClientsSelect;
         }       
 
