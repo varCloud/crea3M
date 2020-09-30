@@ -143,5 +143,87 @@ namespace CREA3M.DAO
                 }
             }
         }
+
+        public ResponseList<PaymentHistoryModel> getHistory(String database, String Client)
+        {
+            ResponseList<PaymentHistoryModel> response = new ResponseList<PaymentHistoryModel>();
+
+            List<List<PaymentHistoryModel>> ResultSets = new List<List<PaymentHistoryModel>>();
+            List<string> Databases = new List<string>();
+
+            if (database.Equals("sucursalALL"))
+                Databases = sucursales._SUCURSALES;
+            else
+                Databases.Add(database);
+
+            List<Task> Queries = new List<Task>();
+
+            foreach (string db in Databases)
+            {
+                Queries.Add(
+                    Task.Factory.StartNew(() =>
+                    {
+                        ResultSets.Add(makeQuery(db, Client));
+                    })
+                );
+            }
+
+            Task.WaitAll(Queries.ToArray());
+
+            response.msg = "success";
+            response.status = "success";
+            response.alertType = "success";
+            response.model = new List<PaymentHistoryModel>();
+
+            foreach (List<PaymentHistoryModel> list in ResultSets)
+            {
+                if (list != null)
+                {
+                    response.model.AddRange(list);
+                }
+                else
+                {
+                    response.model = null;
+                    response.msg = "Error durante la ejecucion";
+                    response.status = "failure";
+                    response.alertType = "error";
+                    break;
+                }
+            }
+
+            return response;
+        }
+
+        public List<PaymentHistoryModel> makeQuery(string database, string Client)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+
+                parameter.Add("@FechaInicial", "19000101");
+                parameter.Add("@FechaFinal", "30000101");
+                parameter.Add("@idEmpresa", 2);
+                parameter.Add("@idFormaPago", "0");
+                parameter.Add("@numDoc", "");
+                parameter.Add("@Filtro", "0");
+                parameter.Add("@idComisionista", 0);
+                parameter.Add("@idTipoDocumento", 0);
+                parameter.Add("@idCuentaBanco", 0);
+                parameter.Add("@idCondicionesPago", 4);
+                parameter.Add("@idCliente", Client);
+                parameter.Add("@idUsuario", 0);
+
+
+                try
+                {
+                    return db.Query<PaymentHistoryModel>("SPCobros", parameter, commandType: CommandType.StoredProcedure).ToList();
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+        }
+
     }
 }

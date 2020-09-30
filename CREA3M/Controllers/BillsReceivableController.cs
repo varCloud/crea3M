@@ -43,5 +43,19 @@ namespace CREA3M.Controllers
             ResponseList<BillsReceivableModel> response = new BillsReceivableDAO().getBills(initDate, endDate, selectedDB, User, Client);
             return PartialView("Filtered", response);
         }
+
+        public ActionResult PaymentHistory(String selectedDB, String idClient)
+        {
+            if (!validation.validateSession(Session))
+            {
+                return Redirect("/Login/Index?nosession=1");
+            }
+
+            selectedDB = selectedDB == null ? "sucursal" + Session["defaultDB"] : "sucursal" + selectedDB;
+
+            ResponseList<PaymentHistoryModel> response = new BillsReceivableDAO().getHistory(selectedDB, idClient);
+            return PartialView("PaymentHistory", response);
+        }
     }
+
 }

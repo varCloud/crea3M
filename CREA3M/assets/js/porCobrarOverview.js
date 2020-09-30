@@ -20,6 +20,7 @@
         },
         success: function (response) {
             $('#table_container').html(response)
+            $('#History').html(`<h5>Selecciona una cuenta en la lista de cuentas.</h5>`)
             initTable()
         }
     });
@@ -157,7 +158,7 @@
             language: {
                 search: "Buscar",
                 lengthMenu: "Tamaño de la lista _MENU_ ",
-                info: "Mostrando _END_ de _TOTAL_ registraos",
+                info: "Mostrando _END_ de _TOTAL_ registros",
                 infoEmpty: "No hay información.",
                 infoFiltered: "(Filtrado de _MAX_ registros en total)",
                 zeroRecords: "No se encontraron coincidencias",
@@ -186,6 +187,51 @@ function reload() {
         },
         success: function (response) {
             $('#filters').html(response)
+        }
+    });
+}
+
+function getHistory(idcliente) {
+    $.ajax({
+        type: "GET",
+        url: "/BillsReceivable/PaymentHistory",
+        dataType: "HTML",
+        data: {
+            Database: $("#selectedDB").val(),
+            idClient: idcliente
+        },
+        success: function (response) {
+            $('#History').html(response)
+            initTableHistory()
+        }
+    });
+}
+
+function initTableHistory() {
+    $('#myTableHistory').DataTable({
+        "scrollY": "550px",
+        "scrollCollapse": true,
+        scrollX: true,
+        columnDefs: [
+            {
+                targets: [7, 8],
+                className: 'text-right'
+            }
+        ],
+        language: {
+            search: "Buscar",
+            lengthMenu: "Tamaño de la lista _MENU_ ",
+            info: "Mostrando _END_ de _TOTAL_ registros",
+            infoEmpty: "No hay información.",
+            infoFiltered: "(Filtrado de _MAX_ registros en total)",
+            zeroRecords: "No se encontraron coincidencias",
+            emptyTable: "No hay Registros!",
+            paginate: {
+                first: "Primera",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Ultima"
+            }
         }
     });
 }

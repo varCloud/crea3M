@@ -21,7 +21,7 @@
                 <th>Vendedor</th>
                 <th>UUID</th>
                 <th>Moneda</th>
-
+                <th>Historial</th>
             </tr>
         </thead>
         <tbody>
@@ -46,6 +46,7 @@
                 <td>@elem.Vendedor</td>
                 <td>@elem.UUID</td>
                 <td>@elem.Abreviatura</td>
+                <td class="text-center"><button onclick="getHistory(@elem.idCliente)" type="button" class="btn btn-primary"><i class="ti-clipboard" aria-hidden="true"></i></button></td>
             </tr>
             }
         </tbody>
