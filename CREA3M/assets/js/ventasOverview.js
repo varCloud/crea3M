@@ -32,37 +32,6 @@
         dataType: "HTML",
         success: function (response) {
             $('#filters').html(response)
-
-            //$('#selectedCity').change(() => {
-            //    $.ajax({
-            //        type: "GET",
-            //        url: "/Sales/BranchOfficeChange",
-            //        dataType: "HTML",
-            //        data: {
-            //            Database: $("#selectedDB").val(),
-            //            City: $("#selectedCity").val()
-            //        },
-            //        success: function (response) {
-            //            $('#filters').html(response)
-
-            //            $('#selectedCity').change(() => {
-            //                $.ajax({
-            //                    type: "GET",
-            //                    url: "/Sales/BranchOfficeChange",
-            //                    dataType: "HTML",
-            //                    data: {
-            //                        Database: $("#selectedDB").val(),
-            //                        City: $("#selectedCity").val()
-            //                    },
-            //                    success: function (response) {
-            //                        $('#filters').html(response)
-            //                    }
-            //                });
-            //            })
-
-            //        }
-            //    });
-            //})
         }
     });
 
@@ -178,6 +147,10 @@
             "scrollY": "550px",
             "scrollCollapse": true,
             scrollX: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'excel', 'pdf'
+            ],
             columnDefs: [
                 {
                     targets: [2, 4, 5, 6, 7, 8, 16],

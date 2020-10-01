@@ -94,6 +94,7 @@
     })
 
     $('#filter').click(() => {
+        $('#History').html(`<h5>Selecciona una cuenta en la lista de cuentas.</h5>`)
         $('#table_container').html(`<div class="col-12 m-t-10" id="table_container">
                             <div class="d-flex align-items-center">
                                 <strong>Cargando...</strong>
@@ -149,6 +150,10 @@
             "scrollY": "550px",
             "scrollCollapse": true,
             scrollX: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'excel', 'pdf'
+            ],
             columnDefs: [
                 {
                     targets: [5, 6, 7],
@@ -192,6 +197,12 @@ function reload() {
 }
 
 function getHistory(idcliente) {
+    $('#History').html(`<div class="col-12 m-t-10" id="table_container">
+                            <div class="d-flex align-items-center">
+                                <strong>Cargando...</strong>
+                                <div class="spinner-border ml-auto black-color" role="status" aria-hidden="true"></div>
+                            </div>
+                        </div>`)
     $.ajax({
         type: "GET",
         url: "/BillsReceivable/PaymentHistory",
@@ -212,6 +223,10 @@ function initTableHistory() {
         "scrollY": "550px",
         "scrollCollapse": true,
         scrollX: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'excel', 'pdf'
+        ],
         columnDefs: [
             {
                 targets: [7, 8],

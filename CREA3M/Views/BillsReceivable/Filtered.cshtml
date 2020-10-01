@@ -11,6 +11,7 @@
                 <th>Cobrado</th>
                 <th>Saldo</th>
                 <th>Total</th>
+                <th>Capacidad Pago</th>
                 <th>Dias</th>
                 <th>Método</th>
                 <th>Forma</th>
@@ -36,12 +37,13 @@
                 <td>@string.Format("${0:n}", elem.Cobrado)</td>
                 <td>@string.Format("${0:n}", elem.Saldo)</td>
                 <td>@string.Format("${0:n}", elem.Total)</td>
+                <td>@elem.PorcentajeDePago</td>
                 <td class="@elem.TipoDistintivo">@elem.Liquidacion</td>
                 <td>@elem.MetodoPago</td>
                 <td>@elem.FormaPago</td>
                 <td>@elem.CondicionesPago</td>
                 <td>@elem.Dias</td>
-                <td>@elem.Vencimiento</td>
+                <td class="@elem.TipoDistintivoVencimiento">@elem.Vencimiento</td>
                 <td>@elem.Usuario</td>
                 <td>@elem.Vendedor</td>
                 <td>@elem.UUID</td>

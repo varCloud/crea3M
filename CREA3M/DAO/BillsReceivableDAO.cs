@@ -101,32 +101,56 @@ namespace CREA3M.DAO
                 {
                     List<BillsReceivableModel> Bills = db.Query<BillsReceivableModel>("SPFacturasPorCobrarGeneral", parameter, commandType: CommandType.StoredProcedure).Where(filter).ToList();
 
-                    Bills.ForEach(item => {
+                    Bills.ForEach(item =>
+                    {
+                        try
+                        {
+                            int paid = db.QuerySingle<int>($"select COUNT(idFactura) CONTEO from Facturas where idCliente = {item.idCliente} and idCondicionesPago = 4 and dbo.fnFacturaTotalCobrado(idfactura) = Total");
+                            int nonpaid = db.QuerySingle<int>($"select COUNT(idFactura) CONTEO from Facturas where idCliente = {item.idCliente} and idCondicionesPago = 4 and dbo.fnFacturaTotalCobrado(idfactura) < Total");
+                            int days = db.QuerySingle<int>($"select DATEDIFF(DAY, GETDATE() , FechaVencimientoCredito) DIAS  from Facturas where idCondicionesPago = 4 and idFactura = {item.idFactura}");
+
+                            int total = paid + nonpaid;
+
+                            int percent = (int)((double) paid / total * 100);
+                            item.PorcentajeDePago = "" + percent+ "%";
+
+                            if (days < 8 && days > 0)
+                                item.TipoDistintivoVencimiento = "bg-warning text-dark";
+                            else if (days < 0)
+                                item.TipoDistintivoVencimiento = "bg-danger text-white";
+
+                        }
+                        catch (Exception EX)
+                        {
+
+
+                        }
+
                         try
                         {
                             BillDateModel days = db.QuerySingle<BillDateModel>($"select MAX(datediff(day, F.Fecha, C.Fecha)) Days, datediff(day, MAX(F.Fecha), getdate()) DaysSincePurchase, count(C.idFactura) count from Cobros C join Facturas F ON C.idFactura = F.idFactura AND F.idFactura = {item.idFactura}");
 
                             if (days.count == 0) throw new Exception();
-                            if (days.Days <= 60 && item.Saldo == 0) {
+                            if (days.Days <= 60 && item.Saldo == 0)
+                            {
                                 item.Liquidacion = $"Pagada en {days.Days} Día(s)";
                                 item.TipoDistintivo = "bg-success text-white";
                             }
-                            else if(item.Saldo == 0 && days.Days > 60)
+                            else if (item.Saldo == 0 && days.Days > 60)
                             {
                                 item.Liquidacion = $"Liquidada con mora en: <br>{days.Days} Día(s).";
                                 item.TipoDistintivo = "bg-info text-white";
                             }
-                            else if(item.Saldo > 0 && days.DaysSincePurchase <=60)
+                            else if (item.Saldo > 0 && days.DaysSincePurchase <= 60)
                             {
-                                item.Liquidacion = $"Sin Liquidar dentro de tiempo. {60-days.DaysSincePurchase} Día(s) restantes.";
+                                item.Liquidacion = $"Sin Liquidar dentro de tiempo. {60 - days.DaysSincePurchase} Día(s) restantes.";
                                 item.TipoDistintivo = "bg-warning text-dark";
                             }
                             else if (item.Saldo > 0 && days.DaysSincePurchase > 60)
                             {
-                                item.Liquidacion = $"Sin Liquidar con mora. {days.DaysSincePurchase-60} Día(s) de mora.";
+                                item.Liquidacion = $"Sin Liquidar con mora. {days.DaysSincePurchase - 60} Día(s) de mora.";
                                 item.TipoDistintivo = "bg-danger text-white";
                             }
-
                         }
                         catch (Exception EX)
                         {

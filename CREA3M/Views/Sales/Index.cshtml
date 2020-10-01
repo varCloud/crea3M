@@ -2,6 +2,7 @@
     ViewBag.Title = "Ventas";
 }
 <link rel="stylesheet" href="~/vendors/datepicker/daterangepicker.css" type="text/css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" type="text/css">
 
 <div class="container">
     @ViewBag.date_init
@@ -17,11 +18,11 @@
                         <div class="col-sm-12 col-md-6">
                             <label>Selecciona el rango  de fechas</label>
                             <input type="text" name="daterangepicker" class="form-control" id="date_picker">
-                        </div>        
+                        </div>
                         <div class="col-sm-12 col-md-6">
                             <label>Selecciona una sucursal</label>
                             @Html.DropDownList("selectedDB", (List<SelectListItem>)ViewBag.sucursales, null, new { @class = "form-control", @id = "selectedDB", required = "required", })
-                        </div>                       
+                        </div>
                     </div>
                     <div class="row m-b-10" id="filters">
 
@@ -49,4 +50,11 @@
 </div>
 
 <script src="~/vendors/datepicker/daterangepicker.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
 @Scripts.Render("~/assets/js/ventasOverview.js")

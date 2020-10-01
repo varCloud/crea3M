@@ -37,5 +37,7 @@ namespace CREA3M.Models
         public string Abreviatura { get; set; }
         public string Liquidacion { get; set; }
         public string TipoDistintivo { get; set; }
+        public string TipoDistintivoVencimiento { get; set; }
+        public string PorcentajeDePago { get; set; }
     }
 }
