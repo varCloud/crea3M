@@ -95,7 +95,7 @@ namespace CREA3M.DAO
 
                     if (idStatusOrdenCompra == 4)
                     {
-                        Utils.NotificacionPedidoEnviado(r1.nombre, r1.email, guia);
+                        Utils.NotificacionPedidoEnviado(r1.nombre, r1.email, guia, idUsuarioOrdenCompra);
                     }
                 }
                 else

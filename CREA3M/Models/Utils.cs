@@ -35,13 +35,13 @@ namespace CREA3M.Models
             }
         }
 
-        public static Result NotificacionPedidoEnviado(string usuario, string email, string guia)
+        public static Result NotificacionPedidoEnviado(string usuario, string email, string guia, int idUsuarioOrdenCompra)
         {
             Result result = new Result();
             try
             {
                 string cuerpo = Cabecera();
-                cuerpo += CuerpoSendInicioSesion(usuario, guia);
+                cuerpo += CuerpoSendInicioSesion(usuario, guia, idUsuarioOrdenCompra);
                 cuerpo += PiePagina();
                 EnviarCorreNotificacionInicioSesion("Tu pedido de CREA ha sido enviado", cuerpo, email);
                 result.mensaje = "NOTIFICACION ENVIADA";
@@ -66,7 +66,7 @@ namespace CREA3M.Models
             <body style='background-color: white;'>";
         }
 
-        private static string CuerpoSendInicioSesion(string usuario, string guia)
+        private static string CuerpoSendInicioSesion(string usuario, string guia, int idUsuarioOrdenCompra)
         {
             StringBuilder cuerpo = new StringBuilder();
             cuerpo.Append(@"<table border='0' cellpadding='0' cellspacing='0' width='100%'>	
@@ -106,6 +106,11 @@ namespace CREA3M.Models
 																            </td>
 															            </tr>
                                                                          <tr>
+																            <td>
+																	            <b>Orden: </b>" + idUsuarioOrdenCompra + @"
+																            </td>
+															            </tr>
+                                                                        <tr>
 																            <td>
 																	            <b>Guia: </b>" + guia + @"
 																            </td>
