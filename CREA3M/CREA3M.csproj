@@ -660,7 +660,9 @@
     <Content Include="assets\icons\weather\fonts\pe-icon-set-weathere60d.eot" />
     <Content Include="assets\icons\weather\fonts\pe-icon-set-weathere60d.ttf" />
     <Content Include="assets\icons\weather\fonts\pe-icon-set-weathere60d.woff" />
-    <Content Include="assets\productos.xlsx" />
+    <Content Include="assets\productos.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\Filtered.cshtml" />

@@ -50,6 +50,7 @@ namespace CREA3M.Controllers
                 Session["status"] = "valid";
                 Session["username"] = result.model.NombreCompleto;
                 Session["defaultDB"] = Credentials.defaultDB;
+                Session["LoginModel"] = result.model;
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
