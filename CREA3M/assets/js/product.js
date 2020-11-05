@@ -252,7 +252,7 @@ function consultaProductos() {
   
     var marca = parseInt($('#marca').val());
     var categoria = parseInt($('#categoria').val());
-    
+   
     if (!(categoria > 0)) {
         categoria = 0;
     }
@@ -319,6 +319,7 @@ function deleteImg(idProduct, pathImg) {
 
 $('#mGaleria').on('show.bs.modal', function (event) {
     var id = $(event.relatedTarget).val();
+    $('#contentImg').empty();
 
     $.ajax({
         method: "post",

@@ -19,7 +19,7 @@ namespace CREA3M.DAO
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
-
+                
 
                 parameter.Add("@IdMarca", idMarca);
                 parameter.Add("@Categoria", idCategoria);
