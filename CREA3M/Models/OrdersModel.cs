@@ -28,6 +28,15 @@ namespace CREA3M.Models
         public String statusOrdenCompra { get; set; }
     }
 
+    public class DetalleOrder
+    {
+        public int cantidad { get; set; }
+        public String producto { get; set; }
+        public String descripcion { get; set; }
+        public String productoImagen { get; set; }
+
+    }
+
     public class Responce
     {
         public int status { get; set; }

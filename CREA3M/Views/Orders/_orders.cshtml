@@ -12,6 +12,7 @@
             <th>Guia</th>
             <th>Status</th>
             <th>Editar Guia</th>
+            <th>Ver</th>
         </tr>
     </thead>
     <tbody>
@@ -24,17 +25,29 @@
                 <td>@order.monto</td>
                 <td>@order.fechaRegistro</td>
                 <td>@order.guia</td>
-                <td>
-                    <span class="badge badge-danger"></span>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditStatus" data-guiaenvio="@order.guia" data-idorden="@order.idOrdenCompra" data-idstatus="@order.idStatusOrdenCompra">
-                        <span id="@order.idOrdenCompra">@order.statusOrdenCompra </span>
-                    </button>
+                <td style="align-content:center">
+                    <div class="row d-flex justify-content-center">
+                        <span class="badge badge-danger"></span>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditStatus" data-guiaenvio="@order.guia" data-idorden="@order.idOrdenCompra" data-idstatus="@order.idStatusOrdenCompra">
+                            <span id="@order.idOrdenCompra">@order.statusOrdenCompra </span>
+                        </button>
+                    </div>
                 </td>
                 <td>
-                    <span class="badge badge-danger"></span>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditGuia" data-guia="@order.guia" data-orden="@order.idOrdenCompra">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </button>
+                    <div class="row d-flex justify-content-center">
+                        <span class="badge badge-danger"></span>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditGuia" data-guia="@order.guia" data-orden="@order.idOrdenCompra">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="row d-flex justify-content-center">
+                        <span class="badge badge-danger"></span>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdetalleOrden" data-guia="@order.guia" data-orden="@order.idOrdenCompra">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
         }

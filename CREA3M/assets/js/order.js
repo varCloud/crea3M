@@ -139,7 +139,7 @@ function consultarOrderList() {
             busqueda: busqueda
         },
         success: function (response) {
-
+            
             $("#table-orders").html(response);
             initTable();
 
@@ -152,6 +152,31 @@ function consultarOrderList() {
     
 
 }
+
+
+$('#mdetalleOrden').on('show.bs.modal', function (event) {
+    $('#detalle-orden-compra').empty();
+    var button = $(event.relatedTarget);
+
+    var idOrden = button.data('orden');
+
+    $.ajax({
+        type: "post",
+        url: rootUrl("/Orders/_detalleOrders"),
+        dataType: "html",
+        data: {
+            idOrden: idOrden
+        },
+        success: function (response) {
+            $("#detalle-orden-compra").html(response);
+        },
+        error: function (xhr, status, error) {
+            alert("Error al cargar el detalle de la orden")
+            ControlErrores(xhr, status, error);
+        }
+    });
+
+});
 
 $('#mdEditStatus').on('show.bs.modal', function (event) {
     

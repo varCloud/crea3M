@@ -26,6 +26,7 @@ namespace CREA3M.DAO
 
                 var result = db.QueryMultiple("BC_SP_CREA_OBTENER_PRODUCTOS_MARCA_ADMIN", parameter, commandType: CommandType.StoredProcedure);
                 var r1 = result.ReadFirst();
+
                 if (r1.status == 200)
                 {
                     int estatus = r1.status;
@@ -38,6 +39,7 @@ namespace CREA3M.DAO
                     int estatus = r1.status;
                     response.status = estatus.ToString();
                     response.msg = r1.error_message;
+                    response.model = result.Read<Product>().ToList();
                 }
             
             }
@@ -211,6 +213,7 @@ namespace CREA3M.DAO
                         int estatus = r1.status;
                         response.status = estatus.ToString();
                         response.msg = r1.error_message;
+                        response.model = null;
                     }
                 }
                 catch (Exception ex)

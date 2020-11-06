@@ -1,0 +1,31 @@
+﻿@using CREA3M.Models
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Nomnre</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Img</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var detalleOrden in (ViewBag.detalleOrders as List<DetalleOrder>))
+        {
+            <tr>
+                <th scope="row">@detalleOrden.cantidad</th>
+                
+                <td>@detalleOrden.producto</td>
+                <td>@detalleOrden.descripcion</td>
+                <th>
+                    <figure class="avatar avatar-sm">
+                        <img src="@detalleOrden.productoImagen" class="rounded-circle" alt="image">
+                    </figure>
+                </th>
+            </tr>
+        }
+
+
+    </tbody>
+</table>

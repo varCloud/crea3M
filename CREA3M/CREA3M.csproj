@@ -676,6 +676,8 @@
     <Content Include="Views\Products\_products.cshtml" />
     <Content Include="Views\Sales\BranchOfficeChange.cshtml" />
     <Content Include="Views\BillsReceivable\PaymentHistory.cshtml" />
+    <Content Include="Views\Orders\_orders.cshtml" />
+    <Content Include="Views\Orders\_detalleOrders.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
