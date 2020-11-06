@@ -374,7 +374,7 @@ $('#mdEditProduct').on('show.bs.modal', function (event) {
             idProductoEcommerce: id,
         },
         success: function (resultado) {
-
+            console.log(resultado)
             $('#m_producto').val(resultado.model[0].producto);
             $('#m_descripcion').val(resultado.model[0].descripcion);
             $('#m_np').val(resultado.model[0].idProductoEcommerce);
