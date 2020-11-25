@@ -152,7 +152,18 @@
             scrollX: true,
             dom: 'Bfrtip',
             buttons: [
-                'excel', 'pdf'
+                'excel',
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    orientation: 'landscape',
+                    pageSize: 'A2',
+                    title: 'Cuentas por cobrar',
+                    exportOptions: {
+                        columns: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]
+                    }
+
+                }
             ],
             columnDefs: [
                 {
@@ -225,7 +236,15 @@ function initTableHistory() {
         scrollX: true,
         dom: 'Bfrtip',
         buttons: [
-            'excel', 'pdf'
+            'excel',
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                orientation: 'landscape',
+                pageSize: 'A3',
+                title: 'Listado de Cobros'
+
+            }
         ],
         columnDefs: [
             {

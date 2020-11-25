@@ -36,7 +36,7 @@ namespace CREA3M.DAO
             List<ClientShort> Clients = getClients(database, filter);
             List<SelectListItem> ClientsSelect = new List<SelectListItem>();
 
-            ClientsSelect.Add(new SelectListItem { Text = "Seleccione una localidad o vendedor primero", Value = "-1", Selected = true });
+            ClientsSelect.Add(new SelectListItem { Text = "Seleccione una localidad o vendedor primero", Value = "0", Selected = true });
 
             Clients.ForEach(Client => ClientsSelect.Add(new SelectListItem { Text = Client.Nombre, Value = idClient == null ? Client.Nombre: Client.idCliente.ToString(), Selected = false }));
             return ClientsSelect;

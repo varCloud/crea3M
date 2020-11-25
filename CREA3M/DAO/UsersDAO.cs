@@ -38,7 +38,7 @@ namespace CREA3M.DAO
 
             UserSelected = UserSelected == null ? "-1" : UserSelected;
 
-            UsersSelect.Add(new SelectListItem { Text = "Seleccione un usuario", Value = "-1", Selected = true });
+            UsersSelect.Add(new SelectListItem { Text = "Seleccione un usuario", Value = "0", Selected = true });
 
             Users.ForEach(User => UsersSelect.Add(new SelectListItem { Text = User.NombreCompleto, Value = User.IdUsuario.ToString(), Selected = User.IdUsuario == Int32.Parse(UserSelected) }));
             return UsersSelect;

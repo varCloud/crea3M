@@ -21,6 +21,7 @@ namespace CREA3M.Controllers
                 ViewBag.localidades = new ClientsDAO().getCitiesSelect("sucursal" + Session["defaultDB"].ToString());
                 ViewBag.usuarios = new UsersDAO().getUsersSelect("sucursal" + Session["defaultDB"].ToString());
                 ViewBag.clientes = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una localidad primero", Value = "-1" } };
+                ViewBag.admin = Session["admin"];
 
                 return View();
             }
@@ -36,6 +37,9 @@ namespace CREA3M.Controllers
             }
 
             DateTime date = DateTime.Today;
+
+            if ((bool)Session["admin"] != true) selectedDB = null;
+
             initDate = initDate == null ? date.ToString("yyyy-MM-dd") : initDate;
             endDate = endDate == null ? date.ToString("yyyy-MM") + "-01" : endDate;
             selectedDB = selectedDB == null ? "sucursal" + Session["defaultDB"] : "sucursal" + selectedDB;
@@ -50,7 +54,7 @@ namespace CREA3M.Controllers
             {
                 return Redirect("/Login/Index?nosession=1");
             }
-
+            if ((bool)Session["admin"] != true) selectedDB = null;
             selectedDB = selectedDB == null ? "sucursal" + Session["defaultDB"] : "sucursal" + selectedDB;
 
             ResponseList<PaymentHistoryModel> response = new BillsReceivableDAO().getHistory(selectedDB, idClient);

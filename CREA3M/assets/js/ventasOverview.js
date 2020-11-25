@@ -149,7 +149,15 @@
             scrollX: true,
             dom: 'Bfrtip',
             buttons: [
-                'excel', 'pdf'
+                'excel',
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    orientation: 'landscape',
+                    pageSize: 'A1',
+                    title: 'Listado de ventas',
+
+                }
             ],
             columnDefs: [
                 {

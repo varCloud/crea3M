@@ -51,6 +51,7 @@ namespace CREA3M.Controllers
                 Session["username"] = result.model.NombreCompleto;
                 Session["defaultDB"] = Credentials.defaultDB;
                 Session["LoginModel"] = result.model;
+                Session["admin"] = result.model.idUsuario == 12;
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }

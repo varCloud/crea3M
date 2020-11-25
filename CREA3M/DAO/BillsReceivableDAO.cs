@@ -70,36 +70,24 @@ namespace CREA3M.DAO
             {
                 DynamicParameters parameter = new DynamicParameters();
 
+                
+
                 parameter.Add("@FechaInicial", initDate);
                 parameter.Add("@FechaFinal", endDate);
                 parameter.Add("@idEmpresa", 2);
-                parameter.Add("@idCliente", 0);
+                parameter.Add("@idCliente", Client);
                 parameter.Add("@idTipoDocumento", 0);
                 parameter.Add("@idComisionista", 0);
                 parameter.Add("@idFacturasListar", "");
                 parameter.Add("@idFormaPago", "0");
                 parameter.Add("@idMetodoPago", "0");
                 parameter.Add("@idCondicionesPago", 0);
-                parameter.Add("@idUsuario", 0);
+                parameter.Add("@idUsuario", User);
                 parameter.Add("@Localidad", "%%");
-
-                Func<BillsReceivableModel, bool> filter = null;
-
-                User = User == null ? "-1" : User;
-                Client = Client == null ? "-1" : Client;
-
-                if (!User.Equals("-1") && !Client.Equals("-1"))
-                    filter = elem => elem.Nombre.Equals(Client) && elem.idUsuario.Equals(User);
-                else if (!User.Equals("-1"))
-                    filter = elem => elem.idUsuario == Int32.Parse(User);
-                else if (!Client.Equals("-1"))
-                    filter = elem => elem.idCliente == Int32.Parse(Client);
-                else
-                    filter = elem => true;
 
                 try
                 {
-                    List<BillsReceivableModel> Bills = db.Query<BillsReceivableModel>("SPFacturasPorCobrarGeneral", parameter, commandType: CommandType.StoredProcedure).Where(filter).ToList();
+                    List<BillsReceivableModel> Bills = db.Query<BillsReceivableModel>("SPFacturasPorCobrarGeneral", parameter, commandType: CommandType.StoredProcedure).ToList();
 
                     Bills.ForEach(item =>
                     {
@@ -148,7 +136,7 @@ namespace CREA3M.DAO
                             }
                             else if (item.Saldo > 0 && days.DaysSincePurchase > 60)
                             {
-                                item.Liquidacion = $"Sin Liquidar con mora. {days.DaysSincePurchase - 60} Día(s) de mora.";
+                                item.Liquidacion = $"Sin Liquidar con demora. {days.DaysSincePurchase - 60} Día(s) de mora.";
                                 item.TipoDistintivo = "bg-danger text-white";
                             }
                         }

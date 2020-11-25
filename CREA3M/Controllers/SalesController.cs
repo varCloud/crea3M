@@ -23,6 +23,7 @@ namespace CREA3M.Controllers
                 ViewBag.localidades = new ClientsDAO().getCitiesSelect("sucursal" + Session["defaultDB"].ToString());
                 ViewBag.usuarios = new UsersDAO().getUsersSelect("sucursal" + Session["defaultDB"].ToString());
                 ViewBag.clientes = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una localidad primero", Value = "-1" } };
+                ViewBag.admin = Session["admin"];
 
                 return View();
             }
@@ -38,6 +39,9 @@ namespace CREA3M.Controllers
             }
 
             DateTime date = DateTime.Today;
+
+            if ((bool)Session["admin"] != true) selectedDB = null;
+
             initDate = initDate == null ? date.ToString("yyyy-MM-dd") : initDate;
             endDate = endDate == null ? date.ToString("yyyy-MM") + "-01" : endDate;
             selectedDB = selectedDB == null ? "sucursal" + Session["defaultDB"] : "sucursal" + selectedDB;
@@ -48,6 +52,10 @@ namespace CREA3M.Controllers
 
         public ActionResult BranchOfficeChange(String Database, String City, String User, String idClient)
         {
+
+            if ((bool)Session["admin"] != true) Database = null;
+
+
             if (!validation.validateSession(Session))
             {
                 return Redirect("/Login/Index?nosession=1");
@@ -58,8 +66,8 @@ namespace CREA3M.Controllers
             if (Database.Equals("sucursalALL"))
             {
                 ViewBag.localidades = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una sucursal primero", Value = "-1" } };
-                ViewBag.usuarios = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una sucursal primero", Value = "-1" } };
-                ViewBag.clientes = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una sucursal primero", Value = "-1" } };
+                ViewBag.usuarios = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una sucursal primero", Value = "0" } };
+                ViewBag.clientes = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una sucursal primero", Value = "0" } };
             }
             else
             {
@@ -69,7 +77,7 @@ namespace CREA3M.Controllers
 
                 if (City == null)
                 {
-                    ViewBag.clientes = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una localidad", Value = "-1" } };
+                    ViewBag.clientes = new List<SelectListItem> { new SelectListItem { Text = "Seleccione una localidad", Value = "0" } };
                 }
                 else
                 {

@@ -81,18 +81,14 @@ namespace CREA3M.DAO
                 parameter.Add("@idCondicionesPago", 0);
                 parameter.Add("@idProcesoTempladora", 0);
                 parameter.Add("@idGiroComercial", 0);
-                parameter.Add("@idUsuario", 0);
+                parameter.Add("@idUsuario", User);
 
                 Func<SaleModel, bool> filter = null;
 
                 User = User == null ? "-1" : User;
-                Client = Client == null ? "-1" : Client;
+                Client = Client == null ? "0" : Client;
 
-                if (!User.Equals("-1") && !Client.Equals("-1"))
-                    filter = elem => elem.ClienteNombre.Equals(Client) && elem.idUsuario.Equals(User);
-                else if (!User.Equals("-1"))
-                    filter = elem => elem.idUsuario == Int32.Parse(User);
-                else if (!Client.Equals("-1"))
+                if (!Client.Equals("0"))
                     filter = elem => elem.ClienteNombre.Equals(Client);
                 else
                     filter = elem => true;
