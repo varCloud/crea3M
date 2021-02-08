@@ -22,15 +22,15 @@ namespace CREA3M.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Validate()
-        {
-            SimpleResponse response = new SimpleResponse() { status = "invalid" };
-            if (validation.validateSession(Session))
-            {
-                response.status = "valid";
-            }
+        //public JsonResult Validate()
+        //{
+        //    SimpleResponse response = new SimpleResponse() { status = "invalid" };
+        //    if (validation.validateSession(Session))
+        //    {
+        //        response.status = "valid";
+        //    }
 
-            return Json(response, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(response, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

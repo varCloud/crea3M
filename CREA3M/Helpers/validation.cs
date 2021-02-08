@@ -7,9 +7,9 @@ namespace CREA3M.Helpers
 {
     public class validation
     {
-        public static Boolean validateSession(HttpSessionStateBase session)
-        {
-            return session["status"] != null;
-        }
+        //public static Boolean validateSession(HttpSessionStateBase session)
+        //{
+        //    return session["status"] != null;
+        //}
     }
 }

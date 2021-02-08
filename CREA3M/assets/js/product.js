@@ -1,4 +1,4 @@
-﻿
+﻿                                                                
 function detalleProduct() {
     this.idProductoEcommerce,
         this.identificador,
@@ -20,6 +20,19 @@ $(document).ready(function () {
         ExportToTable();
     });
 
+    $("#cbMarca").change(function (evt) {
+        consultarCategoriasPorMarca(this.value)
+    })
+
+    $('#categoria').change(function () {
+        var categoria = $('#categoria').val();
+        if (categoria > 0)
+            consultaProductos();
+        console.log("categoria", categoria)
+    })
+       
+
+        
 });
 
 $(document).on('click', '.file-upload-btn', function () {
@@ -34,6 +47,86 @@ $(document).on('click', '.file-upload-btn', function () {
     } 
   
 });
+
+function consultarCategoriasPorMarca(idMarca)
+{
+        $.ajax({
+            type: "post",
+            url: rootUrl("/Products/getCatEcommerce"),
+            dataType: "json",
+            data: {
+                idMarca: idMarca,
+            },
+            success: function (response) {
+
+                $('#categoria').empty()
+                $('#idCategoriaEcommerce').empty()
+                $('#cotendtIdCategorias').empty();
+
+                $('#categoria').append('<option selected disabled value="">Selecciona una Categoria</option>');
+                $.each(response.model, function (index, value) {
+                    $('#categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
+                });
+
+                $('#idCategoriaEcommerce').append('<option selected disabled value="">Selecciona una Categoria</option>');
+                $.each(response.model, function (index, value) {
+                    $('#idCategoriaEcommerce').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
+                });
+
+
+                $.each(response.model, function (index, value) {
+                    $('#cotendtIdCategorias').append('<p><i class="fa fa-circle text-success" data-icon="car"></i> ' + value.descripcion + ' <b> id Excel: </b> <span class="badge badge-primary badge-pill ml-auto">' + value.idCategoriaEcommerce + '</span></p>');
+                });
+
+                //consultaProductos();
+                if (response.status == 100) {
+                    toastr.info(response.msg);
+                }
+
+            },
+            error: function (xhr, status, error) {
+                alert("Error al obtener las Categorias ")
+                ControlErrores(xhr, status, error);
+            }
+        });
+    
+}
+
+function alClickEditarProducto(id) {
+  
+        $.ajax({
+            method: "post",
+            url: rootUrl("/Products/getProduct"),
+            dataType: "json",
+            data: {
+                idProductoEcommerce: id,
+            },
+            success: function (resultado) {
+
+
+                $('#producto').val(resultado.model[0].producto);
+                $('#descripcion').val(resultado.model[0].descripcion);
+                $('#idProductoEcommerce').val(resultado.model[0].idProductoEcommerce);
+                $('#identificador').val(resultado.model[0].identificador);
+                $('#precioVenta').val(resultado.model[0].precioVenta);
+                $('#unidadVenta').val(resultado.model[0].unidadVenta);
+                $('#m_status').val(resultado.model[0].activo);
+                $('#cbMarca').val(resultado.model[0].idMarcaEcommerce)
+                $('#m_categoria option[value=' + resultado.model[0].idCategoriaEcommerce + ']').attr('selected', 'selected');
+                $('#idCategoriaEcommerce').val(resultado.model[0].idCategoriaEcommerce);
+                $('#exampleModalLabel').html('Editar Producto')
+                $('#mdEditProduct').modal('show');
+                $('#dvCbMarca').css('display', 'none')
+                $('#identificador').attr('disabled', true)
+                $('#btnGuardarProd').html('Editar')
+            },
+            error: function (xhr, status, error) {
+                //alert("Error al obtener el detalle del producto")
+                ControlErrores(xhr, status, error);
+            }
+        });
+
+}
 
 function ExportToTable() {
 
@@ -168,8 +261,9 @@ function initTable() {
     $('#tblProductos').DataTable({
         "scrollY": "550px",
         "scrollCollapse": true,
+        "dom": 'frtip',
         
-        dom: 'Bfrtip',
+        //dom: 'Bfrtip',
         buttons: [
             {
                 extend: 'pdfHtml5',
@@ -203,49 +297,28 @@ function initTable() {
             }
         }
     });
+
+
+    $('#' + 'tblProductos' + '_filter').append('<div style="display: flex;flex-direction:column;align-items:center;justify-content:center;width: 60px;"><button id="btnAgregarProducto" type="button" class="btn btn-primary" title="Agregar Producto" data-toggle="tooltip"><i class="ti-plus"></i></button></div>');
+    InitBtnAgregar();
+}
+
+function InitBtnAgregar() {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#btnAgregarProducto').click(function (e) {
+        $('#exampleModalLabel').html('Agregar Producto')
+        $('#mdEditProduct').modal('show');
+        $('#dvCbMarca').css('display', '')
+        $('#identificador').attr('disabled', false)
+        $('#configreset').trigger('click')
+        $('#idProductoEcommerce').val(0)
+        $('#btnGuardarProd').html('Guardar')
+    });
 }
 
 $('#marca').change(function () {
     var marca = $('#marca').val();
-
-    $.ajax({
-        type: "post",
-        url: rootUrl("/Products/getCatEcommerce"),
-        dataType: "json",
-        data: {
-            idMarca: marca,
-        },
-        success: function (response) {
-
-            $('#categoria').empty()
-            $('#m_categoria').empty()
-            $('#cotendtIdCategorias').empty();
-
-
-            $.each(response.model, function (index, value) {
-                $('#categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
-            });
-            
-            $.each(response.model, function (index, value) {
-                $('#m_categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
-            });
-
-
-            $.each(response.model, function (index, value) {
-                $('#cotendtIdCategorias').append('<p><i class="fa fa-circle text-success" data-icon="car"></i> ' + value.descripcion +' <b> id Excel: </b> <span class="badge badge-primary badge-pill ml-auto">'+value.idCategoriaEcommerce+'</span></p>');
-            });
-
-            consultaProductos();
-            if (response.status == 100) {
-                toastr.info(response.msg);
-            }
-            
-        },
-        error: function (xhr, status, error) {
-            alert("Error al obtener las Categorias ")
-            ControlErrores(xhr, status, error);
-        }
-    });
+    consultarCategoriasPorMarca(marca)
 })
 
 function consultaProductos() {
@@ -363,80 +436,28 @@ $('#mGaleria').on('show.bs.modal', function (event) {
 
 });
 
-$('#mdEditProduct').on('show.bs.modal', function (event) {
-    var id = $(event.relatedTarget).val();
-
-    $.ajax({
-        method: "post",
-        url: rootUrl("/Products/getProduct"),
-        dataType: "json",
-        data: {
-            idProductoEcommerce: id,
-        },
-        success: function (resultado) {
-            console.log(resultado)
-            $('#m_producto').val(resultado.model[0].producto);
-            $('#m_descripcion').val(resultado.model[0].descripcion);
-            $('#m_np').val(resultado.model[0].idProductoEcommerce);
-            $('#m_identidicador').val(resultado.model[0].identificador);
-            $('#m_precio_venta').val(resultado.model[0].precioVenta);
-            $('#m_unidad_venta').val(resultado.model[0].unidadVenta);
-            $('#m_status').val(resultado.model[0].activo);
-            $('#m_categoria option[value=' + resultado.model[0].idCategoriaEcommerce + ']').attr('selected', 'selected');
-        },
-        error: function (xhr, status, error) {
-            alert("Error al obtener el detalle del producto")
-            ControlErrores(xhr, status, error);
-        }
-    });
-
-});
-
 $('#mCargarImg').on('show.bs.modal', function (event) {
     var id = $(event.relatedTarget).val();
 
     $('#idProducto').val(id);
 });
 
-
-
 $('#mCargarImg').on('hidden.bs.modal', function () {
     Dropzone.forElement("#my-awesome-dropzone").removeAllFiles(true);
 }); 
 
-$('#editProduct').click(function () {
+function onFailureResultGuardarProducto(err){
 
-    producto = new detalleProduct();
+    console.log("error::::::::", err);
+}
 
-    producto.idProductoEcommerce = parseInt($('#m_np').val());
-    producto.identificador = $('#m_identidicador').val();
-    producto.producto = $('#m_producto').val();
-    producto.descripcion = $('#m_descripcion').val();
-    producto.unidadVenta = $('#m_unidad_venta').val();
-    producto.precioVenta = parseFloat($('#m_precio_venta').val());
-    producto.idCategoriaEcommerce = $('#m_categoria').val();
-    
-    $.ajax({
-        type: "post",
-        url: rootUrl("/Products/EditarProduct"),
-        dataType: "json",
-        data: {
-            producto: producto,
-        },
-        success: function (response) {
-            $('#mdEditProduct').modal('hide');
-            consultaProductos();
+function onSuccessResultGuardarProducto(response){
 
-        },
-        error: function (xhr, status, error) {
-            alert("Error al editar el Status de la Orden")
-            ControlErrores(xhr, status, error);
-        }
-    });
+    $('#mdEditProduct').modal('hide');
+    toastr.info(response.error_message);
+    consultaProductos();
 
-
-});
-
+}
 
 
 

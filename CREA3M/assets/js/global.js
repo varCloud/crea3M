@@ -1,14 +1,14 @@
 ﻿$(document).ready(function () {
 
-    $.ajax({
-        type: "GET",
-        url: "/Session/Validate",
-        dataType: "json",
-        success: function (response) {
-            if (response.status == 'invalid')
-                window.location = "/Login/Index?nosession=1"
-        }
-    });
+    //$.ajax({
+    //    type: "GET",
+    //    url: "/Session/Validate",
+    //    dataType: "json",
+    //    success: function (response) {
+    //        if (response.status == 'invalid')
+    //            window.location = "/Login/Index?nosession=1"
+    //    }
+    //});
 
     $('#logout').click(() => {
         $.ajax({

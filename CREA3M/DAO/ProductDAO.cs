@@ -338,12 +338,14 @@ namespace CREA3M.DAO
                 parameter.Add("@unidadVenta", producto.unidadVenta);
                 parameter.Add("@precioVenta", producto.precioVenta);
                 parameter.Add("@idCategoriaEcommerce", producto.idCategoriaEcommerce);
-                //parameter.Add("@identificador", producto.identificador);
+                parameter.Add("@idMarcaEcommerce", producto.idMarcaEcommerce);
+                parameter.Add("@identificador", producto.identificador);
+
 
 
                 try
                 {
-                   var  response = db.Query("BC_SP_CREA_EDITAR_PRODUCTO_ECOMMERCE_ADMIN", parameter, commandType: CommandType.StoredProcedure);
+                    respuesta = db.QuerySingle<Responce>("BC_SP_CREA_EDITAR_PRODUCTO_ECOMMERCE_ADMIN", parameter, commandType: CommandType.StoredProcedure);
 
                 }
                 catch (Exception ex)

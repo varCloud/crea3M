@@ -1,8 +1,10 @@
 ﻿
 @using CREA3M.Models
+@model CREA3M.Models.detalleProducto
 
 @{ //Si se modifica este titulo, se debe modificar el _Layout.cshtml
-    ViewBag.Title = "Productos"; }
+    ViewBag.Title = "Productos";
+}
 
 <!-- modal Galeria -->
 <div class="modal fade" id="mGaleria" tabindex="-1" role="dialog" aria-hidden="true">
@@ -68,52 +70,85 @@
                     <i class="ti-close"></i>
                 </button>
             </div>
-            <div class="modal-body">
 
-                <form>
-                    <input type="text" class="form-control" id="m_np"
-                           aria-describedby="emailHelp" placeholder="NP" hidden>
+
+            @*<form id="frmEditProduct">*@
+            @using (Ajax.BeginForm("EditarProduct", "Products",
+
+            new AjaxOptions
+            {
+                HttpMethod = "Post",
+                OnFailure = "onFailureResultGuardarProducto",
+                OnSuccess = "onSuccessResultGuardarProducto",
+            },
+            new { id = "frmEditProduct" }))
+            {
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="idProductoEcommerce" aria-describedby="emailHelp" placeholder="NP" hidden>
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">NP</label>
-                        <input type="text" class="form-control" id="m_identidicador"
-                               aria-describedby="emailHelp" placeholder="NP" disabled>
+                        @*<input type="text" class="form-control" id="m_identidicador" aria-describedby="emailHelp" placeholder="NP" disabled>*@
+                        @Html.TextBoxFor(x => x.identificador, null, new { @class = "form-control", @id = "identificador" })
+                        @Html.ValidationMessageFor(x => x.identificador, null, new { @class = "text-danger was" })
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Producto</label>
-                        <input type="text" class="form-control" id="m_producto"
-                               aria-describedby="emailHelp" placeholder="Producto">
+                        @*<input type="text" class="form-control" id="m_producto" aria-describedby="emailHelp" placeholder="Producto">*@
+                        @Html.TextBoxFor(x => x.producto, null, new { @class = "form-control", @id = "producto" })
+                        @Html.ValidationMessageFor(x => x.producto, null, new { @class = "text-danger was" })
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Descripcion</label>
-                        <input type="text" class="form-control" id="m_descripcion"
-                               aria-describedby="emailHelp" placeholder="Descripcion">
+                        @*<input type="text" class="form-control" id="m_descripcion" aria-describedby="emailHelp" placeholder="Descripcion">*@
+                        @Html.TextAreaFor(x => x.descripcion, new { @class = "form-control", @id = "descripcion" })
+                        @Html.ValidationMessageFor(x => x.descripcion, null, new { @class = "text-danger was" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Marca</label>
+                        @Html.DropDownListFor(x => x.idMarcaEcommerce, new SelectList((ViewBag.marcas as List<Marca>), "idMarcaEcommerce", "marcaEcommerce"), "Selecciona una marca", new { @class = "form-control", @id = "cbMarca" })
+                        @Html.ValidationMessageFor(x => x.idMarcaEcommerce, null, new { @class = "text-danger was" })
+                        @*<select class="form-control" id="cbMarca">
+                                <option value="" selected disabled> Seleccione una Marca </option>
+                                @foreach (var marca in (ViewBag.marcas as List<Marca>))
+                                {
+
+                                    <option value=" @marca.idMarcaEcommerce"> @marca.marcaEcommerce </option>
+                                }
+                            </select>*@
+
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Categoria</label>
-                        <select class="form-control" id="m_categoria"></select>
-                        <div id="m-mensaje-marca" class="errores">Selecciona la MARCA </div>
+                        @*<select class="form-control" id="idCategoriaEcommerce"></select>*@
+                        @Html.DropDownListFor(x => x.idCategoriaEcommerce, new List<SelectListItem>(), "Selecciona una categoria", new { @class = "form-control", @id = "idCategoriaEcommerce" })
+                        @Html.ValidationMessageFor(x => x.idCategoriaEcommerce, null, new { @class = "text-danger was" })
                     </div>
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">Unidad de Venta</label>
-                        <input type="text" class="form-control" id="m_unidad_venta"
-                               aria-describedby="emailHelp" placeholder="Unidad de Venta">
+                        @*<input type="text" class="form-control" id="m_unidad_venta" aria-describedby="emailHelp" placeholder="Unidad de Venta">*@
+                        @Html.TextBoxFor(x => x.unidadVenta, null, new { @class = "form-control", @id = "unidadVenta" })
+                        @Html.ValidationMessageFor(x => x.unidadVenta, null, new { @class = "text-danger was" })
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Precio de Venta</label>
-                        <input type="number" class="form-control" id="m_precio_venta"
-                               aria-describedby="emailHelp" placeholder="Precio de Venta">
+                        @*<input type="number" class="form-control" id="m_precio_venta"    aria-describedby="emailHelp" placeholder="Precio de Venta">*@
+                        @Html.TextBoxFor(x => x.precioVenta, null, new { @class = "form-control", @id = "precioVenta" })
+                        @Html.ValidationMessageFor(x => x.precioVenta, null, new { @class = "text-danger was" })
                     </div>
+                    <input type="reset" id="configreset" value="Reset" hidden>
+                    @*</form>*@
 
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Cerrar
-                </button>
-                <button type="button" class="btn btn-primary" id="editProduct">Editar</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cerrar
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="btnGuardarProd">Editar</button>
+
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -151,7 +186,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     Cerrar
                 </button>
-                <button class="btn btn-outline-secondary btn-uppercase btn-block file-upload-btn" >
+                <button class="btn btn-outline-secondary btn-uppercase btn-block file-upload-btn">
                     <i class="ti-plus mr-2"></i>Subir archivo
                 </button>
 
@@ -238,7 +273,7 @@
 
                         <button class="btn btn-primary ">
                             <i class="fa fa-download"></i>
-                            <a href="~/assets/productos.xlsx"> -Descarga Formato</a>
+                            <a href="~/assets/productos.xlsx" style="color:white">&nbsp; Descarga Formato</a>
                         </button>
 
                         <button style=" font-size: 15px; outline:none;" id="btnVerCategorias" type="button" data-toggle="modal" data-target="#mVerCategorias" class="btn  btn-info ">
@@ -282,6 +317,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
 
+    <script src="~/packages/jQuery.Validation.1.17.0/Content/Scripts/jquery.validate.js"></script>
+    <script src="~/packages/Microsoft.jQuery.Unobtrusive.Validation.3.2.11/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
 }
 
 @Scripts.Render("~/assets/js/product.js")
+

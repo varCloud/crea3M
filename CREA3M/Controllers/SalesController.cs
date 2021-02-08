@@ -1,4 +1,5 @@
 ﻿using CREA3M.DAO;
+using CREA3M.Filters;
 using CREA3M.Helpers;
 using CREA3M.Models;
 using System;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CREA3M.Controllers
 {
+    [SessionTimeout]
     public class SalesController : Controller
     {
 
@@ -15,8 +17,7 @@ namespace CREA3M.Controllers
         // GET: Ventas
         public ActionResult Index()
         {
-            if (validation.validateSession(Session))
-            {
+            
 
                 ViewBag.username = Session["username"];
                 ViewBag.sucursales = sucursales.buildList(Session["defaultDB"].ToString());
@@ -26,18 +27,14 @@ namespace CREA3M.Controllers
                 ViewBag.admin = Session["admin"];
 
                 return View();
-            }
+           
 
-            return Redirect("/Login/Index?nosession=1");
+            
         }
 
         public ActionResult Filtered(String initDate, String endDate, String selectedDB, String User, String Client)
         {
-            if (!validation.validateSession(Session))
-            {
-                return Redirect("/Login/Index?nosession=1");
-            }
-
+           
             DateTime date = DateTime.Today;
 
             if ((bool)Session["admin"] != true) selectedDB = null;
@@ -54,13 +51,6 @@ namespace CREA3M.Controllers
         {
 
             if ((bool)Session["admin"] != true) Database = null;
-
-
-            if (!validation.validateSession(Session))
-            {
-                return Redirect("/Login/Index?nosession=1");
-            }
-
             Database = Database == null ? "sucursal" + Session["defaultDB"] : "sucursal" + Database;
 
             if (Database.Equals("sucursalALL"))

@@ -1,4 +1,5 @@
 ﻿using CREA3M.DAO;
+using CREA3M.Filters;
 using CREA3M.Helpers;
 using CREA3M.Models;
 using System;
@@ -6,6 +7,7 @@ using System.Web.Mvc;
 
 namespace CREA3M.Controllers
 {
+    [SessionTimeout]
     public class OrdersController : Controller
     {
         OrdersDAO ordersDAO;

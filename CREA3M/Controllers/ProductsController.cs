@@ -7,9 +7,11 @@ using System.Web.Mvc;
 using CREA3M.DAO;
 using Newtonsoft.Json;
 using System.IO;
+using CREA3M.Filters;
 
 namespace CREA3M.Controllers
 {
+    [SessionTimeout]
     public class ProductsController : Controller
     {
         ProductDAO productDAO;
@@ -20,9 +22,9 @@ namespace CREA3M.Controllers
             ViewBag.username = Session["username"];
             string selectedDB = "sucursal" + Session["defaultDB"];
             ResponseList<Marca> marcas = new ProductDAO().getMarcas(selectedDB);
+           //marcas.model.Insert(0, new Marca() { marcaEcommerce = "Selecciona" });
             ViewBag.marcas = marcas.model;
-
-            return View();
+            return View(new detalleProducto());
         }
 
         [HttpPost]
@@ -180,7 +182,7 @@ namespace CREA3M.Controllers
             }
 
         }
-
+        [HttpPost]
         public ActionResult EditarProduct(detalleProducto producto)
         {
             try
