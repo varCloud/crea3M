@@ -186,9 +186,9 @@ namespace CREA3M.DAO
             return response;
         }
 
-        public ResponseList<detalleProducto>  getProduct(string id, String database)
+        public ResponseList<DetalleProducto>  getProduct(string id, String database)
         {
-            ResponseList<detalleProducto> response = new ResponseList<detalleProducto>();
+            ResponseList<DetalleProducto> response = new ResponseList<DetalleProducto>();
 
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
             {
@@ -206,7 +206,7 @@ namespace CREA3M.DAO
                         int estatus = r1.status;
                         response.status = estatus.ToString();
                         response.msg = r1.error_message;
-                        response.model = result.Read<detalleProducto>().ToList();
+                        response.model = result.Read<DetalleProducto>().ToList();
                     }
                     else
                     {
@@ -324,7 +324,7 @@ namespace CREA3M.DAO
             return response;
         }
 
-        public Responce updateProduct(String database, detalleProducto producto)
+        public Responce updateProduct(String database, DetalleProducto producto)
         {
             Responce respuesta = new Responce();
 

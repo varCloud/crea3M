@@ -104,8 +104,14 @@
                 @if (sesion.Usuario == "ADMIN_MOR")
                 {
                     <li class="navigation-divider">Administrar</li>
+                    @*<li>
+                        <a href="@Url.Action("Index", "Ajax")" class="@(ViewBag.title == "Productos" ? "active" : "")">
+                            <i class="fa fa-archive nav-link-icon" aria-hidden="true"></i>
+                            <span>Ajax</span>
+                        </a>
+                    </li>*@
                     <li>
-                        <a href="@Url.Action("index", "Products")" class="@(ViewBag.title == "Productos" ? "active" : "")">
+                        <a href="@Url.Action("Index", "Products")" class="@(ViewBag.title == "Productos" ? "active" : "")">
                             <i class="fa fa-archive nav-link-icon" aria-hidden="true"></i>
                             <span>Productos</span>
                         </a>
@@ -182,9 +188,11 @@
 
             <!-- begin::container -->
 
+           
             <script src="~/vendors/bundle.js"></script>
+
             <script src="~/assets/js/app.min.js"></script>
-            @Scripts.Render("~/bundles/jqueryajax")
+            @*@Scripts.Render("~/bundles/jqueryajax")*@
             <script src="~/vendors/dataTable/jquery.dataTables.min.js"></script>
             <script src="~/vendors/dataTable/dataTables.bootstrap4.min.js"></script>
             <script src="~/vendors/dataTable/dataTables.responsive.min.js"></script>

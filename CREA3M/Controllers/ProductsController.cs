@@ -24,7 +24,7 @@ namespace CREA3M.Controllers
             ResponseList<Marca> marcas = new ProductDAO().getMarcas(selectedDB);
            //marcas.model.Insert(0, new Marca() { marcaEcommerce = "Selecciona" });
             ViewBag.marcas = marcas.model;
-            return View(new detalleProducto());
+            return View();
         }
 
         [HttpPost]
@@ -182,14 +182,15 @@ namespace CREA3M.Controllers
             }
 
         }
+
         [HttpPost]
-        public ActionResult EditarProduct(detalleProducto producto)
+        public ActionResult EditarProducto(DetalleProducto detalleProducto)
         {
             try
             {
                 productDAO = new ProductDAO();
                 string selectedDB = "sucursal" + Session["defaultDB"];
-                return Json(productDAO.updateProduct(selectedDB, producto), JsonRequestBehavior.AllowGet);
+                return Json(productDAO.updateProduct(selectedDB, detalleProducto), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

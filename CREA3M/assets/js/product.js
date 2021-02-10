@@ -1,4 +1,4 @@
-﻿                                                                
+﻿//Dropzone.autoDiscover = false;                                                               
 function detalleProduct() {
     this.idProductoEcommerce,
         this.identificador,
@@ -14,6 +14,12 @@ function detalleProduct() {
 }
 
 $(document).ready(function () {
+
+    //$("div#drop").dropzone({ url: rootUrl("/Products/SaveUploadedFile") });
+    //Dropzone.forElement("#my-awesome-dropzone")
+
+    
+
     $('#marca').trigger("change");
 
     $("#excelfile").change(function (evt) {
@@ -31,7 +37,6 @@ $(document).ready(function () {
         console.log("categoria", categoria)
     })
        
-
         
 });
 
@@ -114,7 +119,7 @@ function alClickEditarProducto(id) {
                 $('#cbMarca').val(resultado.model[0].idMarcaEcommerce)
                 $('#m_categoria option[value=' + resultado.model[0].idCategoriaEcommerce + ']').attr('selected', 'selected');
                 $('#idCategoriaEcommerce').val(resultado.model[0].idCategoriaEcommerce);
-                $('#exampleModalLabel').html('Editar Producto')
+                $('#lblEditProduct').html('Editar Producto')
                 $('#mdEditProduct').modal('show');
                 $('#dvCbMarca').css('display', 'none')
                 $('#identificador').attr('disabled', true)
@@ -306,7 +311,7 @@ function initTable() {
 function InitBtnAgregar() {
     $('[data-toggle="tooltip"]').tooltip();
     $('#btnAgregarProducto').click(function (e) {
-        $('#exampleModalLabel').html('Agregar Producto')
+        $('#lblEditProduct').html('Agregar Producto')
         $('#mdEditProduct').modal('show');
         $('#dvCbMarca').css('display', '')
         $('#identificador').attr('disabled', false)
@@ -460,6 +465,13 @@ function onSuccessResultGuardarProducto(response){
 }
 
 
+function onBeginSubmitGuardarProducto(evt) {
+    console.log("onBeginSubmitGuardarProducto", evt)
+}
+
+function onCompleteSubmitGuardarProducto(evt) {
+    console.log("onCompleteSubmitGuardarProducto",evt)
+}
 
 
 

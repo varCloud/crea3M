@@ -22,39 +22,7 @@ namespace CREA3M.Models
         public Boolean activo { get; set; }
     }
 
-    public class detalleProducto
-    {
-        public int idProductoEcommerce { get; set; }
-
-        [Required(ErrorMessage ="Esta campo es obligatorio")]
-        public string identificador { get; set; }
-
-        [Required(ErrorMessage = "Esta campo es obligatorio")]
-        public string producto { get; set; }
-
-        [Required(ErrorMessage = "Esta campo es obligatorio")]
-        public string unidadVenta { get; set; }
-
-        [Required(ErrorMessage = "Esta campo es obligatorio")]
-        public decimal precioVenta { get; set; }
-
-        [Required(ErrorMessage = "Seleccione una categoria por favor")]
-        public int idCategoriaEcommerce { get; set; }
-
-        [Required(ErrorMessage = "Seleccione una marca por favor")]
-        public int idMarcaEcommerce { get; set; }
-
-        [Required(ErrorMessage = "Esta campo es obligatorio")]
-        public string descripcion { get; set; }
-
-        public string CategoriaEcommerce { get; set; }
-
-        public bool activo { get; set; }
-        
-        public int idTipoProducto { get; set; }
-
-        public string tipoProducto { get; set; }
-    }
+    
 
     public class respons
     {

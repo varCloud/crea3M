@@ -1,0 +1,95 @@
+﻿@model  CREA3M.Models.DetalleProducto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        @using (Ajax.BeginForm("EditarProducto", " Ajax",
+new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "onBeginSubmitGuardarProducto",
+    OnComplete = "onCompleteSubmitGuardarProducto",
+    OnFailure = "onFailureResultGuardarProducto",
+    OnSuccess = "onSuccessResultGuardarProducto",
+},
+new { id = "frmEditarProduct" }))
+        {
+
+
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">NP</label>
+
+                @Html.HiddenFor(x => x.idProductoEcommerce, new { @id = "idProductoEcommerce" })
+                @Html.TextBoxFor(x => x.identificador, null, new { @class = "form-control", @id = "identificador" })
+                @Html.ValidationMessageFor(x => x.identificador, null, new { @class = "text-danger was" })
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Producto</label>
+                @*<input type="text" class="form-control" id="m_producto" aria-describedby="emailHelp" placeholder="Producto">*@
+                @Html.TextBoxFor(x => x.producto, null, new { @class = "form-control", @id = "producto" })
+                @Html.ValidationMessageFor(x => x.producto, null, new { @class = "text-danger was" })
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Descripcion</label>
+                @*<input type="text" class="form-control" id="m_descripcion" aria-describedby="emailHelp" placeholder="Descripcion">*@
+                @Html.TextAreaFor(x => x.descripcion, new { @class = "form-control", @id = "descripcion" })
+                @Html.ValidationMessageFor(x => x.descripcion, null, new { @class = "text-danger was" })
+            </div>
+            <div class="form-group">
+
+
+            </div>
+            <div class="form-group">
+
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Unidad de Venta</label>
+                @*<input type="text" class="form-control" id="m_unidad_venta" aria-describedby="emailHelp" placeholder="Unidad de Venta">*@
+                @Html.TextBoxFor(x => x.unidadVenta, null, new { @class = "form-control", @id = "unidadVenta" })
+                @Html.ValidationMessageFor(x => x.unidadVenta, null, new { @class = "text-danger was" })
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Precio de Venta</label>
+                @*<input type="number" class="form-control" id="m_precio_venta"    aria-describedby="emailHelp" placeholder="Precio de Venta">*@
+                @Html.TextBoxFor(x => x.precioVenta, null, new { @class = "form-control", @id = "precioVenta" })
+                @Html.ValidationMessageFor(x => x.precioVenta, null, new { @class = "text-danger was" })
+            </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Cerrar
+            </button>
+            <input type="submit" value="Save" />
+            @*<button type="submit" class="btn btn-primary" id="btnGuardarProd">Editar</button>*@
+            <input type="reset" id="configreset" value="Reset" hidden>
+        }
+        @*</form>*@
+    </div>
+</body>
+<script>
+    function onSuccessResultGuardarProducto(response) {
+        console.log(response)
+
+    }
+
+
+    function onBeginSubmitGuardarProducto(evt) {
+        console.log("onBeginSubmitGuardarProducto", evt)
+    }
+
+    function onCompleteSubmitGuardarProducto(evt) {
+        console.log("onCompleteSubmitGuardarProducto", evt)
+    }
+</script>
+<script src="~/packages/jQuery.3.4.1/Content/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+</html>
