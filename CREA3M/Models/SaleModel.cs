@@ -23,7 +23,7 @@ namespace CREA3M.Models
         public String CondicionesPago { get; set; }
         public String Usuario { get; set; }
         public int Facturado { get; set; }
-        public int FolioFacturaNotaVentaFacturada { get; set; }
+        public String FolioFacturaNotaVentaFacturada { get; set; }
         public String Vendedor { get; set; }
         public String GiroComercial { get; set; }
         public String NumeroPedido { get; set; }
