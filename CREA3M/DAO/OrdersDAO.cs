@@ -11,11 +11,12 @@ namespace CREA3M.DAO
 {
     public class OrdersDAO
     {
+        string database = "ecommerce";
         public ResponseList<Order> getOrders(String database, Busqueda busqueda)
         {
             ResponseList<Order> response = new ResponseList<Order>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
                 
@@ -50,7 +51,7 @@ namespace CREA3M.DAO
         {
             ResponseList<DetalleOrder> response = new ResponseList<DetalleOrder>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -83,7 +84,7 @@ namespace CREA3M.DAO
         {
             ResponseList<CatStatusOrden> response = new ResponseList<CatStatusOrden>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
 
                 var result = db.QueryMultiple("BC_SP_CONSULTAR_CAT_STATUS_ORDEN_COMPRA", null, commandType: CommandType.StoredProcedure);
@@ -111,7 +112,7 @@ namespace CREA3M.DAO
         {
             ResponseList<Responce> response = new ResponseList<Responce>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -147,7 +148,7 @@ namespace CREA3M.DAO
         {
             ResponseList<Responce> response = new ResponseList<Responce>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 

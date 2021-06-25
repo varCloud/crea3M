@@ -12,11 +12,16 @@ namespace CREA3M.DAO
 {
     public class ProductDAO
     {
+        string database = "ecommerce";
+        public ProductDAO()
+        {
+           
+        }
         public ResponseList<Product> getProductos(String database, int idMarca, int idCategoria)
         {
             ResponseList<Product> response = new ResponseList<Product>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
                 
@@ -51,7 +56,7 @@ namespace CREA3M.DAO
         {
             ResponseList<Categoria> response = new ResponseList<Categoria>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -82,7 +87,7 @@ namespace CREA3M.DAO
         {
             ResponseList<PathImgProduct> response = new ResponseList<PathImgProduct>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -114,7 +119,7 @@ namespace CREA3M.DAO
         {
             ResponseList<Responce> response = new ResponseList<Responce>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -152,7 +157,7 @@ namespace CREA3M.DAO
         {
             ResponseList<Responce> response = new ResponseList<Responce>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[selectedDB].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -190,7 +195,7 @@ namespace CREA3M.DAO
         {
             ResponseList<DetalleProducto> response = new ResponseList<DetalleProducto>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -229,7 +234,7 @@ namespace CREA3M.DAO
         {
             ResponseList<Marca> response = new ResponseList<Marca>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
 
                 try
@@ -265,7 +270,7 @@ namespace CREA3M.DAO
         {
             ResponseList<Marca> response = new ResponseList<Marca>();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -303,7 +308,7 @@ namespace CREA3M.DAO
         {
             Responce response = new Responce();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
@@ -328,7 +333,7 @@ namespace CREA3M.DAO
         {
             Responce respuesta = new Responce();
 
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
 
