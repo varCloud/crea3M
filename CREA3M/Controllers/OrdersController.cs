@@ -36,8 +36,8 @@ namespace CREA3M.Controllers
         [HttpPost]
         public ActionResult _detalleOrders(String idOrden)
         {
-            string selectedDB = "sucursal" + Session["defaultDB"];
-            ResponseList<DetalleOrder> response = new OrdersDAO().getDetalleOrder(selectedDB, idOrden);
+            
+            ResponseList<DetalleOrder> response = new OrdersDAO().getDetalleOrder(idOrden);
             ViewBag.detalleOrders = response.model;
             return PartialView();
         }

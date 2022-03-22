@@ -14,4 +14,11 @@ namespace CREA3M.Models
 
         public List<T> model { get; set; }
     }
+
+    public class ResponseGeneral<T> where T : class
+    {
+        public int estatus { get; set; }
+        public string mensaje { get; set; }
+        public T modelo { get; set; }
+    }
 }

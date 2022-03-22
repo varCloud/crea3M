@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 
 namespace CREA3M.DAO
@@ -32,7 +33,7 @@ namespace CREA3M.DAO
                     int estatus = r1.status;
                     response.status = estatus.ToString();
                     response.msg = r1.error_message;
-                    response.model = result.Read<Order>().ToList();
+                    response.model = result.Read<Order ,Domicilio ,Order>(MapRetiros, splitOn: "idUsuarioDomicilio").ToList();;
                 }
                 else
                 {
@@ -46,17 +47,20 @@ namespace CREA3M.DAO
 
             return response;
         }
+        public Order MapRetiros(Order o, Domicilio d)
+        {
+            o.domicilio = d;
+            return o;
+        }
 
-        public ResponseList<DetalleOrder> getDetalleOrder(String database, String idOrden)
+        public ResponseList<DetalleOrder> getDetalleOrder( String idOrden)
         {
             ResponseList<DetalleOrder> response = new ResponseList<DetalleOrder>();
 
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
-
                 parameter.Add("@idUsuarioOrdenCompra", Convert.ToInt32(idOrden));
-
 
                 var result = db.QueryMultiple("BC_SP_CREA_OBTENER_PRODUCTOS_ORDEN_COMPRA", parameter, commandType: CommandType.StoredProcedure);
                 var r1 = result.ReadFirst();
@@ -124,14 +128,25 @@ namespace CREA3M.DAO
                 if (r1.status == 200)
                 {
                     int estatus = r1.status;
-                    
                     response.status = estatus.ToString();
                     response.msg = r1.error_message;
+                    List<Order> query = result.Read<Order, DetalleOrder, Order>((order, detalleOrder) => {
+                        order.detalleOrders.Add(detalleOrder);
+                        return order;
+                    }, splitOn: "idCompraDetalle").ToList();
+                    if (query != null) {
 
-                    if (idStatusOrdenCompra == 4)
-                    {
-                        Utils.NotificacionPedidoEnviado(r1.nombre, r1.email, guia, idUsuarioOrdenCompra);
                     }
+                    List<Order> orders  = new List<Order>(query.ToList().GroupBy(p => p.idUsuarioOrdenCompra)
+                                          .Select(g => g.First()));
+
+                    foreach (var item in orders)
+                    {
+                        query.ToList().FindAll(c => c.idUsuarioOrdenCompra == item.idUsuarioOrdenCompra && c.detalleOrders[0].idCompraDetalle != item.detalleOrders[0].idCompraDetalle)
+                                      .ForEach(x => item.detalleOrders.AddRange(x.detalleOrders));
+                    }
+                    Debug.WriteLine(orders);
+                    Utils.NotificacionPedidoEnviado(orders[0]);
                 }
                 else
                 {

@@ -17,7 +17,7 @@ namespace CREA3M.DAO
         {
            
         }
-        public ResponseList<Product> getProductos(String database, int idMarca, int idCategoria)
+        public ResponseList<Product> getProductos(int idMarca, int idCategoria , int idSubcategoria)
         {
             ResponseList<Product> response = new ResponseList<Product>();
 
@@ -26,8 +26,9 @@ namespace CREA3M.DAO
                 DynamicParameters parameter = new DynamicParameters();
                 
 
-                parameter.Add("@IdMarca", idMarca);
-                parameter.Add("@Categoria", idCategoria);
+                parameter.Add("@IdMarca", (idMarca == 0 ? null :(object)idMarca));
+                parameter.Add("@idCategoria", (idCategoria == 0 ? null : (object)idCategoria));
+                parameter.Add("@idSubcategoria", (idSubcategoria == 0 ? null : (object)idSubcategoria));
 
                 var result = db.QueryMultiple("BC_SP_CREA_OBTENER_PRODUCTOS_MARCA_ADMIN", parameter, commandType: CommandType.StoredProcedure);
                 var r1 = result.ReadFirst();
@@ -59,10 +60,7 @@ namespace CREA3M.DAO
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
-
-
                 parameter.Add("@IdMarca", idMarca);
-
                 var result = db.QueryMultiple("BC_SP_CREA_OBTENER_CAT_ECOMMERCE", parameter, commandType: CommandType.StoredProcedure);
                 var r1 = result.ReadFirst();
                 if (r1.status == 200)
@@ -191,19 +189,16 @@ namespace CREA3M.DAO
             return response;
         }
 
-        public ResponseList<DetalleProducto>  getProduct(string id, String database)
+        public ResponseList<DetalleProducto>  getProduct(string id)
         {
             ResponseList<DetalleProducto> response = new ResponseList<DetalleProducto>();
 
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
-
                 parameter.Add("@idProductoEcommerce", id);
-
                 try
                 {
-                    
                     var result = db.QueryMultiple("BC_SP_CREA_OBTENER_DETALLE_PRODUCTO_ADMIN", parameter, commandType: CommandType.StoredProcedure);
                     var r1 = result.ReadFirst();
                     if (r1.status == 200)
@@ -311,8 +306,6 @@ namespace CREA3M.DAO
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
-
-          
                 parameter.Add("@Product", product);
                 parameter.Add("@IdMarca", idMarca);
 
@@ -329,14 +322,13 @@ namespace CREA3M.DAO
             return response;
         }
 
-        public Responce updateProduct(String database, DetalleProducto producto)
+        public Responce updateProduct(DetalleProducto producto)
         {
             Responce respuesta = new Responce();
 
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
             {
                 DynamicParameters parameter = new DynamicParameters();
-
                 parameter.Add("@idProductoEcommerce", producto.idProductoEcommerce);
                 parameter.Add("@producto", producto.producto);
                 parameter.Add("@descripcion", producto.descripcion);
@@ -345,9 +337,10 @@ namespace CREA3M.DAO
                 parameter.Add("@idCategoriaEcommerce", producto.idCategoriaEcommerce);
                 parameter.Add("@idMarcaEcommerce", producto.idMarcaEcommerce);
                 parameter.Add("@identificador", producto.identificador);
-
-
-
+                parameter.Add("@cantidadAgregar", producto.cantidadAgregarInventario);
+                parameter.Add("@costoEnvio", producto.costoEnvio);
+                parameter.Add("@idSubcategoriaEcommerce", producto.idSubcategoriaEcommerce);
+                
                 try
                 {
                     respuesta = db.QuerySingle<Responce>("BC_SP_CREA_EDITAR_PRODUCTO_ECOMMERCE_ADMIN", parameter, commandType: CommandType.StoredProcedure);
@@ -360,6 +353,51 @@ namespace CREA3M.DAO
             }
 
             return respuesta;
+        }
+
+        public ResponseGeneral<List<Categoria>> obtenerCategoriasXMarca( int idMarca)
+        {
+            ResponseGeneral<List<Categoria>> response = new ResponseGeneral<List<Categoria>>();
+
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@idMarcaEcommerce", (idMarca == 0 ? null : (object)idMarca));
+                try
+                {
+                    var result = db.QueryMultiple("BC_SP_CREA_OBTENER_CATEGORIA_MARCA", parameter, commandType: CommandType.StoredProcedure);
+                    var r1 = result.ReadFirst();
+                    if (r1.status == 200)
+                    {
+                        response.estatus = r1.status;
+                        response.mensaje = r1.error_message;
+
+                        List<Categoria> query = result.Read<Categoria, SubCategoria, Categoria>((categoria, subcategoria) => {
+                            categoria.subCategorias.Add(subcategoria);
+                            return categoria;
+                        },splitOn: "idSubcategoriaEcommerce").ToList();
+
+                        response.modelo = new List<Categoria>(query.ToList().GroupBy(p => p.idCategoriaEcommerce)
+                                              .Select(g => g.First()));
+
+                        foreach (var item in response.modelo)
+                        {
+
+                            query.ToList().FindAll(c => c.idCategoriaEcommerce == item.idCategoriaEcommerce && c.subCategorias[0].idCategoriaSubCategoria != item.subCategorias[0].idCategoriaSubCategoria).ForEach(x => item.subCategorias.AddRange(x.subCategorias));
+                        }
+                    }
+                    else
+                    {
+                        response.estatus = r1.status;
+                        response.mensaje = r1.error_message;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return response;
         }
     }
 }

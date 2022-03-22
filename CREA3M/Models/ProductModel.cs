@@ -13,13 +13,22 @@ namespace CREA3M.Models
        public string idProductoEcommerce { get; set; }
        public string Producto { get; set; }
        public string Descripcion { get; set; }
-       public string DescripcionCat { get; set; }
+       public string CategoriaEcommerce { get; set; }
        public int IdCategoria { get; set; }
        public string IdMarca { get; set; }
        public string UnidadDeVenta { get; set; }
        public string PrecioDeVenta { get; set; }
        public string productoStatus { get; set; }
+
+        public int CantidadAgregarInventario { get; set; }
+
+        public int IdSubcategoria { get; set; }
+        public int CostoEnvio { get; set; }
         public Boolean activo { get; set; }
+
+        public float cantidad { get; set; }
+        public string descripcionSubcat { get; set; }
+        public int idSubcategoriaEcommerce { get; set; }
     }
 
     
@@ -44,6 +53,22 @@ namespace CREA3M.Models
         public int idMarcaEcommerce { get; set; }
         public int idLineaCategoriaEcommerce { get; set; }
         public string descripcion { get; set; }
+
+        public string CategoriaEcommerce { get; set; }
+        public List<SubCategoria> subCategorias { get; set; }
+
+        public Categoria()
+        {
+            this.subCategorias = new List<SubCategoria>();
+        }
+    }
+
+    public class SubCategoria
+    {
+        public int idSubcategoriaEcommerce { get; set; }
+        public string SubcategoriaEcommerce { get; set; }
+        public int idCategoriaSubCategoria { get; set; }
+
     }
 
     public class PathImgProduct

@@ -85,3 +85,8 @@ body.small-navigation:not(.hidden-navigation) .navigation .navigation-menu-body 
 .black-color {
     color: #141414;
 }
+
+.label-info-crea {
+    font-weight: 600;
+    color: var(--danger);
+}

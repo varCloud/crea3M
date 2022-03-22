@@ -28,10 +28,9 @@ namespace CREA3M.Controllers
         }
 
         [HttpPost]
-        public ActionResult _products(int idMarca, int idCategoria)
+        public ActionResult _products(int idMarca, int idCategoria , int idSubcategoria)
         {
-            string selectedDB = "sucursal" + Session["defaultDB"];
-            ResponseList<Product> response = new ProductDAO().getProductos(selectedDB, idMarca, idCategoria);
+            ResponseList<Product> response = new ProductDAO().getProductos( idMarca, idCategoria , idSubcategoria);
             ViewBag.productos = response.model;
             return PartialView();
         }
@@ -123,8 +122,8 @@ namespace CREA3M.Controllers
             try
             {
                 productDAO = new ProductDAO();
-                string selectedDB = "sucursal" + Session["defaultDB"];
-                return Json(productDAO.getProduct(idProductoEcommerce, selectedDB), JsonRequestBehavior.AllowGet);
+               
+                return Json(productDAO.getProduct(idProductoEcommerce), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -142,6 +141,23 @@ namespace CREA3M.Controllers
                 productDAO = new ProductDAO();
                 string selectedDB = "sucursal" + Session["defaultDB"];
                 return Json(productDAO.getCatEcommerce(selectedDB, idMarca), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult obtenerCategoriasXMarca(int idMarca)
+        {
+
+            try
+            {
+                productDAO = new ProductDAO();
+                string selectedDB = "sucursal" + Session["defaultDB"];
+                return Json(productDAO.obtenerCategoriasXMarca(idMarca), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -189,8 +205,8 @@ namespace CREA3M.Controllers
             try
             {
                 productDAO = new ProductDAO();
-                string selectedDB = "sucursal" + Session["defaultDB"];
-                return Json(productDAO.updateProduct(selectedDB, detalleProducto), JsonRequestBehavior.AllowGet);
+               
+                return Json(productDAO.updateProduct( detalleProducto), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

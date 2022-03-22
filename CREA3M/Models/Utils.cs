@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -35,15 +36,15 @@ namespace CREA3M.Models
             }
         }
 
-        public static Result NotificacionPedidoEnviado(string usuario, string email, string guia, int idUsuarioOrdenCompra)
+        public static Result NotificacionPedidoEnviado(Order orden)
         {
             Result result = new Result();
             try
             {
                 string cuerpo = Cabecera();
-                cuerpo += CuerpoSendInicioSesion(usuario, guia, idUsuarioOrdenCompra);
+                cuerpo += CuerpoSendInicioSesion(orden);
                 cuerpo += PiePagina();
-                EnviarCorreNotificacionInicioSesion("Tu pedido de CREA ha sido enviado", cuerpo, email);
+                EnviarCorreNotificacionInicioSesion("Tu pedido de CREA ha sido enviado", cuerpo, orden.mailCliente);
                 result.mensaje = "NOTIFICACION ENVIADA";
                 result.status = true;
             }
@@ -66,7 +67,7 @@ namespace CREA3M.Models
             <body style='background-color: white;'>";
         }
 
-        private static string CuerpoSendInicioSesion(string usuario, string guia, int idUsuarioOrdenCompra)
+        private static string CuerpoSendInicioSesion(Order orden)
         {
             StringBuilder cuerpo = new StringBuilder();
             cuerpo.Append(@"<table border='0' cellpadding='0' cellspacing='0' width='100%'>	
@@ -83,12 +84,12 @@ namespace CREA3M.Models
                                          </tr>
 							            <tr>
 								            <td style='color: #153643; font-family: Arial, sans-serif; font-size: 24px;'>
-									            <b>Hola " + usuario + @"</b>
+									            <b>Hola " + orden.cliente + @"</b>
 								            </td>
 							            </tr>
 							            <tr>
 								            <td style='padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;'>
-									            Te informamos que hemos enviado tus productos.
+									            Te informamos que el estatus de pedido es: <span style='font-weight: 700;font-size: 20px;'>" + orden.statusOrdenCompra+@"</span>
 								            </td>
 							            </tr>
 							            <tr>
@@ -107,28 +108,23 @@ namespace CREA3M.Models
 															            </tr>
                                                                          <tr>
 																            <td>
-																	            <b>Orden: </b>" + idUsuarioOrdenCompra + @"
+																	            <b>Orden: </b>" + orden.idUsuarioOrdenCompra + @"
+																            </td>
+															            </tr>
+                                                                         <tr>
+																            <td>
+																	            <b>Total: </b>" + orden.totalVenta.ToString("C2") + @"
 																            </td>
 															            </tr>
                                                                         <tr>
 																            <td>
-																	            <b>Guia: </b>" + guia + @"
+																	            <b>Guia: </b>" + orden.guia + @"
 																            </td>
-															            </tr>
-																      
-															            
-                                                                         <tr>
-																            <td style='padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;'>
-									                                            Saludos cordiales.
-								                                            </td>
-															            </tr>
+															            </tr> 
 	                                                    	            </table>
 														            </td>
 													            </tr>
 												            </table>
-											            </td>
-											            <td style='font-size: 0; line-height: 0;' width='20'>
-												            &nbsp;
 											            </td>
 										            </tr>
 									            </table>
@@ -137,11 +133,44 @@ namespace CREA3M.Models
 						            </table>
 					            </td>
 				            </tr>
-                            <tr>
-					            <td bgcolor='red' style='padding: 30px 30px 30px 30px;'>
+							<tr>
+					            <td bgcolor='#ffffff' style='padding: 40px 30px 40px 30px;'>
 						            <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                                         <tr>
+                                                <thead style='background-color: black; height: 50px; color: white;text-align: center;'>
+												<tr>
+													<th>Nombre</th>
+                                                    <th>Cantidad</th>
+													<th>Descripcion</th>
+													<th>Precio Venta</th>
+													<th>Imagen</th>
+												</tr>
+											</thead>
+                                         </tr>
+							            ");
+
+            foreach (DetalleOrder item in orden.detalleOrders)
+            {
+                
+                cuerpo.Append(@"<tr><td style='border-bottom: 1px solid black;'>" + item.producto+"</td>");
+                cuerpo.Append(@"<td style='border-bottom: 1px solid black;'>" + item.cantidad + "</td>");
+                cuerpo.Append(@"<td style='border-bottom: 1px solid black;'>" + item.descripcion + "</td>");
+                cuerpo.Append(@"<td style='border-bottom: 1px solid black;'>" + item.precioVenta.ToString("C2") + "</td>");
+                cuerpo.Append(@"<td style='text-align:center;border-bottom: 1px solid black'>");
+                cuerpo.Append(@" <figure class='avatar avatar-sm' style='height: 150px; width: 150px;'>");
+                cuerpo.Append(@"    <img src ='"+item.productoImagen+ "' style='height: 150px; width: 150px;'  class='rounded-circle' alt='Crea'>");
+                cuerpo.Append(@"  </figure>");
+                cuerpo.Append(@"</td>");
+                cuerpo.Append(@" </tr>");
+            }
+            cuerpo.Append(@"</table>
+					            </td>
+				            </tr>
+                            <tr>
+					            <td bgcolor = 'red' style='padding: 30px 30px 30px 30px;'>
+						            <table border = '0' cellpadding='0' cellspacing='0' width='100%'>
 							            <tr>
-								            <td style='color: #ffffff; font-family: Arial, sans-serif; font-size: 16px; width='75%'>
+								            <td style = 'color: #ffffff; font-family: Arial, sans-serif; font-size: 16px; width='75%'>
 									             
 								            </td>
 							            </tr>
@@ -149,10 +178,10 @@ namespace CREA3M.Models
 					            </td>
 				            </tr>
 				            <tr>
-					            <td bgcolor='#191919' style='padding: 30px 30px 30px 30px;'>
-						            <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+					            <td bgcolor = '#191919' style='padding: 30px 30px 30px 30px;'>
+						            <table border = '0' cellpadding='0' cellspacing='0' width='100%'>
 							            <tr>
-								            <td style='color: #ffffff; font-family: Arial, sans-serif; font-size: 14px; width='75%'>
+								            <td style = 'color: #ffffff; font-family: Arial, sans-serif; font-size: 14px; width='75%'>
 									          
 								            </td>
 							            </tr>
@@ -163,7 +192,12 @@ namespace CREA3M.Models
                         </table>
 		            </td>
 	            </tr>
-            </table>");
+            </table>
+                                                                             
+			<p style='padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;'>
+				Saludos cordiales.
+			</p>");
+            Debug.WriteLine(cuerpo.ToString());
             return cuerpo.ToString();
         }
 

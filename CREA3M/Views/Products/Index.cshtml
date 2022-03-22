@@ -3,7 +3,7 @@
     ViewBag.Title = "Productos";
 }
 <link rel="stylesheet" href="~/assets/css/dropzone.css" />
-
+<link rel="stylesheet" href="~/vendors/nestable/nestable.css" type="text/css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
 <!-- modal Galeria -->
 <div class="modal fade" id="mGaleria" tabindex="-1" role="dialog" aria-hidden="true">
@@ -16,17 +16,10 @@
                 </button>
             </div>
             <div class="card app-content-body">
-
                 <div class="card-body">
-
                     <div class="row" id="contentImg">
-
-
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -110,21 +103,18 @@
                         <label for="exampleFormControlSelect1">Marca</label>
                         @Html.DropDownListFor(x => x.idMarcaEcommerce, new SelectList((ViewBag.marcas as List<CREA3M.Models.Marca>), "idMarcaEcommerce", "marcaEcommerce"), "Selecciona una marca", new { @class = "form-control", @id = "cbMarca" })
                         @Html.ValidationMessageFor(x => x.idMarcaEcommerce, null, new { @class = "text-danger was" })
-                        @*<select class="form-control" id="cbMarca">
-                                <option value="" selected disabled> Seleccione una Marca </option>
-                                @foreach (var marca in (ViewBag.marcas as List<Marca>))
-                                {
-
-                                    <option value=" @marca.idMarcaEcommerce"> @marca.marcaEcommerce </option>
-                                }
-                            </select>*@
-
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Categoria</label>
                         @*<select class="form-control" id="idCategoriaEcommerce"></select>*@
                         @Html.DropDownListFor(x => x.idCategoriaEcommerce, new List<SelectListItem>(), "Selecciona una categoria", new { @class = "form-control", @id = "idCategoriaEcommerce" })
                         @Html.ValidationMessageFor(x => x.idCategoriaEcommerce, null, new { @class = "text-danger was" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Subcategoria</label>
+                        @*<select class="form-control" id="idCategoriaEcommerce"></select>*@
+                        @Html.DropDownListFor(x => x.idSubcategoriaEcommerce, new List<SelectListItem>(), "Selecciona una subcategoria", new { @class = "form-control", @id = "idSubcategoriaEcommerce" })
+                        @Html.ValidationMessageFor(x => x.idSubcategoriaEcommerce, null, new { @class = "text-danger was" })
                     </div>
 
                     <div class="form-group">
@@ -139,6 +129,39 @@
                         @Html.TextBoxFor(x => x.precioVenta, null, new { @class = "form-control", @id = "precioVenta" })
                         @Html.ValidationMessageFor(x => x.precioVenta, null, new { @class = "text-danger was" })
                     </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Costo de Envio</label>
+                        @*<input type="number" class="form-control" id="m_precio_venta"    aria-describedby="emailHelp" placeholder="Precio de Venta">*@
+                        @Html.TextBoxFor(x => x.costoEnvio, null, new { @class = "form-control", @id = "costoEnvio" })
+                        @Html.ValidationMessageFor(x => x.costoEnvio, null, new { @class = "text-danger was" })
+                    </div>
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad Actual Inventario</label>
+                        @Html.TextBoxFor(x => x.cantidad, null, new { @class = "form-control", @id = "cantidadInv" })
+                        @Html.ValidationMessageFor(x => x.cantidad, null, new { @class = "text-danger was" })
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-switch custom-checkbox-dark">
+
+                            <input type="checkbox" class="custom-control-input productActivo"
+                                   id="actualizarInv"
+                                   unchecked
+                                   onclick="onAgregarInventario(event)">
+                            <label class="custom-control-label" for="actualizarInv">Actualizar Inventario</label>
+                        </div>
+                    </div>
+                    <div id="agregarInventatio" style="display:none">
+                        <div class="form-group">
+                            <label for="cantidad">Cantidad Actual Inventario</label>
+                            @Html.TextBoxFor(x => x.cantidadAgregarInventario, null, new { @class = "form-control", @id = "cantidadAgregar" })
+                            @Html.ValidationMessageFor(x => x.cantidadAgregarInventario, null, new { @class = "text-danger was" })
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidadTotal" id="cantidadTotal" class="label-info-crea">Cantidad Actual</label>
+                        </div>
+                    </div>
+
+
 
                     @*</form>*@
 
@@ -161,7 +184,7 @@
 <!-- FIN modal Editar de Productos -->
 <!-- modal Carga de Productos -->
 <div class="modal fade" id="mCargarProduct" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <input id="idUsuario" name="prodId" type="hidden" value="">
             <div class="modal-header">
@@ -171,30 +194,43 @@
                 </button>
             </div>
             <div class="modal-body">
-
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Selecciona MARCA Destino</label>
-                    <select class="form-control" id="m_marca">
-                        <option value="0">Selecciona Marca</option>
-                        @foreach (var marca in (ViewBag.marcas as List<CREA3M.Models.Marca>))
-                        {
-                            <option value="@marca.idMarcaEcommerce">@marca.marcaEcommerce</option>
-                        }
-                    </select>
-                    <div id="m-mensaje-archivo-marca" class="errores">Selecciona la MARCA </div>
+                <div class="row">
+                    <div class="form-group col-md-9">
+                        <label for="exampleFormControlSelect1">Selecciona MARCA Destino</label>
+                        <select class="form-control" id="m_marca">
+                            <option value="0">Selecciona Marca</option>
+                            @foreach (var marca in (ViewBag.marcas as List<CREA3M.Models.Marca>))
+                            {
+                                <option value="@marca.idMarcaEcommerce">@marca.marcaEcommerce</option>
+                            }
+                        </select>
+                        <div id="m-mensaje-archivo-marca" class="errores">Selecciona la MARCA </div>
+                    </div>
+                    <div class="form-group  col-md-auto" style="display:flex; flex-direction:column">
+                        <label for="">&nbsp;</label>
+                        <button class="btn form-control btn-outline-secondary btn-uppercase file-upload-btn">
+                            <i class="ti-plus mr-2"></i>Subir archivo
+                        </button>
+                    </div>
                 </div>
-
                 <form class="d-none" id="file-upload">
                     <input type="file" id="excelfile">
                 </form>
+
+                <hr />
+
+                <div class="table-responsive">
+                    <table id="exceltable" class="table"></table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     Cerrar
                 </button>
-                <button class="btn btn-outline-secondary btn-uppercase btn-block file-upload-btn">
-                    <i class="ti-plus mr-2"></i>Subir archivo
+                <button type="button" class="btn btn-success" id="btnGuardarProductos">
+                    Guardar
                 </button>
+
 
             </div>
         </div>
@@ -242,7 +278,7 @@
                         <div class="col-md-3">
                             <label for="exampleInputEmail1">MARCA</label>
                             <select class="form-control" id="marca" name="marca">
-
+                                <option value="" selected disabled> Seleccione una marca </option>
                                 @foreach (var marca in (ViewBag.marcas as List<CREA3M.Models.Marca>))
                                 {
 
@@ -258,12 +294,19 @@
                             <div id="mensaje-estatus" class="errores">Seleccione un Estatus </div>
                         </div>
 
+                        <div class="col-md-3">
+                            <label for="exampleInputEmail1">SUBCATEGORIA</label>
+                            <select class="form-control" id="subcategoria" name="categoria"></select>
+                            <div id="mensaje-estatus" class="errores">Seleccione un Estatus </div>
+                        </div>
+
                         <div class="col-md-1">
                             <label for="exampleInputEmail1">BUSCAR</label>
                             <button style=" font-size: 15px; outline:none;" type="submit" onclick="consultaProductos();" class="btn btn-circle btn-outline btn-primary blue m-b-10">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
+
 
 
                     </div>
@@ -273,6 +316,10 @@
 
                 <div class="container" style="padding-bottom: 10px; padding-top: 10px">
                     <div class="card-body">
+                        <button style=" font-size: 15px; outline:none;" id="btnVerProductos" type="button" class="btn  btn-success ">
+                            <i class="fa fa-eye"></i> Ver todos los productos
+                        </button>
+
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mCargarProduct">
                             <i class="ti-plus mr-2"></i>Subir archivo
                         </button>
@@ -310,7 +357,6 @@
 
 @section scripts{
     <link rel="stylesheet" href="~/assets/css/validacion.css" />
-
     <script src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.flash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -320,16 +366,15 @@
     <script src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
-
-
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/packages/jQuery.Validation.1.17.0/Content/Scripts/jquery.validate.js"></script>
     <script src="~/packages/Microsoft.jQuery.Unobtrusive.Validation.3.2.11/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
+    <script src="~/vendors/nestable/jquery.nestable.js"></script>
     <script src="~/assets/js/product.js"></script>
-
-
-
 }
 @*@Scripts.Render("~/assets/js/product.js")*@
 
+<!-- Style -->
+
+
+<!-- Javascript -->

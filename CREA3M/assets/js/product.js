@@ -1,4 +1,11 @@
-﻿//Dropzone.autoDiscover = false;                                                               
+﻿//Dropzone.autoDiscover = false;         
+var exceljson;
+var categorias;
+var categoriasForm;
+var marca = 0;
+var categoria = 0;
+var subcategoria = 0;
+var productoActual = {};
 function detalleProduct() {
     this.idProductoEcommerce,
         this.identificador,
@@ -14,30 +21,77 @@ function detalleProduct() {
 }
 
 $(document).ready(function () {
-
-    //$("div#drop").dropzone({ url: rootUrl("/Products/SaveUploadedFile") });
-    //Dropzone.forElement("#my-awesome-dropzone")
-
     
+    $("#cantidadAgregar").keyup(function () {
+        let cantidaAregar = $("#cantidadAgregar").val() || 0;
+        cantidaAregar = parseFloat(cantidaAregar);
+        let cantidadInv = $("#cantidadInv").val() || 0;
+        cantidadInv = parseFloat(cantidadInv);
+        console.log(cantidaAregar, cantidadInv);
+        $("#cantidadTotal").html("Cantidad Actualizada " + (cantidaAregar + cantidadInv))
+    });
+   
+    $('#btnGuardarProductos').click(function (e) {
+        if (exceljson != undefined) {
+            $("#mCargarProduct").modal('hide');
+            registarProductos(exceljson);
+        }
+        else {
+            alert("Por favor seleccione un archivo valido")
+        }
+    })
 
-    $('#marca').trigger("change");
-
+    $('#btnVerProductos').click(function (e) {
+        consultaProductos();
+    })
+       
     $("#excelfile").change(function (evt) {
         ExportToTable();
     });
-
-    $("#cbMarca").change(function (evt) {
-        consultarCategoriasPorMarca(this.value)
+        
+    $('#subcategoria').change(function () {
+        subcategoria = $('#subcategoria').val();
+        consultaProductos(idMarca, categoria, subcategoria);
     })
 
     $('#categoria').change(function () {
-        var categoria = $('#categoria').val();
-        if (categoria > 0)
-            consultaProductos();
-        console.log("categoria", categoria)
+        idCategoria = $('#categoria').val();
+        if (idCategoria > 0) {
+            var subcategorias = categorias.find(x => x.idCategoriaEcommerce == idCategoria);
+            $('#subcategoria').empty();
+            $('#subcategoria').append('<option selected disabled value="">Selecciona una Subcategoria</option>');
+            $.each(subcategorias.subCategorias, function (index, value) {
+                $('#subcategoria').append($('<option>', { value: value.idSubcategoriaEcommerce, text: value.SubcategoriaEcommerce }));
+            });
+        }
     })
-       
-        
+
+    $("#cbMarca").change(function (evt) {
+        consultarCategoriasPorMarca(this.value , false , false)
+    })
+
+    $('#marca').change(function () {
+        marca = $('#marca').val();
+        if (marca >= 0) {
+            consultarCategoriasPorMarca(marca)
+        }
+    })
+
+    $('#idCategoriaEcommerce').change(function () {
+        console.log("triger")
+        let idCategoria = $('#idCategoriaEcommerce').val();
+        $("#idSubcategoriaEcommerce").empty();
+        if (idCategoria > 0) {            
+            var subcategorias = categoriasForm.find(x => x.idCategoriaEcommerce == idCategoria);
+            $('#idSubcategoriaEcommerce').append('<option selected disabled value="">Selecciona una Subcategoria</option>');
+            $.each(subcategorias.subCategorias, function (index, value) {
+                $('#idSubcategoriaEcommerce').append($('<option>', { value: value.idSubcategoriaEcommerce, text: value.SubcategoriaEcommerce }));
+            });
+        }
+    })
+
+    $('#marca').val(1).trigger('change');
+                
 });
 
 $(document).on('click', '.file-upload-btn', function () {
@@ -53,43 +107,95 @@ $(document).on('click', '.file-upload-btn', function () {
   
 });
 
-function consultarCategoriasPorMarca(idMarca)
+function onAgregarInventario(event) {
+    var swicth = $(event).attr("currentTarget");
+    if (swicth.checked) {
+        $("#agregarInventatio").css('display', 'block');
+        $("#cantidadAgregar").val(0);
+        $("#cantidadTotal").html("Cantidad Actualizada " + (productoActual.cantidad || 0))
+    } else {
+        $("#agregarInventatio").css('display', 'none');
+        $("#cantidadAgregar").val('');
+    }
+}
+
+function initFilterCategorias(response) {
+    console.log("response", response);
+    categorias = response.modelo;
+    $('#categoria').empty();
+    $('#subcategoria').empty();
+    $('#idCategoriaEcommerce').empty();
+    $('#cotendtIdCategorias').empty();
+
+    $('#categoria').append('<option selected disabled value="">Selecciona una Categoria</option>');
+    $('#subcategoria').append('<option selected disabled value="">Selecciona una Subcategoria</option>');
+    $.each(response.modelo, function (index, value) {
+        $('#categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.CategoriaEcommerce }));
+    });
+
+    $('#idCategoriaEcommerce').append('<option selected disabled value="">Selecciona una Categoria</option>');
+    $.each(response.modelo, function (index, value) {
+        $('#idCategoriaEcommerce').append($('<option>', { value: value.idCategoriaEcommerce, text: value.CategoriaEcommerce }));
+    });
+
+    let nestable = '<div class="dd"><ol class="dd-list">'
+    $.each(response.modelo, function (index, value) {
+        nestable +=`
+                <li class="dd-item" data-id="${value.idCategoriaEcommerce}">
+                    <div class="dd-handle">${value.CategoriaEcommerce} <span class="label-info-crea"> Excel id: ${value.idCategoriaEcommerce}</span></div>`;
+
+
+        if (value.subCategorias && value.subCategorias.length > 0) {
+            nestable += `<ol class="dd-list">`;
+            $.each(value.subCategorias, function (index, sub) {
+                nestable += `
+                        <li class="dd-item" data-id="${sub.idSubcategoriaEcommerce}">
+                            <div class="dd-handle">${sub.SubcategoriaEcommerce}  <span class="label-info-crea"> Excel id: ${sub.idSubcategoriaEcommerce}</span></div>
+                        </li>
+                    `
+            });
+            nestable += "</ol>";
+        } 
+        nestable +="</li>"
+    });
+    nestable+="</ol></div>";
+    $('#cotendtIdCategorias').append(nestable);
+    $('.dd').nestable({ /* config options */ });
+    if (response.status == 100) {
+        toastr.info(response.msg);
+    }
+
+}
+
+function initCategoriasform(response) {
+    console.log("initCategoriasform", response);
+    categoriasForm = response.modelo
+    $('#idCategoriaEcommerce').empty();
+    $('#idSubcategoriaEcommerce').empty();
+    $('#idSubcategoriaEcommerce').append('<option selected disabled value="">Selecciona una Subcategoria</option>');
+    $('#idCategoriaEcommerce').append('<option selected disabled value="">Selecciona una Categoria</option>');
+    $.each(response.modelo, function (index, value) {
+        $('#idCategoriaEcommerce').append($('<option>', { value: value.idCategoriaEcommerce, text: value.CategoriaEcommerce }));
+    });
+}
+
+function consultarCategoriasPorMarca(idMarca , esFilter = true , async=true)
 {
-        $.ajax({
-            type: "post",
-            url: rootUrl("/Products/getCatEcommerce"),
-            dataType: "json",
-            data: {
-                idMarca: idMarca,
-            },
-            success: function (response) {
-
-                $('#categoria').empty()
-                $('#idCategoriaEcommerce').empty()
-                $('#cotendtIdCategorias').empty();
-
-                $('#categoria').append('<option selected disabled value="">Selecciona una Categoria</option>');
-                $.each(response.model, function (index, value) {
-                    $('#categoria').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
-                });
-
-                $('#idCategoriaEcommerce').append('<option selected disabled value="">Selecciona una Categoria</option>');
-                $.each(response.model, function (index, value) {
-                    $('#idCategoriaEcommerce').append($('<option>', { value: value.idCategoriaEcommerce, text: value.descripcion }));
-                });
-
-
-                $.each(response.model, function (index, value) {
-                    $('#cotendtIdCategorias').append('<p><i class="fa fa-circle text-success" data-icon="car"></i> ' + value.descripcion + ' <b> id Excel: </b> <span class="badge badge-primary badge-pill ml-auto">' + value.idCategoriaEcommerce + '</span></p>');
-                });
-
-                //consultaProductos();
-                if (response.status == 100) {
-                    toastr.info(response.msg);
-                }
-
-            },
-            error: function (xhr, status, error) {
+    $.ajax({
+        type: "post",
+        url: rootUrl("/Products/obtenerCategoriasXMarca"),
+        dataType: "json",
+        data: {
+            idMarca: idMarca,
+        },
+        async: async,
+        success: function (response) {
+            if (esFilter)
+                initFilterCategorias(response);
+            else
+                initCategoriasform(response);
+        },
+        error: function (xhr, status, error) {
                 alert("Error al obtener las Categorias ")
                 ControlErrores(xhr, status, error);
             }
@@ -107,8 +213,8 @@ function alClickEditarProducto(id) {
                 idProductoEcommerce: id,
             },
             success: function (resultado) {
-
-
+                consultarCategoriasPorMarca(resultado.model[0].idMarcaEcommerce, false,false)
+                productoActual = resultado.model[0];
                 $('#producto').val(resultado.model[0].producto);
                 $('#descripcion').val(resultado.model[0].descripcion);
                 $('#idProductoEcommerce').val(resultado.model[0].idProductoEcommerce);
@@ -116,14 +222,18 @@ function alClickEditarProducto(id) {
                 $('#precioVenta').val(resultado.model[0].precioVenta);
                 $('#unidadVenta').val(resultado.model[0].unidadVenta);
                 $('#m_status').val(resultado.model[0].activo);
-                $('#cbMarca').val(resultado.model[0].idMarcaEcommerce)
-                $('#m_categoria option[value=' + resultado.model[0].idCategoriaEcommerce + ']').attr('selected', 'selected');
-                $('#idCategoriaEcommerce').val(resultado.model[0].idCategoriaEcommerce);
+                $('#cbMarca').val(resultado.model[0].idMarcaEcommerce);
+                $('#cantidadInv').val(resultado.model[0].cantidad)
+                $('#idCategoriaEcommerce').val(resultado.model[0].idCategoriaEcommerce).trigger('change');
+                $('#idSubcategoriaEcommerce').val(resultado.model[0].idSubcategoriaEcommerce);
                 $('#lblEditProduct').html('Editar Producto')
                 $('#mdEditProduct').modal('show');
                 $('#dvCbMarca').css('display', 'none')
                 $('#identificador').attr('disabled', true)
+                $('#cantidadInv').attr('disabled', true)
                 $('#btnGuardarProd').html('Editar')
+                $('#costoEnvio').val(resultado.model[0].costoEnvio);
+                
             },
             error: function (xhr, status, error) {
                 //alert("Error al obtener el detalle del producto")
@@ -162,19 +272,20 @@ function ExportToTable() {
                 sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
                     /*Convert the cell value to Json*/
                     if (xlsxflag) {
-                        var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                         exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
 
                     }
                     else {
-                        var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                         exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
                     }
                     if (exceljson.length > 0 && cnt == 0) {
-                        registarProductos(exceljson);
+                        //registarProductos(exceljson);
                         console.log(exceljson);
-                        $('#mCargarProduct').modal('hide');
-                        $("#excelfile").val("");
 
+                        //$('#mCargarProduct').modal('hide');
+                        $("#excelfile").val("");
                         BindTable(exceljson, '#exceltable');
+                        $('#exceltable').DataTable({})
                         cnt++;
                     }
                 });
@@ -192,7 +303,7 @@ function ExportToTable() {
         }
     }
     else {
-        alert("Please upload a valid Excel file!");
+        alert("Por favor seleccione un archivo valido");
     }
 }
 
@@ -244,16 +355,13 @@ function registarProductos(productos_) {
         dataType: "Json",
         async: true,
         success: function (data) {
-
-            console.log("result registrar productos", data)
             if (data.status == 1) {
                 toastr.success(data.error_message);
 
             } else {
                 toastr.warning(data.error_message);
             }
-            
-            consultaProductos();
+            consultaProductos(idMarca, categoria, subcategoria);
         },
         error: function () {
 
@@ -317,39 +425,29 @@ function InitBtnAgregar() {
         $('#identificador').attr('disabled', false)
         $('#configreset').trigger('click')
         $('#idProductoEcommerce').val(0)
+        $('#cantidadInv').val(0);
         $('#btnGuardarProd').html('Guardar')
+
     });
 }
 
-$('#marca').change(function () {
-    var marca = $('#marca').val();
-    consultarCategoriasPorMarca(marca)
-})
-
-function consultaProductos() {
-  
-    var marca = parseInt($('#marca').val());
-    var categoria = parseInt($('#categoria').val());
-   
-    if (!(categoria > 0)) {
-        categoria = 0;
-    }
+function consultaProductos(marca=0 , categoria=0, subcategoria=0) {
+     
     
     $.ajax({
         type: "post",
         url: rootUrl("/Products/_products"),
         dataType: "html",
         data: {
-            idMarca: marca, idCategoria: categoria
+            idMarca: marca, idCategoria: categoria, idSubcategoria :subcategoria
         },
         success: function (response) {
-            
             $("#table-products").html(response);
             initTable();
             
         },
         error: function (xhr, status, error) {
-            alert("Error en la carga de categoria")
+            console.log("error al consultar la tabla")
             ControlErrores(xhr, status, error);
         }
     });
@@ -386,7 +484,7 @@ function deleteImg(idProduct, pathImg) {
         },
         success: function (response) {
             $('#mGaleria').modal('hide');
-            consultaProductos();
+            consultaProductos(idMarca, categoria, subcategoria);
         },
         error: function (xhr, status, error) {
             alert("Error al editar el Status de la Orden")
@@ -443,13 +541,27 @@ $('#mGaleria').on('show.bs.modal', function (event) {
 
 $('#mCargarImg').on('show.bs.modal', function (event) {
     var id = $(event.relatedTarget).val();
-
     $('#idProducto').val(id);
 });
 
 $('#mCargarImg').on('hidden.bs.modal', function () {
     Dropzone.forElement("#my-awesome-dropzone").removeAllFiles(true);
 }); 
+
+$('#mCargarProduct').on('show.bs.modal', function (event) {
+    console.log('mCargarProduct show.bs.modal')
+    $('#exceltable').html('');
+});
+
+$('#mdEditProduct').on('show.bs.modal', function (event) {
+    console.log('mdEditProduct show.bs.modal');
+    $("#cantidadTotal").html("Cantidad Actualizada: 0");
+    productoActual = {};
+    $("#agregarInventatio").css('display', 'none');
+    $("#actualizarInv").prop("checked", false);
+    $('#cantidadInv').attr('disabled', true);
+});
+
 
 function onFailureResultGuardarProducto(err){
 
@@ -460,10 +572,9 @@ function onSuccessResultGuardarProducto(response){
 
     $('#mdEditProduct').modal('hide');
     toastr.info(response.error_message);
-    consultaProductos();
+    consultaProductos(marca, categoria, subcategoria);
 
 }
-
 
 function onBeginSubmitGuardarProducto(evt) {
     console.log("onBeginSubmitGuardarProducto", evt)

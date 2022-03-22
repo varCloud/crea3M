@@ -1,11 +1,11 @@
 ﻿function Busqueda() {
     this.startDate,
-    this.endDate,
-    this.tipoBusqueda
+        this.endDate,
+        this.tipoBusqueda
 }
 
 $(document).ready(function () {
-    
+
 
     $('input[name="daterangepicker"]').daterangepicker(
         {
@@ -43,31 +43,70 @@ $(document).ready(function () {
         }
     });
 
-   
+    $('#btnGuardarProductos').click(function (e) {
+        if (exceljson != undefined) {
+            $("#mCargarProduct").modal('hide');
+            registarProductos(exceljson);
+        }
+        else {
+            alert("Por favor seleccione un archivo valido")
+        }
+    })
+
     consultarOrderList();
+
+
 });
 
+function onVerDetalleOrdenCompra(idOrden) {
+    $('#detalle-orden-compra').empty();
+    $.ajax({
+        type: "post",
+        url: rootUrl("/Orders/_detalleOrders"),
+        dataType: "html",
+        data: {
+            idOrden: idOrden
+        },
+        success: function (response) {
+            $('#mdetalleOrden').modal('show');
+            $("#detalle-orden-compra").html(response);
+            initTableDetalleOrden();
+            $('[data-toggle="tooltip"]').tooltip();
+        },
+        error: function (xhr, status, error) {
+            alert("Error al cargar el detalle de la orden")
+            ControlErrores(xhr, status, error);
+        }
+    });
+
+}
+
 function initTable() {
-    console.log("init table tblOrders");
+
     $('#tblOrders').DataTable({
         "scrollY": "550px",
         "scrollCollapse": true,
         dom: 'Bfrtip',
+        columnDefs: [
+            { "width": "10px", "targets": 0 },
+            { "width": "100px", "targets": 7 },
+            { "width": "200px", "targets": 8 }
+        ],
         buttons: [
             {
                 extend: 'pdfHtml5',
                 text: '<i class="fa fa-file-pdf-o" style="font-size:20px;"></i>',
-                className: 'btn btn-outline-primary',
+                className: 'btn btn-danger btn-square btn-uppercase',
                 titleAttr: 'Exportar a PDF',
                 title: "Ordenes de Compras:",
-                exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6,7] }
             },
             {
                 extend: 'csv',
                 text: '<i class="fa fa-file-excel-o" style="font-size:20px;"></i>',
                 titleAttr: 'Exportar a Excel',
-                className: 'btn btn-outline-info',
-                exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
+                className: 'btn btn-success btn-uppercase',
+                exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6,7] }
             },
         ],
 
@@ -126,7 +165,7 @@ function consultarOrderList() {
         if (!fechaCorrecta(busqueda.startDate, busqueda.endDate)) {
             $("#mensaje-startDate").fadeIn();
             return false;
-        } else{
+        } else {
             $("#mensaje-startDate").fadeOut();
         }
     }
@@ -139,9 +178,10 @@ function consultarOrderList() {
             busqueda: busqueda
         },
         success: function (response) {
-            
+
             $("#table-orders").html(response);
             initTable();
+            $('[data-toggle="tooltip"]').tooltip();
 
         },
         error: function (xhr, status, error) {
@@ -149,39 +189,65 @@ function consultarOrderList() {
             ControlErrores(xhr, status, error);
         }
     });
-    
 
+
+}
+
+function initTableDetalleOrden() {
+    $('#tblDetalleOrdenCompra').DataTable({
+        //"scrollY": "550px",
+        //"scrollCollapse": true,
+        dom: 'Bfrtip',
+        //columnDefs: [
+        //    { "width": "10px", "targets": 0 },
+        //    { "width": "100px", "targets": 7 },
+        //    { "width": "200px", "targets": 8 }
+        //],
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fa fa-file-pdf-o" style="font-size:20px;"></i>',
+                className: 'btn btn-danger btn-square btn-uppercase',
+                titleAttr: 'Exportar a PDF',
+                title: "Ordenes de Compras:",
+                //exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+            },
+            {
+                extend: 'csv',
+                text: '<i class="fa fa-file-excel-o" style="font-size:20px;"></i>',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success btn-uppercase',
+                //exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+            },
+        ],
+
+        language: {
+            search: "Buscar",
+            lengthMenu: "Tamaño de la lista _MENU_ ",
+            info: "Mostrando _END_ de _TOTAL_ registraos",
+            infoEmpty: "No hay información.",
+            infoFiltered: "(Filtrado de _MAX_ registros en total)",
+            zeroRecords: "No se encontraron coincidencias",
+            emptyTable: "No hay Registros!",
+            paginate: {
+                first: "Primera",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Ultima"
+            }
+        }
+    });
 }
 
 
 $('#mdetalleOrden').on('show.bs.modal', function (event) {
-    $('#detalle-orden-compra').empty();
     var button = $(event.relatedTarget);
-
-    var idOrden = button.data('orden');
-
-    $.ajax({
-        type: "post",
-        url: rootUrl("/Orders/_detalleOrders"),
-        dataType: "html",
-        data: {
-            idOrden: idOrden
-        },
-        success: function (response) {
-            $("#detalle-orden-compra").html(response);
-        },
-        error: function (xhr, status, error) {
-            alert("Error al cargar el detalle de la orden")
-            ControlErrores(xhr, status, error);
-        }
-    });
-
 });
 
+
 $('#mdEditStatus').on('show.bs.modal', function (event) {
-    
+
     var button = $(event.relatedTarget);
-    
     var orden = button.data('idorden');
     var idStatus = button.data('idstatus');
     var guiaenvio = button.data('guiaenvio');
@@ -189,7 +255,7 @@ $('#mdEditStatus').on('show.bs.modal', function (event) {
     $('#status').val(idStatus);
     $('#idUsuario').val(orden);
     $('#guia_envio').val(guiaenvio);
-    
+
 });
 
 $('#mdEditGuia').on('show.bs.modal', function (event) {
@@ -201,26 +267,25 @@ $('#mdEditGuia').on('show.bs.modal', function (event) {
 
     var orden = button.data('orden');
     $('#idOrden').val(orden);
-    
-});
 
+});
 
 $('#editGuia').click(function () {
 
     var guia = $('#m_guia').val();
     var orden = $('#idOrden').val();
-    
+
     $.ajax({
         type: "POST",
         url: rootUrl("/Orders/EditarGuia"),
-        data: { guia: guia, orden: orden},
+        data: { guia: guia, orden: orden },
         dataType: "Json",
         async: true,
         beforeSend: function () {
             $('#mdEditGuia').modal('hide');
         },
         success: function () {
-           
+
             consultarOrderList();
         },
         error: function () {
@@ -231,7 +296,6 @@ $('#editGuia').click(function () {
 
 });
 
-
 $('#editStatus').click(function () {
 
     var idStatus = parseInt($('#status').val());
@@ -240,7 +304,7 @@ $('#editStatus').click(function () {
 
     var combo = document.getElementById("status");
     var selected = combo.options[combo.selectedIndex].text;
-   
+
     $.ajax({
         type: "POST",
         url: rootUrl("/Orders/EditarStatus"),

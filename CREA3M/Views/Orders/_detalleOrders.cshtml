@@ -1,31 +1,30 @@
 ﻿@using CREA3M.Models
 
-<table class="table">
+<table  id="tblDetalleOrdenCompra" class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Nomnre</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Img</th>
+            <th>Cantidad</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Precio Venta</th>
+            <th>Imagen</th>
         </tr>
     </thead>
     <tbody>
 
         @foreach (var detalleOrden in (ViewBag.detalleOrders as List<DetalleOrder>))
         {
-            <tr>
-                <th scope="row">@detalleOrden.cantidad</th>
-                
-                <td>@detalleOrden.producto</td>
-                <td>@detalleOrden.descripcion</td>
-                <th>
-                    <figure class="avatar avatar-sm">
-                        <img src="@detalleOrden.productoImagen" class="rounded-circle" alt="image">
-                    </figure>
-                </th>
-            </tr>
+        <tr>
+            <td>@detalleOrden.cantidad</td>
+            <td>@detalleOrden.producto</td>
+            <td>@detalleOrden.descripcion</td>
+            <td>@detalleOrden.precioVenta</td>
+            <td style="text-align:center">
+                <figure class="avatar avatar-sm" style="height: 150px; width: 150px;">
+                    <img src="@detalleOrden.productoImagen" class="rounded-circle" alt="image">
+                </figure>
+            </td>
+        </tr>
         }
-
-
     </tbody>
 </table>

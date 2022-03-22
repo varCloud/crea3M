@@ -8,8 +8,10 @@
             <th>Producto</th>
             <th>Descripcion</th>
             <th>Categoria</th>
+            <th>Subcategoria</th>
             <th>Unidad Venta</th>
             <th>Precio Venta</th>
+            <th>Cantidad Inv</th>
             <th>Status</th>
             <th>Editar</th>
             <th>Imgen</th>
@@ -23,10 +25,11 @@
             <td>@producto.NP</td>
             <td>@producto.Producto</td>
             <td>@producto.Descripcion</td>
-            <td>@producto.DescripcionCat</td>
+            <td>@producto.CategoriaEcommerce</td>
+            <td>@producto.descripcionSubcat</td>
             <td>@producto.UnidadDeVenta</td>
             <td>@producto.PrecioDeVenta</td>
-
+            <td>@producto.cantidad</td>
             <td>
                 <div class="form-group">
                     <div class="custom-control custom-switch custom-checkbox-dark">
@@ -42,19 +45,19 @@
 
             <td>
                 <span class="badge badge-danger"></span>
-                <button type="button" class="btn btn-primary" id="btnEditProducto"  title="Editar Producto" data-toggle="tooltip" onclick="alClickEditarProducto(@producto.idProductoEcommerce)" value="@producto.idProductoEcommerce">
+                <button type="button" class="btn btn-primary" id="btnEditProducto" title="Editar Producto" data-toggle="tooltip" onclick="alClickEditarProducto(@producto.idProductoEcommerce)" value="@producto.idProductoEcommerce">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </button>
             </td>
             <td>
                 <span class="badge badge-danger"></span>
-                <button type="button" class="btn btn-success" data-toggle="modal" title="Cargar Imagen"   data-target="#mCargarImg" value="@producto.idProductoEcommerce">
+                <button type="button" class="btn btn-success" data-toggle="modal" title="Cargar Imagen" data-target="#mCargarImg" value="@producto.idProductoEcommerce">
                     <i class="fa fa-upload" aria-hidden="true"></i>
                 </button>
             </td>
             <td>
                 <span class="badge badge-danger"></span>
-                <button type="button" class="btn btn-info" data-toggle="modal" title="Ver Galeria"   data-target="#mGaleria" value="@producto.idProductoEcommerce">
+                <button type="button" class="btn btn-info" data-toggle="modal" title="Ver Galeria" data-target="#mGaleria" value="@producto.idProductoEcommerce">
                     <i class="fa fa-file-image-o" aria-hidden="true"></i>
                 </button>
             </td>
