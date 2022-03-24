@@ -349,5 +349,6 @@ healthchecksdb
 MigrationBackup/
 
 _template/
+ImgSlider/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
 CREA3M/CREA3M.csproj

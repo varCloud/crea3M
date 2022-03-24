@@ -141,12 +141,14 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
+    <Compile Include="Controllers\SliderController.cs" />
     <Compile Include="DAO\BillsReceivableDAO.cs" />
     <Compile Include="DAO\ClientsDAO.cs" />
     <Compile Include="DAO\LoginDAO.cs" />
     <Compile Include="DAO\OrdersDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\SalesDAO.cs" />
+    <Compile Include="DAO\SliderDAO.cs" />
     <Compile Include="DAO\UsersDAO.cs" />
     <Compile Include="Filters\SessionTimeout.cs" />
     <Compile Include="Global.asax.cs">
@@ -161,6 +163,7 @@
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\ClientShort.cs" />
     <Compile Include="Models\DetalleProducto.cs" />
+    <Compile Include="Models\ImagenSlider.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\OrdersModel.cs" />
     <Compile Include="Models\PaymentHistoryModel.cs" />
@@ -544,6 +547,7 @@
     <Content Include="assets\icons\weather\fonts\pe-icon-set-weathere60d.svg" />
     <Content Include="assets\js\app.min.js" />
     <Content Include="assets\js\dropzone.js" />
+    <Content Include="assets\js\imagenSlider.js" />
     <Content Include="assets\js\index.js" />
     <Content Include="assets\js\global.js" />
     <Content Include="assets\js\order.js" />
@@ -1093,6 +1097,7 @@
     <Content Include="vendors\slick\slick-theme.css" />
     <Content Include="vendors\slick\slick.css" />
     <Content Include="vendors\slick\slick.min.js" />
+    <Content Include="vendors\sweet-alert\sweet-alert.js" />
     <Content Include="vendors\tagsinput\bootstrap-tagsinput.css" />
     <Content Include="vendors\tagsinput\bootstrap-tagsinput.js" />
     <Content Include="vendors\tour\css\tour.min.css" />
@@ -1122,6 +1127,8 @@
     <Content Include="vendors\slick\fonts\slickd41d.eot" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Ajax\Index.cshtml" />
+    <Content Include="Views\Slider\Slider.cshtml" />
+    <Content Include="Views\Slider\_obtenerImagenes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

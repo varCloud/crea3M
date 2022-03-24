@@ -105,11 +105,11 @@
                 {
                     <li class="navigation-divider">Administrar</li>
                     @*<li>
-                        <a href="@Url.Action("Index", "Ajax")" class="@(ViewBag.title == "Productos" ? "active" : "")">
-                            <i class="fa fa-archive nav-link-icon" aria-hidden="true"></i>
-                            <span>Ajax</span>
-                        </a>
-                    </li>*@
+                <a href="@Url.Action("Index", "Ajax")" class="@(ViewBag.title == "Productos" ? "active" : "")">
+                    <i class="fa fa-archive nav-link-icon" aria-hidden="true"></i>
+                    <span>Ajax</span>
+                </a>
+            </li>*@
                     <li>
                         <a href="@Url.Action("Index", "Products")" class="@(ViewBag.title == "Productos" ? "active" : "")">
                             <i class="fa fa-archive nav-link-icon" aria-hidden="true"></i>
@@ -121,6 +121,14 @@
                         <a href="@Url.Action("index", "Orders")" class="@(ViewBag.title == "Pedidos" ? "active" : "")">
                             <i class="fa fa-truck nav-link-icon" aria-hidden="true"></i>
                             <span>Ordenes de Compra</span>
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="@Url.Action("Slider", "Slider")" class="@(ViewBag.title == "Imgs Slider" ? "active" : "")">
+                            <i class="fa fa-picture-o nav-link-icon" aria-hidden="true"></i>
+                            <span>Slider</span>
                         </a>
                     </li>
                 }

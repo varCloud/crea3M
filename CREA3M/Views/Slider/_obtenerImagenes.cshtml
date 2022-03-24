@@ -1,0 +1,48 @@
+﻿
+@using CREA3M.Models
+
+<table id="tblImagenes" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Peso</th>
+            <th>Fecha</th>
+            <th>Estatus</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var imagen in (ViewBag.imagenesSlider as List<ImagenSlider>))
+        {
+        <tr>
+            <td>@imagen.idImagenSlider</td>
+            <td><img style="width:250px; height:150px" src="@imagen.path" /></td>
+            <td>@imagen.nombre</td>
+            <td>@imagen.size</td>
+            <td>@imagen.fechaAlta.ToShortDateString() &nbsp; @imagen.fechaAlta.ToShortTimeString()</td>
+            <td>
+                <div class="form-group">
+                    <div class="custom-control custom-switch custom-checkbox-dark">
+
+                        <input type="checkbox" class="custom-control-input productActivo"
+                               id="@imagen.idImagenSlider"
+                               @(imagen.activo ? "checked" : "unchecked")
+                               onclick="ActualizarEstatus(event,@imagen.idImagenSlider)">
+                        <label class="custom-control-label" for="@imagen.idImagenSlider"></label>
+                    </div>
+                </div>
+            </td>
+            <td style="text-align:center;vertical-align:auto !important">
+                <span class="badge badge-danger"></span>
+                <button type="button" class="btn btn-danger" data-toggle="tooltip" title="Eliminar  Imagen" onclick="onEliminarImagen(@imagen.idImagenSlider)">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                </button>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
