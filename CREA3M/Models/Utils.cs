@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CREA3M.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.Mvc;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -41,10 +43,11 @@ namespace CREA3M.Models
             Result result = new Result();
             try
             {
-                string cuerpo = Cabecera();
-                cuerpo += CuerpoSendInicioSesion(orden);
-                cuerpo += PiePagina();
-                EnviarCorreNotificacionInicioSesion("Tu pedido de CREA ha sido enviado", cuerpo, orden.mailCliente);
+                Dictionary<string, object> extras = new Dictionary<string, object>();
+                PlantillasController plantillasController = Utils.CreateController<PlantillasController>();
+                string plantilla = Utils.RenderPartialToString(plantillasController.ControllerContext, @"~/Views/Plantilla/CorreoPedido.cshtml", orden, extraData: extras);
+                string cuerpo = plantilla;
+                EnviarCorreoExterno("Tu pedido de CREA ha sido enviado", cuerpo, orden.mailCliente);
                 result.mensaje = "NOTIFICACION ENVIADA";
                 result.status = true;
             }
@@ -67,7 +70,7 @@ namespace CREA3M.Models
             <body style='background-color: white;'>";
         }
 
-        private static string CuerpoSendInicioSesion(Order orden)
+        private static string Plantilla (Order orden)
         {
             StringBuilder cuerpo = new StringBuilder();
             cuerpo.Append(@"<table border='0' cellpadding='0' cellspacing='0' width='100%'>	
@@ -210,34 +213,30 @@ namespace CREA3M.Models
             return pie.ToString();
         }
 
-        private static void EnviarCorreNotificacionInicioSesion(string asunto, string cuerpo, string email)
+        private static void EnviarCorreoExterno(string asunto, string cuerpo, string email)
         {
             try
             {
                 string correoProveedor = WebConfigurationManager.AppSettings["correoProveedor"].ToString();
                 string contrasenaProveedor = WebConfigurationManager.AppSettings["contrasenaProveedor"].ToString();
-
                 System.Net.Mail.MailMessage mmsg = new System.Net.Mail.MailMessage();
                 mmsg.To.Add(email); // cuenta Email a la cual sera dirigido el correo
+                mmsg.Bcc.Add(WebConfigurationManager.AppSettings["correoAdmin"].ToString());
                 mmsg.Subject = asunto; //Asunto del correo
                 mmsg.SubjectEncoding = System.Text.Encoding.UTF8; //cambiamos el tipo de texto a UTF8
                 mmsg.Body = cuerpo; //Cuerpo del mensaje
                 mmsg.BodyEncoding = System.Text.Encoding.UTF8; // tambien encodear a utf8
                 mmsg.IsBodyHtml = true; // indicamos que dentro del body viene codigo HTML
                 mmsg.From = new System.Net.Mail.MailAddress(correoProveedor); // el email que enviara el correo (proveedor)
-
+                mmsg.Bcc.Add(WebConfigurationManager.AppSettings["correoCrea"].ToString());
                 System.Net.Mail.SmtpClient cliente = new System.Net.Mail.SmtpClient(); // se realiza el cliente correo
-
                 cliente.Port = 587;
                 cliente.EnableSsl = true;
                 cliente.UseDefaultCredentials = false;
                 cliente.DeliveryMethod = SmtpDeliveryMethod.Network;
                 cliente.Host = "smtp.gmail.com"; //mail.dominio.com
                 cliente.Credentials = new System.Net.NetworkCredential(correoProveedor, contrasenaProveedor);  // Credenciales del correo emisor
-                
-                
                 cliente.Send(mmsg);
-
             }
             catch (Exception ex)
             {
@@ -245,7 +244,66 @@ namespace CREA3M.Models
             }
         }
 
-      
+        public static string RenderPartialToString(ControllerContext context, string viewPath, object model = null, bool partial = false, Dictionary<string, object> extraData = null)
+        {
+            try
+            {
+                ViewEngineResult viewEngineResult = null;
+                if (partial)
+                    viewEngineResult = ViewEngines.Engines.FindPartialView(context, viewPath);
+                else
+                    viewEngineResult = ViewEngines.Engines.FindView(context, viewPath, null);
+
+                if (viewEngineResult == null)
+                    throw new FileNotFoundException("View cannot be found.");
+
+                // get the view and attach the model to view data
+                var view = viewEngineResult.View;
+                context.Controller.ViewData.Model = model;
+                context.Controller.ViewBag.ordenCompra = model;
+                context.Controller.ViewBag.extras = extraData;
+
+                string result = null;
+
+                using (var sw = new StringWriter())
+                {
+                    var ctx = new ViewContext(context, view, context.Controller.ViewData, context.Controller.TempData, sw);
+                    view.Render(ctx, sw);
+                    result = sw.ToString();
+                }
+
+                return result;
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public static T CreateController<T>(System.Web.Routing.RouteData routeData = null) where T : Controller, new()
+        {
+            // create a disconnected controller instance
+            T controller = new T();
+
+            // get context wrapper from HttpContext if available
+            HttpContextBase wrapper;
+            if (System.Web.HttpContext.Current != null)
+                wrapper = new HttpContextWrapper(System.Web.HttpContext.Current);
+            else
+                throw new InvalidOperationException("Can't create Controller Context if no active HttpContext instance is available.");
+
+            if (routeData == null)
+                routeData = new System.Web.Routing.RouteData();
+
+            // add the controller routing if not existing
+            if (!routeData.Values.ContainsKey("controller") && !routeData.Values.ContainsKey("Controller"))
+                routeData.Values.Add("controller", controller.GetType().Name.ToLower().Replace("controller", ""));
+
+            controller.ControllerContext = new ControllerContext(wrapper, routeData, controller);
+            return controller;
+        }
     }
 
 

@@ -1,0 +1,67 @@
+﻿@using CREA3M.Models
+@{
+    int indice = 0;
+    int tipoReporte = (int)ViewBag.tipoReporte;
+    List<UsuarioEcommerce> resultado = (ViewBag.resultadoReporte as List<UsuarioEcommerce>);
+}
+
+@if (resultado.Count > 0)
+{
+    <table id="tblReporteUsuarios" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                @switch ((enumTipoReporte)tipoReporte)
+                {
+                    case enumTipoReporte.USUARIOS_REGISTRADOS:
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Mail</th>
+                        <th>Fecha Registro</th>
+
+                        break;
+                    case enumTipoReporte.USUARIOS_SUSCRIPCIONES:
+                        <th>Mail</th>
+                        <th>Fecha Registro</th>
+                        <th>Se Registro</th>
+                        break;
+
+                }
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in (resultado))
+            {
+                indice++;
+            <tr>
+                <td>@indice</td>
+                @switch ((enumTipoReporte)tipoReporte)
+                {
+                    case enumTipoReporte.USUARIOS_REGISTRADOS:
+                        <td>@item.nombre</td>
+                        <td>@item.celular</td>
+                        <td>@item.email</td>
+                        <td>@item.fechaRegistro.ToShortDateString()</td>
+                        break;
+                    case enumTipoReporte.USUARIOS_SUSCRIPCIONES:
+                        <td>@item.email</td>
+                        <td>@item.fechaRegistro</td>
+                        <td>@item.seRegistro</td>
+                        break;
+
+                }
+
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 justify-content-center align-items-center d-flex" style=" ">
+        <span style="color:#f52121; font-size:14px; font-weight:600"> No se han encontrado resultados </span>
+    </div>
+}
+
+

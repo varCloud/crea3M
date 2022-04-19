@@ -29,6 +29,7 @@ namespace CREA3M.Models
         public float cantidad { get; set; }
         public string descripcionSubcat { get; set; }
         public int idSubcategoriaEcommerce { get; set; }
+        public string marca { get; set; }
     }
 
     

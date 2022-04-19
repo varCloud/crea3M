@@ -1,0 +1,74 @@
+﻿@using CREA3M.Models
+
+@{ //Si se modifica este titulo, se debe modificar el _Layout.cshtml
+    ViewBag.Title = "Reportes";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header font-size-16">
+                    Lista de Cuentas
+                </div>
+                <div class="card-body">
+                    
+                    <div class="row">
+                        <form id="frmFilter" class="needs-validation col-md-9 col-lg-9 col-sm-12 col-xs-12" novalidate>
+                            <div class="form-row">
+                                <div class="form-group col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                    <label>Anio</label>
+                                    @Html.DropDownList("ano", (List<SelectListItem>)ViewBag.listAnios, new { @id = "ano", @class = "select-multiple form-control", data_val = "false" })
+                                </div>
+
+                                <div class="form-group col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                    <label>Mes</label>
+                                    @Html.DropDownList("mes", (List<SelectListItem>)ViewBag.listMeses, new { @id = "mes", @class = "select-multiple form-control", data_val = "false" })
+                                </div>
+                                <div class="form-group col-lg-6 col-sm-12 col-xs-12">
+                                    <label>Tipo de reporte</label>
+                                    @Html.DropDownList("tipoReporte", (List<SelectListItem>)ViewBag.listReportes, new { @id = "tipoReporte", @class = "select-multiple form-control", data_val = "false" })
+                                </div>
+                            </div>
+                        </form>
+                            <div class="col-lg-auto col-md-12 col-xs-12 form-group">
+                                <label>&nbsp;</label>
+                                <button class="btn btn-block btn-primary" id="btnFilter" tooltip="Buscar"><i class="fa fa-search"></i></button>
+                            </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header font-size-16">
+                    Indicadores
+                </div>
+                <div class="container" id="content-table-reportes" style="padding-bottom: 10px; padding-top: 10px">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/packages/jQuery.Validation.1.17.0/Content/Scripts/jquery.validate.js"></script>
+    <script src="~/packages/Microsoft.jQuery.Unobtrusive.Validation.3.2.11/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/vendors/nestable/jquery.nestable.js"></script>
+    <script src="~/vendors/dropzone/dropzone.js"></script>
+    <script src="~/vendors/sweet-alert/sweet-alert.js"></script>
+    <script src="~/assets/js/reportes.js"></script>
+}

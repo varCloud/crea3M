@@ -1,0 +1,172 @@
+﻿
+@{
+    Layout = "";
+    ViewBag.Title = "CorreoPedido";
+    CREA3M.Models.Order orden = ViewBag.ordenCompra;
+
+}
+
+<table border='0' cellpadding='0' cellspacing='0' width='100%'>
+    <tr>
+        <td style='padding: 10px 0 30px 0;'>
+            <table align='center' border='0' cellpadding='0' cellspacing='0' width='700' style='border: 1px solid #cccccc; border-collapse: collapse;'>
+                <tr>
+                    <td bgcolor='#ffffff' style='padding: 40px 30px 40px 30px;'>
+                        <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                            <tr>
+                                <td align='center' bgcolor='#ffffff' style='padding: 40px 0 30px 0;'>
+                                    <img src='https://tienda.crea3m.com/assets/img/crealogo2.png' width='30%' height='50' style='display: block;' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='color: #153643; font-family: Arial, sans-serif; font-size: 24px;'>
+                                    <b>Hola  @orden.cliente; </b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;'>
+                                    @Html.Raw(orden.tituloOrdenCompra)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                                        <tr>
+                                            <td width='260' valign='top'>
+                                                <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                                                    <tr>
+                                                        <td style='padding: 25px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;'>
+                                                            <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>Fecha Envio: </b>@DateTime.Now.ToString("dd/MM/yyyy")
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>Orden: </b>@orden.idUsuarioOrdenCompra
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>Medio de Compra: </b>@orden.metodoPago
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>Total Compra : </b>@orden.totalVenta.ToString("C2")
+                                                                    </td>
+                                                                </tr>
+                                                                @if (orden.idMetodoPago == 1)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b>Tarjeta: </b>@orden.tarjetaCompra
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                                @if (orden.idMetodoPago == 2)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b>Ficha de pago: </b><a href="@orden.urlPDF" _target="_blank"> Ver </a>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b>Referencia: </b>@orden.folioCompra
+                                                                        </td>
+                                                                    </tr>
+                                                                @if (!string.IsNullOrEmpty(orden.guia))
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b>Guia: </b>@orden.guia
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor='#ffffff' style='padding: 40px 30px 40px 30px;'>
+                        <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                            <tr>
+                            <thead style='background-color: black; height: 50px; color: white;text-align: center;'>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Cantidad</th>
+                                    <th>Descripcion</th>
+                                    <th>Precio Venta</th>
+                                    <th>Imagen</th>
+                                </tr>
+                            </thead>
+                </tr>
+
+                @foreach (CREA3M.Models.DetalleOrder item in orden.detalleOrders)
+                {
+
+
+                    <tr>
+                        <td style='border-bottom: 1px solid black;'>@item.producto</td>
+
+                        <td style='border-bottom: 1px solid black;'>@item.cantidad</td>
+
+                        <td style='border-bottom: 1px solid black;'>@item.descripcion</td>
+
+                        <td style='border-bottom: 1px solid black;'>@item.precioVenta.ToString("C2")</td>
+
+                        <td style='text-align:center;border-bottom: 1px solid black'>
+
+                            <figure class='avatar avatar-sm' style='height: 150px; width: 150px;'>
+
+                                <img src='"@item.productoImagen"' style='height: 150px; width: 150px;' class='rounded-circle' alt='Crea'>
+
+                            </figure>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor='red' style='padding: 30px 30px 30px 30px;'>
+            <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                <tr>
+                    <td style='color: #ffffff; font-family: Arial, sans-serif; font-size: 16px; width='75%'></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor='#191919' style='padding: 30px 30px 30px 30px;'>
+            <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                <tr>
+                    <td style='color: #ffffff; font-family: Arial, sans-serif; font-size: 14px; width='75%'></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+</table>
+		            </td>
+	            </tr>
+            </table>
+
+<p style='padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;'>
+    Saludos cordiales.
+</p>

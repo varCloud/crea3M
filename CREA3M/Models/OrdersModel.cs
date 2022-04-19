@@ -32,6 +32,18 @@ namespace CREA3M.Models
         public Domicilio domicilio { get; set; }
         public float totalVenta { get; set; }
         public List<DetalleOrder> detalleOrders { get; set; }
+
+        public int idMetodoPago { get; set; }
+
+        public string tarjetaCompra { get; set; }
+
+        public string metodoPago { get; set; }
+
+        public string urlPDF { get; set; }
+
+        public string folioCompra { get; set; }
+
+        public string tituloOrdenCompra { get; set; }
         public Order()
         {
             detalleOrders = new List<DetalleOrder>();

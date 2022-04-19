@@ -145,7 +145,7 @@ namespace CREA3M.DAO
                         query.ToList().FindAll(c => c.idUsuarioOrdenCompra == item.idUsuarioOrdenCompra && c.detalleOrders[0].idCompraDetalle != item.detalleOrders[0].idCompraDetalle)
                                       .ForEach(x => item.detalleOrders.AddRange(x.detalleOrders));
                     }
-                    Debug.WriteLine(orders);
+
                     Utils.NotificacionPedidoEnviado(orders[0]);
                 }
                 else

@@ -19,7 +19,7 @@ namespace CREA3M.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveUploadedFile()
+        public JsonResult SaveUploadedFile()
         {
             bool isSavedSuccessfully = true;
             string fName = "";
@@ -61,7 +61,7 @@ namespace CREA3M.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return Json(new ResponseGeneral<string>() { estatus = -1, mensaje="["+ex.Message+"]" , modelo = ex.StackTrace } , JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]

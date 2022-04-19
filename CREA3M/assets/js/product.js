@@ -44,6 +44,11 @@ $(document).ready(function () {
     $('#btnVerProductos').click(function (e) {
         consultaProductos();
     })
+    $('#btnBuscar').click(function (e) {
+        consultaProductos(marca, categoria, subcategoria);
+    })
+
+    
        
     $("#excelfile").change(function (evt) {
         ExportToTable();
@@ -51,13 +56,13 @@ $(document).ready(function () {
         
     $('#subcategoria').change(function () {
         subcategoria = $('#subcategoria').val();
-        consultaProductos(idMarca, categoria, subcategoria);
+        consultaProductos(marca, categoria, subcategoria);
     })
 
     $('#categoria').change(function () {
-        idCategoria = $('#categoria').val();
-        if (idCategoria > 0) {
-            var subcategorias = categorias.find(x => x.idCategoriaEcommerce == idCategoria);
+        categoria = $('#categoria').val();
+        if (categoria > 0) {
+            var subcategorias = categorias.find(x => x.idCategoriaEcommerce == categoria);
             $('#subcategoria').empty();
             $('#subcategoria').append('<option selected disabled value="">Selecciona una Subcategoria</option>');
             $.each(subcategorias.subCategorias, function (index, value) {
@@ -571,6 +576,7 @@ function onFailureResultGuardarProducto(err){
 function onSuccessResultGuardarProducto(response){
 
     $('#mdEditProduct').modal('hide');
+    marca = 0;
     toastr.info(response.error_message);
     consultaProductos(marca, categoria, subcategoria);
 
