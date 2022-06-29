@@ -27,6 +27,8 @@ namespace CREA3M.Models
         public String mailCliente { get; set; }
         public decimal monto { get; set; }
         public DateTime fechaRegistro { get; set; }
+
+        public DateTime fechaCambioEstatus { get; set; }
         public String guia { get; set; }
         public String statusOrdenCompra { get; set; }
         public Domicilio domicilio { get; set; }

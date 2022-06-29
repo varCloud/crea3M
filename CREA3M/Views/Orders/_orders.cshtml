@@ -11,6 +11,7 @@
             <th>Fecha Orden</th>
             <th>Domicilio</th>
             <th>Guia</th>
+            <th>Fecha Ultima Actualización</th>
             <th>Estatus</th>
             <th>Acciones</th>
         </tr>
@@ -27,20 +28,23 @@
             <td>@order.domicilio.Calle&nbsp;@order.domicilio.NumeroInterior&nbsp;@order.domicilio.NumeroExterior&nbsp;@order.domicilio.CodigoPostal&nbsp;@order.domicilio.Colonia&nbsp;@order.domicilio.Municipio&nbsp;@order.domicilio.Estado</td>
             <td>@order.guia</td>
             <td style="align-content:center">
+                @order.fechaCambioEstatus.ToShortDateString() &nbsp; @order.fechaCambioEstatus.ToShortTimeString()
+            </td>
+            <td style="align-content:center">
                 @order.statusOrdenCompra
             </td>
 
             <td>
                 <div class="row d-flex justify-content-center">
-                    <button  title="Agregar Guia"   type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditGuia" data-guia="@order.guia" data-orden="@order.idOrdenCompra">
+                    <button title="Agregar Guia" type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdEditGuia" data-guia="@order.guia" data-orden="@order.idOrdenCompra">
                         <i class="fa fa-send" aria-hidden="true"></i>
                     </button>
                     &nbsp;
-                    <button  title="Editar Estatus"  type="button" class="btn btn-info" data-toggle="modal" data-target="#mdEditStatus" data-guiaenvio="@order.guia" data-idorden="@order.idOrdenCompra" data-idstatus="@order.idStatusOrdenCompra">
+                    <button title="Editar Estatus" type="button" class="btn btn-info" data-toggle="modal" data-target="#mdEditStatus" data-guiaenvio="@order.guia" data-idorden="@order.idOrdenCompra" data-idstatus="@order.idStatusOrdenCompra">
                         <span id="@order.idOrdenCompra"> <i class="fa fa-edit" aria-hidden="true"></i> </span>
                     </button>
                     &nbsp;
-                    <button  title="Ver Detalle de la Orden" type="button" class="btn btn-success" id="btnDetalleOrdenCompra" onclick="onVerDetalleOrdenCompra(@order.idOrdenCompra)" data-guia="@order.guia" data-orden="@order.idOrdenCompra" data-toggle="tooltip">
+                    <button title="Ver Detalle de la Orden" type="button" class="btn btn-success" id="btnDetalleOrdenCompra" onclick="onVerDetalleOrdenCompra(@order.idOrdenCompra)" data-guia="@order.guia" data-orden="@order.idOrdenCompra" data-toggle="tooltip">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </button>
                 </div>

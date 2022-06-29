@@ -1,4 +1,57 @@
-﻿using CREA3M.Models
+﻿@using CREA3M.Models
 @{ //Si se modifica este titulo, se debe modificar el _Layout.cshtml
-    ViewBag.Title = "Reportes";
+    ViewBag.Title = "Usuarios";
 }
+<link rel="stylesheet" href="~/vendors/datepicker/daterangepicker.css" type="text/css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" type="text/css">
+
+<div class="container">
+    @ViewBag.date_init
+    @ViewBag.date_end
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header font-size-16">
+                    Lista de Usuarios
+                </div>
+                <div class="card-body">
+                    <div class="row m-b-10">
+                        <div class="col-sm-12 col-md-4 col-sm-12 col-xs-12">
+                            <label>Selecciona el rango  de fechas</label>
+                            <input type="text" name="daterangepicker" class="form-control" id="date_picker">
+                        </div>
+                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <label>Tipo de reporte</label>
+                            @Html.DropDownList("tipoReporte", (List<SelectListItem>)ViewBag.listReportes, new { @id = "tipoReporte", @class = "select-multiple form-control", data_val = "false" })
+                        </div>
+                        <div class="col-lg-auto col-md-12 col-xs-12 form-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-block btn-primary" id="btnFilter" tooltip="Buscar"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header font-size-16">
+                    Indicadores
+                </div>
+                <div class="container" id="content-table-reportes" style="padding-bottom: 10px; padding-top: 10px">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/vendors/datepicker/daterangepicker.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+@Scripts.Render("~/assets/js/usuariosEcommerce.js")

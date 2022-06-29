@@ -14,7 +14,7 @@ namespace CREA3M.Controllers
         // GET: Usuarios
         public ActionResult Usuarios()
         {
-            ViewBag.listReportes = new ReportesDAO().ObtenerTiposReportes();
+            ViewBag.listReportes = new ReportesDAO().ObtenerTiposReportesUsuarios();
             return View();
         }
 
@@ -23,7 +23,7 @@ namespace CREA3M.Controllers
             try
             {
                 ViewBag.tipoReporte = filtro.tipoReporte;
-                ViewBag.resultadoReporte = new ReportesDAO().ObtenerTiposReportes(filtro);
+                ViewBag.resultadoReporte = new ReportesDAO().ObtenerUsuarioReportes(filtro);
                 return PartialView("_obtenerUsuarios");
 
             }

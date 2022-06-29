@@ -39,7 +39,7 @@ function initTable() {
                 text: '<i class="fa fa-file-pdf-o" style="font-size:20px;"></i>',
                 className: 'btn btn-danger btn-square btn-uppercase',
                 titleAttr: 'Exportar a PDF',
-                title: "Productos",
+                title: "Reporte",
                //exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
             },
             {

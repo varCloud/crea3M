@@ -26,23 +26,23 @@ namespace CREA3M.Controllers
         public JsonResult Login(LoginModel Credentials)
         {
 
-            var client = new RestClient("https://www.google.com/recaptcha/api/siteverify");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AlwaysMultipartFormData = true;
-            request.AddParameter("secret", "6Lf3xqsZAAAAAL-D_42KGwtt8pHAeafTZ1GOpycF");
-            request.AddParameter("response", Credentials.Token);
-            IRestResponse<CaptchaModel> response = client.Execute<CaptchaModel>(request);
+            //var client = new RestClient("https://www.google.com/recaptcha/api/siteverify");
+            //client.Timeout = -1;
+            //var request = new RestRequest(Method.POST);
+            //request.AlwaysMultipartFormData = true;
+            //request.AddParameter("secret", "6Lf3xqsZAAAAAL-D_42KGwtt8pHAeafTZ1GOpycF");
+            //request.AddParameter("response", Credentials.Token);
+            //IRestResponse<CaptchaModel> response = client.Execute<CaptchaModel>(request);
 
-            if (!response.Data.success)
-            {
-                return Json(new Response<LoginModel>
-                {
-                    msg = "Captcha invalido",
-                    status = "captcha",
-                    alertType = "",
-                }, JsonRequestBehavior.AllowGet);
-            }
+            //if (!response.Data.success)
+            //{
+            //    return Json(new Response<LoginModel>
+            //    {
+            //        msg = "Captcha invalido",
+            //        status = "captcha",
+            //        alertType = "",
+            //    }, JsonRequestBehavior.AllowGet);
+            //}
 
             Response<LoginModel> result = new LoginDAO().login(Credentials);
             if (result.status.Equals("success"))
