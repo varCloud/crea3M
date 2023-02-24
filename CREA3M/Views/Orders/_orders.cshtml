@@ -13,6 +13,7 @@
             <th>Guia</th>
             <th>Fecha Ultima Actualización</th>
             <th>Estatus</th>
+            <th>Tipo</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -31,6 +32,9 @@
                 @order.fechaCambioEstatus.ToShortDateString() &nbsp; @order.fechaCambioEstatus.ToShortTimeString()
             </td>
             <td style="align-content:center">
+                <span class="chip-crea">@order.tipoOrdenCompra.descripcion</span>
+            </td>
+            <td style="align-content:center">
                 @order.statusOrdenCompra
             </td>
 
@@ -44,8 +48,12 @@
                         <span id="@order.idOrdenCompra"> <i class="fa fa-edit" aria-hidden="true"></i> </span>
                     </button>
                     &nbsp;
-                    <button title="Ver Detalle de la Orden" type="button" class="btn btn-success" id="btnDetalleOrdenCompra" onclick="onVerDetalleOrdenCompra(@order.idOrdenCompra)" data-guia="@order.guia" data-orden="@order.idOrdenCompra" data-toggle="tooltip">
+                    <button title="Ver Detalle de la Orden" type="button" class="btn btn-success mt-2" id="btnDetalleOrdenCompra" onclick="onVerDetalleOrdenCompra(@order.idOrdenCompra)" data-guia="@order.guia" data-orden="@order.idOrdenCompra" data-toggle="tooltip">
                         <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                    &nbsp;
+                    <button title="Agreagr entregado por" type="button" class="btn btn-warning mt-2" data-toggle="modal" data-target="#mdEditEntregadoPor" data-entregadopor="@order.entregadoPor" data-observaciones="@order.observaciones" data-idorden="@order.idOrdenCompra">
+                        <span id="@order.idOrdenCompra"> <i class="fa fa-user" aria-hidden="true"></i> </span>
                     </button>
                 </div>
             </td>

@@ -3,6 +3,54 @@
 @{ //Si se modifica este titulo, se debe modificar el _Layout.cshtml
     ViewBag.Title = "Ordenes"; }
 
+<style>
+    .chip-crea {
+        border-radius: 10px;
+        background-color: #d9e7fc;
+        padding: 4px 8px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: #1967df;
+    }
+</style>
+
+<!-- modal -->
+<div class="modal fade" id="mdEditEntregadoPor" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <input id="idOrdenCompraEntregadoPor" name="idOrdenCompraEntregadoPor" type="hidden" value="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Encargado de Entrega</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="ti-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nombre del encargado</label>
+                        <input type="text" class="form-control" id="entregadoPor" name="entregadoPor"
+                               aria-describedby="emailHelp" placeholder="Nombre del encargado">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Observaciones</label>
+                        <textarea type="text" rows="5" class="form-control" id="observaciones" name="observaciones"
+                               aria-describedby="emailHelp" placeholder="Observaciones"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Cerrar
+                </button>
+                <button type="button" class="btn btn-primary" id="btnGuardaEntregadoPor">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- modal -->
 <div class="modal fade" id="mdEditGuia" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">

@@ -46,13 +46,23 @@ namespace CREA3M.Models
         public string folioCompra { get; set; }
 
         public string tituloOrdenCompra { get; set; }
+        public string entregadoPor { get; set; }
+        public string observaciones { get; set; }
+
+        public TipoOrdenCompra tipoOrdenCompra { get; set; }
         public Order()
         {
             detalleOrders = new List<DetalleOrder>();
+            tipoOrdenCompra = new TipoOrdenCompra();
         }
     }
 
-    public class DetalleOrder
+    public class TipoOrdenCompra
+    {
+        public int id { get; set; }
+        public string descripcion { get; set; }
+    }
+        public class DetalleOrder
     {
         public Int64 idCompraDetalle { get; set; }
         public int cantidad { get; set; }
