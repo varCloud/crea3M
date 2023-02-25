@@ -1,7 +1,7 @@
 ﻿function Busqueda() {
     this.startDate,
-        this.endDate,
-        this.tipoBusqueda
+    this.endDate,
+    this.tipoBusqueda
 }
 
 $(document).ready(function () {
@@ -258,6 +258,19 @@ $('#mdEditStatus').on('show.bs.modal', function (event) {
 
 });
 
+$('#mdEditEntregadoPor').on('show.bs.modal', function (event) {
+
+    var button = $(event.relatedTarget);
+    var orden = button.data('idorden');
+    var entregadoPor = button.data('entregadopor');
+    var observaciones = button.data('observaciones');
+
+    $('#entregadoPor').val(entregadoPor);
+    $('#idOrdenCompraEntregadoPor').val(orden);
+    $("#observaciones").val(observaciones);
+});
+
+
 $('#mdEditGuia').on('show.bs.modal', function (event) {
 
     var button = $(event.relatedTarget);
@@ -320,6 +333,35 @@ $('#editStatus').click(function () {
         },
         success: function () {
             $('#' + idUsuario).text(selected);
+            consultarOrderList();
+        },
+        error: function () {
+            alert("Error al editar el numero de Guia")
+            ControlErrores(xhr, status, error);
+        }
+    });
+});
+
+$('#btnGuardaEntregadoPor').click(function () {
+
+    var idOrdenCompraEntregadoPor = parseInt($('#idOrdenCompraEntregadoPor').val());
+    var entregadoPor = $("#entregadoPor").val();
+    var observaciones = $("#observaciones").val();
+
+    $.ajax({
+        type: "POST",
+        url: rootUrl("/Orders/AgregarEntregadoPor"),
+        data: {
+            idOrdenCompra: idOrdenCompraEntregadoPor,
+            entregadoPor: entregadoPor,
+            observaciones: observaciones
+        },
+        dataType: "Json",
+        async: true,
+        beforeSend: function () {
+            $('#mdEditEntregadoPor').modal('hide');
+        },
+        success: function (response) {
             consultarOrderList();
         },
         error: function () {

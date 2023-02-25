@@ -3,6 +3,7 @@ using CREA3M.Filters;
 using CREA3M.Helpers;
 using CREA3M.Models;
 using System;
+using System.Diagnostics;
 using System.Web.Mvc;
 
 namespace CREA3M.Controllers
@@ -63,6 +64,23 @@ namespace CREA3M.Controllers
                 ordersDAO = new OrdersDAO();
                 string selectedDB = "sucursal" + Session["defaultDB"];
                 return Json(ordersDAO.EditarGuia(selectedDB, guia, orden), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AgregarEntregadoPor(string idOrdenCompra, string entregadoPor , string observaciones)
+        {
+            try
+            {
+                
+                Debug.WriteLine("entre");
+                ordersDAO = new OrdersDAO();
+                string selectedDB = "sucursal" + Session["defaultDB"];
+                return Json(ordersDAO.EditarEntregadoPor(selectedDB, entregadoPor, observaciones, idOrdenCompra), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

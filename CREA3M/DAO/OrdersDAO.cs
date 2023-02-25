@@ -33,7 +33,7 @@ namespace CREA3M.DAO
                     int estatus = r1.status;
                     response.status = estatus.ToString();
                     response.msg = r1.error_message;
-                    response.model = result.Read<Order ,Domicilio ,Order>(MapRetiros, splitOn: "idUsuarioDomicilio").ToList();;
+                    response.model = result.Read<Order ,Domicilio , TipoOrdenCompra ,Order>(MapRetiros, splitOn: "idUsuarioDomicilio,idTipoOrdenCompra").ToList();
                 }
                 else
                 {
@@ -47,9 +47,10 @@ namespace CREA3M.DAO
 
             return response;
         }
-        public Order MapRetiros(Order o, Domicilio d)
+        public Order MapRetiros(Order o, Domicilio d , TipoOrdenCompra toc)
         {
             o.domicilio = d;
+            o.tipoOrdenCompra = toc;
             return o;
         }
 
@@ -172,6 +173,38 @@ namespace CREA3M.DAO
                 parameter.Add("@idUsuarioOrdenCompra", Convert.ToInt32(idUsuarioOrdenCompra));
 
                 var result = db.QueryMultiple("BC_SP_CREA_ACTUALIZAR_GUIA_ORDEN_COMPRA", parameter, commandType: CommandType.StoredProcedure);
+                var r1 = result.ReadFirst();
+                if (r1.status == 200)
+                {
+                    int estatus = r1.status;
+                    response.status = estatus.ToString();
+                    response.msg = r1.error_message;
+                }
+                else
+                {
+                    int estatus = r1.status;
+                    response.status = estatus.ToString();
+                    response.msg = r1.error_message;
+                }
+            }
+
+            return response;
+        }
+
+        public ResponseList<Responce> EditarEntregadoPor(String database, string entregadoPor,string observaciones , string idUsuarioOrdenCompra)
+        {
+            ResponseList<Responce> response = new ResponseList<Responce>();
+
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+
+                parameter.Add("@idUsuarioOrdenCompra", Convert.ToInt32(idUsuarioOrdenCompra));
+                parameter.Add("@entregadoPor", entregadoPor);
+                parameter.Add("@observaciones", observaciones);
+
+
+                var result = db.QueryMultiple("BC_SP_CREA_ACTUALIZAR_ENTREGADO_POR_ORDEN_COMPRA", parameter, commandType: CommandType.StoredProcedure);
                 var r1 = result.ReadFirst();
                 if (r1.status == 200)
                 {
