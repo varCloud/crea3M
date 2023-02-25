@@ -54,8 +54,8 @@
 <!-- FIN modal Carga de Imagenes -->
 <!-- modal Editar de Productos -->
 
-<div class="modal fade" id="mdEditProduct" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg" id="mdEditProduct" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <input id="idUsuario" name="prodId" type="hidden" value="">
             <div class="modal-header">
@@ -79,88 +79,116 @@
                 {
 
 
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">NP</label>
 
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">NP</label>
+                            @Html.HiddenFor(x => x.idProductoEcommerce, new { @id = "idProductoEcommerce" })
+                            @Html.TextBoxFor(x => x.identificador, null, new { @class = "form-control", @id = "identificador" })
+                            @Html.ValidationMessageFor(x => x.identificador, null, new { @class = "text-danger was" })
+                        </div>
 
-                        @Html.HiddenFor(x => x.idProductoEcommerce, new { @id = "idProductoEcommerce" })
-                        @Html.TextBoxFor(x => x.identificador, null, new { @class = "form-control", @id = "identificador" })
-                        @Html.ValidationMessageFor(x => x.identificador, null, new { @class = "text-danger was" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Producto</label>
-                        @*<input type="text" class="form-control" id="m_producto" aria-describedby="emailHelp" placeholder="Producto">*@
-                        @Html.TextBoxFor(x => x.producto, null, new { @class = "form-control", @id = "producto" })
-                        @Html.ValidationMessageFor(x => x.producto, null, new { @class = "text-danger was" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Descripcion</label>
-                        @*<input type="text" class="form-control" id="m_descripcion" aria-describedby="emailHelp" placeholder="Descripcion">*@
-                        @Html.TextAreaFor(x => x.descripcion, new { @class = "form-control", @id = "descripcion" })
-                        @Html.ValidationMessageFor(x => x.descripcion, null, new { @class = "text-danger was" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Marca</label>
-                        @Html.DropDownListFor(x => x.idMarcaEcommerce, new SelectList((ViewBag.marcas as List<CREA3M.Models.Marca>), "idMarcaEcommerce", "marcaEcommerce"), "Selecciona una marca", new { @class = "form-control", @id = "cbMarca" })
-                        @Html.ValidationMessageFor(x => x.idMarcaEcommerce, null, new { @class = "text-danger was" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Categoria</label>
-                        @*<select class="form-control" id="idCategoriaEcommerce"></select>*@
-                        @Html.DropDownListFor(x => x.idCategoriaEcommerce, new List<SelectListItem>(), "Selecciona una categoria", new { @class = "form-control", @id = "idCategoriaEcommerce" })
-                        @Html.ValidationMessageFor(x => x.idCategoriaEcommerce, null, new { @class = "text-danger was" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Subcategoria</label>
-                        @*<select class="form-control" id="idCategoriaEcommerce"></select>*@
-                        @Html.DropDownListFor(x => x.idSubcategoriaEcommerce, new List<SelectListItem>(), "Selecciona una subcategoria", new { @class = "form-control", @id = "idSubcategoriaEcommerce" })
-                        @Html.ValidationMessageFor(x => x.idSubcategoriaEcommerce, null, new { @class = "text-danger was" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Unidad de Venta</label>
-                        @*<input type="text" class="form-control" id="m_unidad_venta" aria-describedby="emailHelp" placeholder="Unidad de Venta">*@
-                        @Html.TextBoxFor(x => x.unidadVenta, null, new { @class = "form-control", @id = "unidadVenta" })
-                        @Html.ValidationMessageFor(x => x.unidadVenta, null, new { @class = "text-danger was" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Precio de Venta</label>
-                        @*<input type="number" class="form-control" id="m_precio_venta"    aria-describedby="emailHelp" placeholder="Precio de Venta">*@
-                        @Html.TextBoxFor(x => x.precioVenta, null, new { @class = "form-control", @id = "precioVenta" })
-                        @Html.ValidationMessageFor(x => x.precioVenta, null, new { @class = "text-danger was" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Costo de Envio</label>
-                        @*<input type="number" class="form-control" id="m_precio_venta"    aria-describedby="emailHelp" placeholder="Precio de Venta">*@
-                        @Html.TextBoxFor(x => x.costoEnvio, null, new { @class = "form-control", @id = "costoEnvio" })
-                        @Html.ValidationMessageFor(x => x.costoEnvio, null, new { @class = "text-danger was" })
-                    </div>
-                    <div class="form-group">
-                        <label for="cantidad">Cantidad Actual Inventario</label>
-                        @Html.TextBoxFor(x => x.cantidad, null, new { @class = "form-control", @id = "cantidadInv" })
-                        @Html.ValidationMessageFor(x => x.cantidad, null, new { @class = "text-danger was" })
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-switch custom-checkbox-dark">
-
-                            <input type="checkbox" class="custom-control-input productActivo"
-                                   id="actualizarInv"
-                                   unchecked
-                                   onclick="onAgregarInventario(event)">
-                            <label class="custom-control-label" for="actualizarInv">Actualizar Inventario</label>
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Producto</label>
+                            @*<input type="text" class="form-control" id="m_producto" aria-describedby="emailHelp" placeholder="Producto">*@
+                            @Html.TextBoxFor(x => x.producto, null, new { @class = "form-control", @id = "producto" })
+                            @Html.ValidationMessageFor(x => x.producto, null, new { @class = "text-danger was" })
                         </div>
                     </div>
-                    <div id="agregarInventatio" style="display:none">
-                        <div class="form-group">
+
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Descripcion</label>
+                            @*<input type="text" class="form-control" id="m_descripcion" aria-describedby="emailHelp" placeholder="Descripcion">*@
+                            @Html.TextAreaFor(x => x.descripcion, new { @class = "form-control", @id = "descripcion" })
+                            @Html.ValidationMessageFor(x => x.descripcion, null, new { @class = "text-danger was" })
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="exampleFormControlSelect1">Marca</label>
+                            @Html.DropDownListFor(x => x.idMarcaEcommerce, new SelectList((ViewBag.marcas as List<CREA3M.Models.Marca>), "idMarcaEcommerce", "marcaEcommerce"), "Selecciona una marca", new { @class = "form-control", @id = "cbMarca" })
+                            @Html.ValidationMessageFor(x => x.idMarcaEcommerce, null, new { @class = "text-danger was" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-lg-6">
+                            <label for="exampleFormControlSelect1">Categoria</label>
+                            @*<select class="form-control" id="idCategoriaEcommerce"></select>*@
+                            @Html.DropDownListFor(x => x.idCategoriaEcommerce, new List<SelectListItem>(), "Selecciona una categoria", new { @class = "form-control", @id = "idCategoriaEcommerce" })
+                            @Html.ValidationMessageFor(x => x.idCategoriaEcommerce, null, new { @class = "text-danger was" })
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="exampleFormControlSelect1">Subcategoria</label>
+                            @*<select class="form-control" id="idCategoriaEcommerce"></select>*@
+                            @Html.DropDownListFor(x => x.idSubcategoriaEcommerce, new List<SelectListItem>(), "Selecciona una subcategoria", new { @class = "form-control", @id = "idSubcategoriaEcommerce" })
+                            @Html.ValidationMessageFor(x => x.idSubcategoriaEcommerce, null, new { @class = "text-danger was" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Unidad de Venta</label>
+                            @*<input type="text" class="form-control" id="m_unidad_venta" aria-describedby="emailHelp" placeholder="Unidad de Venta">*@
+                            @Html.TextBoxFor(x => x.unidadVenta, null, new { @class = "form-control", @id = "unidadVenta" })
+                            @Html.ValidationMessageFor(x => x.unidadVenta, null, new { @class = "text-danger was" })
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Precio de Venta</label>
+                            @*<input type="number" class="form-control" id="m_precio_venta"    aria-describedby="emailHelp" placeholder="Precio de Venta">*@
+                            @Html.TextBoxFor(x => x.precioVenta, null, new { @class = "form-control", @id = "precioVenta" })
+                            @Html.ValidationMessageFor(x => x.precioVenta, null, new { @class = "text-danger was" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Costo de Envio</label>
+                            @*<input type="number" class="form-control" id="m_precio_venta"    aria-describedby="emailHelp" placeholder="Precio de Venta">*@
+                            @Html.TextBoxFor(x => x.costoEnvio, null, new { @class = "form-control", @id = "costoEnvio" })
+                            @Html.ValidationMessageFor(x => x.costoEnvio, null, new { @class = "text-danger was" })
+                        </div>
+                        <div class="form-group col-lg-6">
                             <label for="cantidad">Cantidad Actual Inventario</label>
-                            @Html.TextBoxFor(x => x.cantidadAgregarInventario, null, new { @class = "form-control", @id = "cantidadAgregar" })
-                            @Html.ValidationMessageFor(x => x.cantidadAgregarInventario, null, new { @class = "text-danger was" })
-                        </div>
-                        <div class="form-group">
-                            <label for="cantidadTotal" id="cantidadTotal" class="label-info-crea">Cantidad Actual</label>
+                            @Html.TextBoxFor(x => x.cantidad, null, new { @class = "form-control", @id = "cantidadInv" })
+                            @Html.ValidationMessageFor(x => x.cantidad, null, new { @class = "text-danger was" })
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">SKU</label>                          
+                            @Html.TextBoxFor(x => x.SKU, null, new { @class = "form-control", @id = "SKU",@maxlength = "20" })
+                           
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="cantidad">Código de barras</label>
+                            @Html.TextBoxFor(x => x.codigoBarras, null, new { @class = "form-control", @id = "codigoBarras", @maxlength = "13" })
+                      
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <div class="custom-control custom-switch custom-checkbox-dark">
 
+                                <input type="checkbox" class="custom-control-input productActivo"
+                                       id="actualizarInv"
+                                       unchecked
+                                       onclick="onAgregarInventario(event)">
+                                <label class="custom-control-label" for="actualizarInv">Actualizar Inventario</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div id="agregarInventatio" style="display:none" class="row">
+                                <div class="form-group col-lg-12">
+                                    <label for="cantidad">Cantidad Actual Inventario</label>
+                                    @Html.TextBoxFor(x => x.cantidadAgregarInventario, null, new { @class = "form-control", @id = "cantidadAgregar" })
+                                    @Html.ValidationMessageFor(x => x.cantidadAgregarInventario, null, new { @class = "text-danger was" })
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label for="cantidadTotal" id="cantidadTotal" class="label-info-crea">Cantidad Actual</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
 
 
                     @*</form>*@
@@ -178,7 +206,7 @@
                 }
 
             </div>
-        </div>
+                </div>
     </div>
 </div>
 <!-- FIN modal Editar de Productos -->
@@ -315,7 +343,7 @@
                 </div>
 
                 <div class="container" style="padding-bottom: 10px; padding-top: 10px">
-                    <div class="card-body">
+                    <div class="">
                         <button style=" font-size: 15px; outline:none;" id="btnVerProductos" type="button" class="btn  btn-success ">
                             <i class="fa fa-eye"></i> Ver todos los productos
                         </button>
@@ -331,6 +359,10 @@
 
                         <button style=" font-size: 15px; outline:none;" id="btnVerCategorias" type="button" data-toggle="modal" data-target="#mVerCategorias" class="btn  btn-info ">
                             <i class="fa fa-eye"></i> Ver Categorias
+                        </button>
+
+                        <button style=" font-size: 15px; outline:none;" id="btnDescargarCSV" type="button" data-toggle="modal" data-target="#mDescargarCSVProduct" class="btn  btn-success ">
+                            <i class="fa fa-download"></i> Descargar CSV
                         </button>
                     </div>
                 </div>

@@ -21,6 +21,39 @@ function detalleProduct() {
 }
 
 $(document).ready(function () {
+
+    $("#btnDescargarCSV").click(function (e) {
+        console.log("ntro");
+            $.ajax({
+                type: "post",
+                url: rootUrl("/Products/GeneraCSVProductos"),
+                dataType: "json",
+                method: 'post',
+                dataType: 'json',
+                async: true,
+                beforeSend: function (xhr) {
+                    
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response !== "")                        
+                    window.open(
+                        response,
+                        '_blank' 
+                        );
+                    else
+                        alert("Error al descargar csv")
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Error al descargar csv")
+                    ControlErrores(xhr, status, error);
+                }
+            });
+
+        
+
+    });
     
     $("#cantidadAgregar").keyup(function () {
         let cantidaAregar = $("#cantidadAgregar").val() || 0;

@@ -340,7 +340,9 @@ namespace CREA3M.DAO
                 parameter.Add("@cantidadAgregar", producto.cantidadAgregarInventario);
                 parameter.Add("@costoEnvio", producto.costoEnvio);
                 parameter.Add("@idSubcategoriaEcommerce", producto.idSubcategoriaEcommerce);
-                
+                parameter.Add("@SKU", producto.SKU);
+                parameter.Add("@codigoBarras", producto.codigoBarras);
+
                 try
                 {
                     respuesta = db.QuerySingle<Responce>("BC_SP_CREA_EDITAR_PRODUCTO_ECOMMERCE_ADMIN", parameter, commandType: CommandType.StoredProcedure);
@@ -399,5 +401,35 @@ namespace CREA3M.DAO
             }
             return response;
         }
+
+        public ResponseList<Product> getReporteProductos()
+        {
+            ResponseList<Product> response = new ResponseList<Product>();
+
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
+            {
+                var result = db.QueryMultiple("BC_SP_CREA_OBTENER_REPORTE_PRODUCTOS", null, commandType: CommandType.StoredProcedure);
+                var r1 = result.ReadFirst();
+
+                if (r1.status == 200)
+                {
+                    int estatus = r1.status;
+                    response.status = estatus.ToString();
+                    response.msg = r1.error_message;
+                    response.model = result.Read<Product>().ToList();
+                }
+                else
+                {
+                    int estatus = r1.status;
+                    response.status = estatus.ToString();
+                    response.msg = r1.error_message;
+                    response.model = result.Read<Product>().ToList();
+                }
+
+            }
+
+            return response;
+        }
+
     }
 }

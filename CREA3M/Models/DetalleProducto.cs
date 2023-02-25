@@ -48,5 +48,9 @@ namespace CREA3M.Models
         public float cantidadAgregarInventario { get; set; }
 
         public float costoEnvio { get; set; }
+
+        public string SKU { get; set; }
+        public string codigoBarras { get; set; }
+
     }
 }
