@@ -221,39 +221,7 @@ namespace CREA3M.Controllers
         {
             try
             {
-                ProductDAO productDAO = new ProductDAO();
-                ResponseList<Product> response = productDAO.getReporteProductos();
-                String urlOut = "";
-                
-                if (response.status == "200")
-                {
-                    String fileName = "productos.csv"; 
-                    String path = getPath() + "/" + fileName;
-                    using (StreamWriter writer = new StreamWriter(new FileStream(path,
-                        FileMode.Create, FileAccess.Write)))
-                        {
-                        writer.WriteLine("sep=;");
-                        writer.WriteLine("Manufacturer partnumber;Brandname;Price;Product URL;Stock;Productname;Optional: EAN/GTIN;Optional: category;Optional: Image URL");
-                        foreach (Product p in response.model)
-                        {
-                            List<string> row = new List<string>();
-                            row.Add(p.SKU.ToString());                            
-                            row.Add(p.marca.ToString());
-                            row.Add(p.PrecioDeVenta.ToString());
-                            row.Add(p.productoUrl.ToString());
-                            row.Add(p.cantidad.ToString());
-                            row.Add(p.Producto.ToString());
-                            row.Add(p.codigoBarras.ToString());
-                            row.Add(p.CategoriaEcommerce.ToString());
-                            row.Add(p.imagenUrl.ToString());
-                            writer.WriteLine(string.Join(";", row.ToArray()));
-                        }
-                      
-                    }
-
-                    urlOut = ConfigurationManager.AppSettings["server"].ToString() + "ReportesProductos/" + fileName;
-                }
-
+                String urlOut = GeneraCSVProductosGet();
                 return Json(urlOut, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -270,6 +238,51 @@ namespace CREA3M.Controllers
                 if (!Directory.Exists(ruta))
                     Directory.CreateDirectory(ruta);                
                 return ruta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public String GeneraCSVProductosGet()
+        {
+            try
+            {
+                ProductDAO productDAO = new ProductDAO();
+                ResponseList<Product> response = productDAO.getReporteProductos();
+                String urlOut = "";
+
+                if (response.status == "200")
+                {
+                    String fileName = "productos.csv";
+                    String path = getPath() + "/" + fileName;
+                    using (StreamWriter writer = new StreamWriter(new FileStream(path,
+                        FileMode.Create, FileAccess.Write)))
+                    {
+                        writer.WriteLine("sep=;");
+                        writer.WriteLine("Manufacturer partnumber;Brandname;price;product URL;stock;Productname;EAN/ GTIN;category;Optional: Image URL");
+                        foreach (Product p in response.model)
+                        {
+                            List<string> row = new List<string>();
+                            row.Add(p.SKU.ToString());
+                            row.Add(p.marca.ToString());
+                            row.Add(p.PrecioDeVenta.ToString());
+                            row.Add(p.productoUrl.ToString());
+                            row.Add(p.cantidad.ToString());
+                            row.Add(p.Producto.ToString());
+                            row.Add(p.codigoBarras.ToString());
+                            row.Add(p.CategoriaEcommerce.ToString());
+                            row.Add(p.imagenUrl.ToString());
+                            writer.WriteLine(string.Join(";", row.ToArray()));
+                        }
+
+                    }
+
+                    urlOut = ConfigurationManager.AppSettings["server"].ToString() + "ReportesProductos/" + fileName;
+                }
+
+                return urlOut;
             }
             catch (Exception ex)
             {
