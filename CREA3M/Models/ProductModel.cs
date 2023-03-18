@@ -30,6 +30,12 @@ namespace CREA3M.Models
         public string descripcionSubcat { get; set; }
         public int idSubcategoriaEcommerce { get; set; }
         public string marca { get; set; }
+
+        public string codigoBarras { get; set; }
+        public string SKU { get; set; }
+        public string productoUrl { get; set; }
+        public string imagenUrl { get; set; }
+
     }
 
     

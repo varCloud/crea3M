@@ -16,7 +16,13 @@ namespace CREA3M.Filters
              SI LA SESION ES IGUAL A NULL ENTRA A LA SIGUIENTE FUNCION LO CUAL LO REDIRIGE
              AL LOGIN
             ****************************************************************************/
-            return httpContext.Session["username"] != null;
+            var rd = httpContext.Request.RequestContext.RouteData;
+            string currentAction = rd.GetRequiredString("action");
+            string currentController = rd.GetRequiredString("controller");
+            if (currentAction== "GeneraCSVProductosGet" && currentController== "Products")
+                return true;
+            else
+                return httpContext.Session["username"] != null;
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)

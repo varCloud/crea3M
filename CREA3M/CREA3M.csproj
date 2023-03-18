@@ -1146,7 +1146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="ImgProductos\" />
     <Folder Include="Views\Layout\" />
     <Folder Include="Views\Session\" />
   </ItemGroup>
