@@ -24,9 +24,13 @@
                             <label>Tipo de reporte</label>
                             @Html.DropDownList("tipoReporte", (List<SelectListItem>)ViewBag.listReportes, new { @id = "tipoReporte", @class = "select-multiple form-control", data_val = "false" })
                         </div>
-                        <div class="col-lg-auto col-md-12 col-xs-12 form-group">
+                        <div class="col-lg-2 col-md-2 col-xs-12 form-group">
                             <label>&nbsp;</label>
                             <button class="btn btn-block btn-primary" id="btnFilter" tooltip="Buscar"><i class="fa fa-search"></i></button>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-12 form-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-block btn-info" id="btnAddUser" tooltip="Agregar Usuario"><i class="fa fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
@@ -37,7 +41,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header font-size-16">
-                    Indicadores
+                    Gesti{on de Usuarios
                 </div>
                 <div class="container" id="content-table-reportes" style="padding-bottom: 10px; padding-top: 10px">
                 </div>
