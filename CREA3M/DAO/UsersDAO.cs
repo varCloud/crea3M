@@ -13,6 +13,7 @@ namespace CREA3M.DAO
 {
     public class UsersDAO
     {
+        string database = "ecommerce";
         public List<User> getUsers(string database)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[database].ToString()))
@@ -42,6 +43,33 @@ namespace CREA3M.DAO
 
             Users.ForEach(User => UsersSelect.Add(new SelectListItem { Text = User.NombreCompleto, Value = User.IdUsuario.ToString(), Selected = User.IdUsuario == Int32.Parse(UserSelected) }));
             return UsersSelect;
+        }
+
+        public Responce updateUser(UserCustomer userCustomer)
+        {
+            Responce respuesta = new Responce();
+
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.AppSettings[this.database].ToString()))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@idUsuarioEcommerce", userCustomer.idUserEcommerce);
+                parameter.Add("@nombre", userCustomer.nombre);
+                parameter.Add("@celular", userCustomer.celular);
+                parameter.Add("@email", userCustomer.email);
+                parameter.Add("@contrasena", "YwBsAGkAZQBuAHQAZQA=");
+
+                try
+                {
+                    respuesta = db.QuerySingle<Responce>("BC_SP_CREA_EDITAR_USUARIO_ADMIN", parameter, commandType: CommandType.StoredProcedure);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+
+            return respuesta;
         }
     }
 }

@@ -176,6 +176,7 @@
     <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\SimpleResponse.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserCustomer.cs" />
     <Compile Include="Models\UsuarioEcommerce.cs" />
     <Compile Include="Models\UtilidadModel.cs" />
     <Compile Include="Models\Utils.cs" />

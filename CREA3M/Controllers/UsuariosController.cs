@@ -33,5 +33,20 @@ namespace CREA3M.Controllers
             }
 
         }
+
+        [HttpPost]
+        public ActionResult EditUser(UserCustomer userCustomer)
+        {
+            try
+            {
+                UsersDAO usersDAO = new UsersDAO();
+
+                return Json(usersDAO.updateUser(userCustomer), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

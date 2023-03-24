@@ -62,6 +62,8 @@ $(document).ready(function () {
         consultarInformacion();
     })
 
+    InitBtnAgregar();
+
 })
 
 function consultarInformacion() {
@@ -113,11 +115,11 @@ function initTable() {
         language: {
             search: "Buscar",
             lengthMenu: "Tamaño de la lista _MENU_ ",
-            info: "Mostrando _END_ de _TOTAL_ registraos",
+            info: "Mostrando _END_ de _TOTAL_ registrados",
             infoEmpty: "No hay información.",
             infoFiltered: "(Filtrado de _MAX_ registros en total)",
             zeroRecords: "No se encontraron coincidencias",
-            emptyTable: "No hay Registros!",
+            emptyTable: "No hay registros!",
             paginate: {
                 first: "Primera",
                 previous: "Anterior",
@@ -126,4 +128,26 @@ function initTable() {
             }
         }
     });
+}
+
+function InitBtnAgregar() {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#btnAddUser').click(function (e) {
+        $('#lblEditUser').html('Agregar Cliente CREA')
+        $('#mdEditUser').modal('show');
+        $('#configreset').trigger('click')
+        $('#btnSaveUser').html('Guardar')
+    });
+}
+
+function onFailureResultSaveUser(err) {
+
+    console.log("error::::::::", err);
+}
+
+function onSuccessResultSaveUser(response) {
+
+    $('#mdEditUser').modal('hide');
+    toastr.info(response.error_message);
+    consultarInformacion();
 }
