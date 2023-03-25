@@ -12,7 +12,7 @@
         <div class="modal-content">
             <input id="idUsuario" name="userId" type="hidden" value="">
             <div class="modal-header">
-                <h5 class="modal-title" id="lblEditUser">Editar Usuario</h5>
+                <h5 class="modal-title" id="lblEditUser">Editar Cliente CREA</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="ti-close"></i>
                 </button>
@@ -57,7 +57,9 @@
 
                         <div class="form-group col-lg-6">
                             <label for="exampleInputEmail1">Contraseña</label>
-                            <h3>cliente</h3>
+                            @*<input type="text" class="form-control" id="m_password" aria-describedby="emailHelp" placeholder="Contraseña">*@
+                            @Html.TextBoxFor(x => x.contrasena, null, new { @class = "form-control", @id = "password" })
+                            @Html.ValidationMessageFor(x => x.contrasena, null, new { @class = "text-danger was" })
                         </div>
                     </div>
 
@@ -66,7 +68,7 @@
                             Cerrar
                         </button>
                         @*<input type="submit" value="Save" />*@
-                        <button type="submit" class="btn btn-primary" id="btnSaveUser">Editar</button>
+                        <button type="submit" class="btn btn-success" id="btnSaveUser">Editar</button>
                         <input type="reset" id="configreset" value="Reset" hidden>
 
                     </div>

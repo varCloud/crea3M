@@ -19,6 +19,10 @@ namespace CREA3M.Models
         [EmailAddress(ErrorMessage = "Favor de ingresar una dirección de email correcta")]
         public string email { get; set; }
 
+        [Required(ErrorMessage = "Este campo es obligatorio")]
+        [RegularExpression("^[0-9,A-Z,a-z]{5,}", ErrorMessage = "Favor de ingresar al menos 5 letras y/o dígitos")]
+        public string contrasena { get; set; }
+
 
     }
 }

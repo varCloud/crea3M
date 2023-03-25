@@ -35,6 +35,23 @@ namespace CREA3M.Controllers
         }
 
         [HttpPost]
+        public ActionResult getUser(int idUsuarioEcommerce)
+        {
+
+            try
+            {
+                UsersDAO usersDAO = new UsersDAO();
+
+                return Json(usersDAO.getUser(idUsuarioEcommerce), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpPost]
         public ActionResult EditUser(UserCustomer userCustomer)
         {
             try
@@ -47,6 +64,22 @@ namespace CREA3M.Controllers
             {
                 throw ex;
             }
+        }
+
+        [HttpPost]
+        public ActionResult updateStatusUser(int idUsuarioEcommerce, bool activo)
+        {
+
+            try
+            {
+                UsersDAO usersDAO = new UsersDAO();
+                return Json(usersDAO.updateStatusUser(idUsuarioEcommerce, activo), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }

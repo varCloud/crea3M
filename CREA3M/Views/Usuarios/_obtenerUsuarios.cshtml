@@ -18,7 +18,8 @@
                         <th>Teléfono</th>
                         <th>Mail</th>
                         <th>Fecha Registro</th>
-
+                        <th>Status</th>
+                        <th>Editar</th>
                         break;
                     case enumTipoReporte.USUARIOS_SUSCRIPCIONES:
                         <th>Mail</th>
@@ -27,7 +28,7 @@
                         break;
 
                 }
-                
+
             </tr>
         </thead>
         <tbody>
@@ -43,6 +44,33 @@
                         <td>@item.celular</td>
                         <td>@item.email</td>
                         <td>@item.fechaRegistro.ToShortDateString()</td>
+                        if (@item.esCliente == "1")
+                        {
+                            <td>
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch custom-checkbox-dark">
+                                        <input type="checkbox" class="custom-control-input productActivo"
+                                               id="@item.idUsuarioEcommerce"
+                                               @(item.activo == "1" ? "checked" : "unchecked")
+                                               onclick="updateStatus(event,@item.idUsuarioEcommerce)">
+                                        <label class="custom-control-label" for="@item.idUsuarioEcommerce"></label>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-danger"></span>
+                                <button type="button" class="btn btn-secondary" title="Editar Usuario" data-toggle="tooltip" onclick="alClickEditUser(@item.idUsuarioEcommerce)" value="@item.email">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        }
+                        else
+                        {
+
+                            <td></td>
+                            <td></td>
+                        }
+
                         break;
                     case enumTipoReporte.USUARIOS_SUSCRIPCIONES:
                         <td>@item.email</td>
