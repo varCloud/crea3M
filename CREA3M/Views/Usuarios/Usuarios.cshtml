@@ -1,9 +1,87 @@
-﻿@using CREA3M.Models
+﻿@model CREA3M.Models.UserCustomer
 @{ //Si se modifica este titulo, se debe modificar el _Layout.cshtml
     ViewBag.Title = "Usuarios";
 }
 <link rel="stylesheet" href="~/vendors/datepicker/daterangepicker.css" type="text/css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" type="text/css">
+
+<!-- modal Editar de Usuario -->
+
+<div class="modal fade bd-example-modal-lg" id="mdEditUser" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <input id="idUsuario" name="userId" type="hidden" value="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lblEditUser">Editar Cliente CREA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="ti-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                @*<form id="frmEditUser">*@
+                @using (Ajax.BeginForm("EditUser", "Usuarios",
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnFailure = "onFailureResultSaveUser",
+                    OnSuccess = "onSuccessResultSaveUser",
+                },
+                new { id = "frmEditUser" }))
+                {
+
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            @Html.HiddenFor(x => x.idUserEcommerce, new { @id = "idUserEcommerce" })
+                            <label for="exampleInputEmail1">Nombre(s)</label>
+                            @*<input type="text" class="form-control" id="m_nombre" aria-describedby="emailHelp" placeholder="Nombre(s)">*@
+                            @Html.TextBoxFor(x => x.nombre, null, new { @class = "form-control", @id = "nombre" })
+                            @Html.ValidationMessageFor(x => x.nombre, null, new { @class = "text-danger was" })
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Teléfono</label>
+                            @*<input type="number" minlength="10" maxlength="10" length class="form-control" id="m_celular" aria-describedby="emailHelp" placeholder="Teléfono">*@
+                            @Html.TextBoxFor(x => x.celular, null, new { @class = "form-control", @id = "celular" })
+                            @Html.ValidationMessageFor(x => x.celular, null, new { @class = "text-danger was" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">E-mail</label>
+                            @*<input type="mail" class="form-control" id="m_mail" aria-describedby="emailHelp" placeholder="E-mail">*@
+                            @Html.TextBoxFor(x => x.email, null, new { @class = "form-control", @id = "email" })
+                            @Html.ValidationMessageFor(x => x.email, null, new { @class = "text-danger was" })
+                        </div>
+
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Contraseña</label>
+                            @*<input type="text" class="form-control" id="m_password" aria-describedby="emailHelp" placeholder="Contraseña">*@
+                            @Html.TextBoxFor(x => x.contrasena, null, new { @class = "form-control", @id = "password" })
+                            @Html.ValidationMessageFor(x => x.contrasena, null, new { @class = "text-danger was" })
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Cerrar
+                        </button>
+                        @*<input type="submit" value="Save" />*@
+                        <button type="submit" class="btn btn-success" id="btnSaveUser">Editar</button>
+                        <input type="reset" id="configreset" value="Reset" hidden>
+
+                    </div>
+
+
+                    @*</form>*@
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN modal Editar de Usuario -->
 
 <div class="container">
     @ViewBag.date_init
@@ -24,9 +102,13 @@
                             <label>Tipo de reporte</label>
                             @Html.DropDownList("tipoReporte", (List<SelectListItem>)ViewBag.listReportes, new { @id = "tipoReporte", @class = "select-multiple form-control", data_val = "false" })
                         </div>
-                        <div class="col-lg-auto col-md-12 col-xs-12 form-group">
+                        <div class="col-lg-2 col-md-2 col-xs-12 form-group">
                             <label>&nbsp;</label>
                             <button class="btn btn-block btn-primary" id="btnFilter" tooltip="Buscar"><i class="fa fa-search"></i></button>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-12 form-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-block btn-info" id="btnAddUser" data-toggle="tooltip" data-original-title="Agregar Cliente CREA"><i class="fa fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
@@ -37,7 +119,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header font-size-16">
-                    Indicadores
+                    Gestión de Usuarios
                 </div>
                 <div class="container" id="content-table-reportes" style="padding-bottom: 10px; padding-top: 10px">
                 </div>
@@ -54,4 +136,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/packages/jQuery.Validation.1.17.0/Content/Scripts/jquery.validate.js"></script>
+<script src="~/packages/Microsoft.jQuery.Unobtrusive.Validation.3.2.11/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
 @Scripts.Render("~/assets/js/usuariosEcommerce.js")

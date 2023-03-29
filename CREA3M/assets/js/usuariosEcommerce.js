@@ -7,7 +7,6 @@ $(document).ready(function () {
     var dd = today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
     var mm = today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1;
     var yyyy = today.getFullYear();
-    console.log("dd", dd)
     const endDate = `${yyyy}-${mm}-${dd}`
     const initDate = `${yyyy}-${mm}-${dd}`
 
@@ -62,6 +61,8 @@ $(document).ready(function () {
         consultarInformacion();
     })
 
+    InitBtnAgregar();
+
 })
 
 function consultarInformacion() {
@@ -113,17 +114,90 @@ function initTable() {
         language: {
             search: "Buscar",
             lengthMenu: "Tamaño de la lista _MENU_ ",
-            info: "Mostrando _END_ de _TOTAL_ registraos",
+            info: "Mostrando _END_ de _TOTAL_ registrados",
             infoEmpty: "No hay información.",
             infoFiltered: "(Filtrado de _MAX_ registros en total)",
             zeroRecords: "No se encontraron coincidencias",
-            emptyTable: "No hay Registros!",
+            emptyTable: "No hay registros!",
             paginate: {
                 first: "Primera",
                 previous: "Anterior",
                 next: "Siguiente",
                 last: "Ultima"
             }
+        }
+    });
+}
+
+function InitBtnAgregar() {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#btnAddUser').click(function (e) {
+        $('#lblEditUser').html('Agregar Cliente CREA');
+        $('#mdEditUser').modal('show');
+        $("#email").attr('readonly', false);
+        $('#configreset').trigger('click');
+        $('#btnSaveUser').html('Guardar');
+    });
+}
+
+function onFailureResultSaveUser(err) {
+
+    console.log("error::::::::", err);
+}
+
+function onSuccessResultSaveUser(response) {
+
+    $('#mdEditUser').modal('hide');
+    toastr.info(response.error_message);
+    consultarInformacion();
+}
+
+function alClickEditUser(id) {
+
+    $.ajax({
+        method: "post",
+        url: rootUrl("/Usuarios/getUser"),
+        dataType: "json",
+        data: {
+            idUsuarioEcommerce: id,
+        },
+        success: function (resultado) {
+            let usuarioActual = resultado.model;
+            $('#nombre').val(usuarioActual.nombre);
+            $('#idUserEcommerce').val(usuarioActual.idUsuarioEcommerce);
+            $('#celular').val(usuarioActual.celular);
+            $('#email').val(usuarioActual.email);
+            $("#email").attr('readonly', true);
+            $('#password').val(usuarioActual.contrasena);
+            $('#lblEditUser').html('Editar Cliente CREA')
+            $('#mdEditUser').modal('show');
+            $("#divContrasena").hide();
+            $('#btnSaveUser').html('Editar')
+
+        },
+        error: function (xhr, status, error) {
+            ControlErrores(xhr, status, error);
+        }
+    });
+
+}
+
+function updateStatus(event, idUsuarioEcommerce) {
+    var swicth = $(event).attr("currentTarget");
+
+    var id = parseInt(idUsuarioEcommerce);
+
+    $.ajax({
+        type: "POST",
+        url: rootUrl("/Usuarios/updateStatusUser"),
+        data: { idUsuarioEcommerce: idUsuarioEcommerce, activo: swicth.checked },
+        dataType: "Json",
+        async: true,
+        success: function () {
+
+        },
+        error: function () {
+
         }
     });
 }
